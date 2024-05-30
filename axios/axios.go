@@ -2,6 +2,7 @@ package axios
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -43,8 +44,13 @@ func (axios *Axios) Body(body any) (io.Reader, error) {
 
 func (axios *Axios) Do(req *http.Request) (*Response, error) {
 
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
 	client := http.Client{
-		Timeout: 5 * time.Second,
+		Transport: tr,
+		Timeout:   5 * time.Second,
 	}
 
 	res, err := client.Do(req)
