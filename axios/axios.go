@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/nelsonsaake/go-ns/arr"
 )
 
 type Axios struct {
@@ -18,6 +20,11 @@ func (axios *Axios) SetBase(v string) {
 }
 
 func (axios *Axios) Url(path string) (string, error) {
+
+	if arr.IsEmpty(axios.base) {
+		return path, nil
+	}
+
 	return url.JoinPath(axios.base, path)
 }
 
