@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit
 
-VERSION = v0.0.9
+VERSION = v0.0.10
 
 init:
 	go mod init github.com/nelsonsaake/go-ns
@@ -11,7 +11,7 @@ dep:
 	git commit -m "go: changes for $(VERSION)"
 	git tag $(VERSION)
 	git push origin main $(VERSION)
-	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go.git/mymodule@v0.1.0
+	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go.git@$(VERSION)
 
 test:
 	go test ./...
