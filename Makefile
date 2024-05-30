@@ -11,7 +11,7 @@ dep:
 	git commit -m "go: changes for $(VERSION)"
 	git tag $(VERSION)
 	git push origin main $(VERSION)
-	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go.git@$(VERSION)
+	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go-ns.git@$(VERSION)
 
 test:
 	go test ./...
