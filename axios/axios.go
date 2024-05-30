@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/nelsonsaake/go-ns/arr"
 )
@@ -42,7 +43,12 @@ func (axios *Axios) Body(body any) (io.Reader, error) {
 
 func (axios *Axios) Do(req *http.Request) (*Response, error) {
 
-	res, err := http.DefaultClient.Do(req)
+	client := http.Client{
+		Timeout: 5 * time.Second,
+	}
+
+	res, err := client.Do(req)
+
 	return NewResponse(res), err
 }
 
