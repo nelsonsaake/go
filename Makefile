@@ -2,6 +2,9 @@
 
 VERSION = v0.0.3
 
+init:
+	go mod init github.com/nelsonsaake/go-ns
+
 dep:
 	go mod tidy
 	git add .
