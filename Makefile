@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit
 
-VERSION = v0.0.1
+VERSION = v0.0.2
 
 dep:
 	go mod tidy
