@@ -6,7 +6,7 @@ import (
 )
 
 // Cast : provides type casting for struct. Allows 2 structs with overlapping json tags be cast from one to the other.
-func Cast(from, to interface{}) (err error) {
+func Cast(from, to any) (err error) {
 
 	j, err := json.Marshal(from)
 	if err != nil {
