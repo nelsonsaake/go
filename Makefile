@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit
 
-VERSION = v0.0.5
+VERSION = v0.0.6
 
 init:
 	go mod init github.com/nelsonsaake/go-ns
