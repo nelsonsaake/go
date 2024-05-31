@@ -1,4 +1,4 @@
-.PHONY: dep test ncommit
+.PHONY: dep test ncommit pull
 
 VERSION = v0.0.13
 
@@ -20,3 +20,6 @@ ncommit:
 	git add .
 	git commit -m "ncommit"
 	git push origin main
+
+pull:
+	git pull origin main 
