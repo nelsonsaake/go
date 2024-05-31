@@ -8,7 +8,8 @@ import (
 	"path/filepath"
 )
 
-func Image(url, dir string) (string, error) {
+// File: download file, save to dir, and return the path and error
+func File(url, dir string) (string, error) {
 
 	dd := func(err error) (string, error) {
 		return "", err
