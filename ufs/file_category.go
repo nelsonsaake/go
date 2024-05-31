@@ -2,15 +2,15 @@ package ufs
 
 import "path/filepath"
 
-func FileClass(fileName string) (class string, err error) {
+func FileCategory(fileName string) (class string, err error) {
 
 	switch filepath.Ext(fileName) {
 	case jpg, jpeg, png:
-		class = ClassImg
+		class = CategoryImage
 	case xls, xlxs, xlw, xlsm, xlsb, xlt, xlr:
-		class = ClassXls
+		class = CategoryXLS
 	case zip:
-		class = ClassZip
+		class = CategoryArchive
 	default:
 		return "", ErrUnknownFileType
 	}

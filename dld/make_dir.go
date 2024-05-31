@@ -1,4 +1,4 @@
-package download
+package dld
 
 import (
 	"io/fs"

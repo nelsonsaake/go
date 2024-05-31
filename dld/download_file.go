@@ -1,4 +1,4 @@
-package download
+package dld
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 )
 
-// File: download file, save to dir, and return the path and error
-func File(url, dir string) (string, error) {
+// DownloadFile: download file, save to dir, and return the path and error
+func DownloadFile(url, dir string) (string, error) {
 
 	dd := func(err error) (string, error) {
 		return "", err

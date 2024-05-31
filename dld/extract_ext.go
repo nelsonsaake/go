@@ -1,4 +1,4 @@
-package download
+package dld
 
 import (
 	"net/http"
