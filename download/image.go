@@ -2,41 +2,44 @@ package download
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 	"path/filepath"
-	"strings"
 )
 
-func empty(v string) bool {
-	return len(strings.TrimSpace(v)) == 0
-}
+func Image(url, dir string) (string, error) {
 
-func Image(url, fpath string) (err error) {
-	if empty(url) {
-		return fmt.Errorf("url empty")
+	dd := func(err error) (string, error) {
+		return "", err
+	}
+
+	if isEmpty(url) {
+		return dd(fmt.Errorf("url empty"))
 	}
 
 	response, err := http.Get(url)
 	if err != nil {
-		err = fmt.Errorf("error getting url: %v", err)
-		return
+		return dd(fmt.Errorf("error getting url: %v", err))
 	}
 
-	data, err := ioutil.ReadAll(response.Body)
+	data, err := io.ReadAll(response.Body)
 	if err != nil {
-		err = fmt.Errorf("error reading payload: %v", err)
-		return
+		return dd(fmt.Errorf("error reading payload: %v", err))
 	}
 
-	ext := filepath.Ext(fpath)
-	if len(ext) == 0 {
-		ext = http.DetectContentType(data)
-		ext = filepath.Base(ext)
+	fname := makeName(data)
+	fpath := filepath.Join(dir, fname)
 
-		fpath = strings.TrimSuffix(fpath, "/")
-		fpath = fmt.Sprintf("%s.%s", fpath, ext)
+	err = makeDir(dir)
+	if err != nil {
+		return dd(fmt.Errorf("error making dir: %v", err))
 	}
 
-	return ioutil.WriteFile(fpath, data, 0777)
+	err = os.WriteFile(fpath, data, 0777)
+	if err != nil {
+		return dd(fmt.Errorf("error saving image: %v", err))
+	}
+
+	return fpath, nil
 }
