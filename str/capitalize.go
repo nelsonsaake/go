@@ -6,7 +6,7 @@ import (
 )
 
 func _capitalize(v string) string {
-	if Empty(v) {
+	if IsEmpty(v) {
 		return v
 	}
 	fl := string(v[0])
@@ -21,7 +21,7 @@ func Capitalize(v string) string {
 			strs[i] = strings.ToLower(str)
 			continue
 		}
-		if !Empty(str) {
+		if !IsEmpty(str) {
 			strs[i] = _capitalize(str)
 		}
 	}

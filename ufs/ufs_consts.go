@@ -33,12 +33,12 @@ var (
 	}
 
 	// file classes
-	ClassImg = "img"
-	ClassXls = "xls"
-	ClassZip = "zip"
+	CategoryImage   = "img"
+	CategoryXLS     = "xls"
+	CategoryArchive = "zip"
 
 	// list of file classes
-	FILE_CLASSES = []string{
-		ClassImg, ClassXls, ClassZip,
+	FileCategories = []string{
+		CategoryImage, CategoryXLS, CategoryArchive,
 	}
 )

@@ -1,7 +1,7 @@
-package str
+package dld
 
 import "strings"
 
-func Empty(v string) bool {
+func isEmpty(v string) bool {
 	return len(strings.TrimSpace(v)) == 0
 }
