@@ -3,7 +3,7 @@
 VERSION = v0.0.13
 
 init:
-	go mod init github.com/nelsonsaake/go-ns
+	go mod init github.com/nelsonsaake/go
 
 dep:
 	go mod tidy
@@ -11,7 +11,7 @@ dep:
 	git commit -m "go: changes for $(VERSION)"
 	git tag $(VERSION)
 	git push origin main $(VERSION)
-	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go-ns.git@$(VERSION)
+	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go.git@$(VERSION)
 
 test:
 	go test ./...

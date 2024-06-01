@@ -1,4 +1,4 @@
-module github.com/nelsonsaake/go-ns
+module github.com/nelsonsaake/go
 
 go 1.21.0
 

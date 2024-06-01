@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/nelsonsaake/go-ns/arr"
+	"github.com/nelsonsaake/go/arr"
 )
 
 type Axios struct {
