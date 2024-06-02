@@ -11,7 +11,7 @@ func CopyFile(from, to string) error {
 	switch {
 	// TODO: copy if dir doesn't copy
 	case IsDir(from):
-		if err := MkdirAll(to); err != nil {
+		if err := MakeDir(to); err != nil {
 			return ferr(fmt.Errorf("error creating dir: %v", err))
 		}
 	case IsFile(from):

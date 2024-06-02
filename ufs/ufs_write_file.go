@@ -12,7 +12,7 @@ func WriteFile(fpath, content string) (err error) {
 
 	fdir := filepath.Dir(fpath)
 
-	err = MkdirAll(fdir)
+	err = MakeDir(fdir)
 	if err != nil {
 		return err
 	}
