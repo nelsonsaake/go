@@ -4,8 +4,9 @@ import (
 	"strings"
 )
 
-func Line() (string, error) {
+func Line(line *string) error {
 	v, err := reader.ReadString('\n')
 	v = strings.TrimSpace(v)
-	return v, err
+	*line = v
+	return err
 }
