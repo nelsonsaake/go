@@ -33,6 +33,12 @@ func (resp *Response) Raw() ([]byte, error) {
 	return data, nil
 }
 
+func (resp *Response) String() (string, error) {
+
+	data, err := resp.Raw()
+	return string(data), err
+}
+
 func (resp *Response) Bind(v any) error {
 
 	data, err := resp.Raw()
