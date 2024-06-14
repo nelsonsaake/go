@@ -53,6 +53,11 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 		Timeout:   5 * time.Second,
 	}
 
+	hdr := req.Header
+	hdr.Add("Accept", "application/json")
+	hdr.Add("Content-Type", "application/json")
+	req.Header = hdr
+
 	res, err := client.Do(req)
 
 	return NewResponse(res), err
