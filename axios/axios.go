@@ -14,20 +14,25 @@ import (
 )
 
 type Axios struct {
-	base string
+	baseUrl string
+	header  map[string]string
 }
 
-func (axios *Axios) SetBase(v string) {
-	axios.base = v
+func (axios *Axios) SetBaseUrl(v string) {
+	axios.baseUrl = v
+}
+
+func (axios *Axios) AddHeader(key, value string) {
+	axios.header[key] = value
 }
 
 func (axios *Axios) Url(path string) (string, error) {
 
-	if arr.IsEmpty(axios.base) {
+	if arr.IsEmpty(axios.baseUrl) {
 		return path, nil
 	}
 
-	return url.JoinPath(axios.base, path)
+	return url.JoinPath(axios.baseUrl, path)
 }
 
 func (axios *Axios) Body(body any) (io.Reader, error) {
@@ -64,6 +69,7 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 }
 
 func New() *Axios {
-
-	return new(Axios)
+	return &Axios{
+		header: map[string]string{},
+	}
 }
