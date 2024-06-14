@@ -15,19 +15,21 @@ import (
 
 type Axios struct {
 	baseUrl string
-	header  map[string]string
+	headers map[string]string
 }
 
 func (axios *Axios) SetBaseUrl(v string) {
 	axios.baseUrl = v
 }
 
-func (axios *Axios) SetHeaders(header map[string]string) {
-	axios.header = header
+func (axios *Axios) AddHeaders(headers map[string]string) {
+	for k, v := range headers {
+		axios.AddHeader(k, v)
+	}
 }
 
 func (axios *Axios) AddHeader(key, value string) {
-	axios.header[key] = value
+	axios.headers[key] = value
 }
 
 func (axios *Axios) Url(path string) (string, error) {
@@ -63,8 +65,9 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 	}
 
 	hdr := req.Header
-	hdr.Add("Accept", "application/json")
-	hdr.Add("Content-Type", "application/json")
+	for k, v := range axios.headers {
+		hdr.Add(k, v)
+	}
 	req.Header = hdr
 
 	res, err := client.Do(req)
@@ -74,6 +77,9 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 
 func New() *Axios {
 	return &Axios{
-		header: map[string]string{},
+		headers: map[string]string{
+			"Accept":       "application/json",
+			"Content-Type": "application/json",
+		},
 	}
 }
