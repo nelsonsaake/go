@@ -5,20 +5,22 @@ import (
 	"net/http"
 )
 
-func QueryParam(q map[string]string) func(req *http.Request) {
+type QueryParam map[string]any
+
+func AppendQueryParam(q QueryParam) func(req *http.Request) {
 	return func(req *http.Request) {
 
 		values := req.URL.Query()
 
 		for k, v := range q {
-			values.Add(k, v)
+			values.Add(k, fmt.Sprint(v))
 		}
 
 		req.URL.RawQuery = values.Encode()
 	}
 }
 
-func (axios *Axios) Get(url string, config ...func(*http.Request)) (*Response, error) {
+func (axios *Axios) Get(url string, config ...any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err
@@ -35,7 +37,14 @@ func (axios *Axios) Get(url string, config ...func(*http.Request)) (*Response, e
 	}
 
 	for _, config := range config {
-		config(req)
+		switch config := config.(type) {
+		case func(*http.Request):
+			configfunc := config
+			configfunc(req)
+		case QueryParam:
+			configfunc := AppendQueryParam(config)
+			configfunc(req)
+		}
 	}
 
 	return axios.Do(req)
