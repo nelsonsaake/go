@@ -22,6 +22,10 @@ func (axios *Axios) SetBaseUrl(v string) {
 	axios.baseUrl = v
 }
 
+func (axios *Axios) SetHeaders(header map[string]string) {
+	axios.header = header
+}
+
 func (axios *Axios) AddHeader(key, value string) {
 	axios.header[key] = value
 }
