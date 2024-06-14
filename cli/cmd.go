@@ -9,8 +9,6 @@ type Action struct {
 
 func (c *Action) toCobraCmd(name string) *cobra.Command {
 
-	c.Run()
-
 	rootCmd := &cobra.Command{
 		Use: name,
 		Run: func(cmd *cobra.Command, args []string) {
