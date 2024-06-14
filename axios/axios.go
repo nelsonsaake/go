@@ -57,3 +57,8 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 
 	return NewResponse(res), err
 }
+
+func New() *Axios {
+
+	return new(Axios)
+}
