@@ -16,9 +16,9 @@ func (c *Action) toCobraCmd(name string) *cobra.Command {
 		},
 	}
 
-	for name, cmd := range c.Actions {
-		rootCmd.AddCommand(cmd.toCobraCmd(name))
-	}
+	// for name, action := range c.Actions {
+	// 	rootCmd.AddCommand(action.toCobraCmd(name))
+	// }
 
 	return rootCmd
 }
