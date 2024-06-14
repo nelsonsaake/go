@@ -20,6 +20,6 @@ func (app *App) toCobraCmd() *cobra.Command {
 	return rootCmd
 }
 
-func (app *App) exec() error {
+func (app *App) Exec() error {
 	return app.toCobraCmd().Execute()
 }

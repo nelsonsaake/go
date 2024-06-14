@@ -15,5 +15,5 @@ var app = App{
 }
 
 func Main() {
-	cobra.CheckErr(app.exec())
+	cobra.CheckErr(app.Exec())
 }
