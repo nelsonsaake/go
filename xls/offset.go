@@ -1,4 +1,4 @@
-package sxl
+package xls
 
 type Offset struct {
 	X int

@@ -1,4 +1,4 @@
-package sxl
+package xls
 
 import (
 	"fmt"
