@@ -268,13 +268,19 @@ func (s *sheet) AddPicture(loc, url string) error {
 // Println: start from col A, row `row` and each entry in a different cell from left to right
 func (s *sheet) Println(row int, entries ...string) error {
 
-	for col, entry := range entries {
+	for i, entry := range entries {
 
+		// col to write of the cell to write entry to
+		// row is given as a parameter
+		col := i + 1
+
+		// convert, col and row to cell
 		cell, err := excelize.CoordinatesToCellName(col, row)
 		if err != nil {
 			return err
 		}
 
+		// write to cell
 		err = s.SetValue(cell, entry)
 		if err != nil {
 			return err
