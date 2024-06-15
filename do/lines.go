@@ -16,7 +16,6 @@ func removeEmptyLines(ls []string) []string {
 	for _, ln := range ls {
 		ln := strings.TrimSpace(ln)
 		if len(ln) != 0 {
-			ln = ln + "\n"
 			rs = append(rs, ln)
 		}
 	}
