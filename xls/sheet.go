@@ -264,3 +264,22 @@ func (s *sheet) AddPicture(loc, url string) error {
 // 		}`,
 // 	)
 // }
+
+// Println: start from col A, row `row` and each entry in a different cell from left to right
+func (s *sheet) Println(row int, entries ...string) error {
+
+	for col, entry := range entries {
+
+		cell, err := excelize.CoordinatesToCellName(col, row)
+		if err != nil {
+			return err
+		}
+
+		err = s.SetValue(cell, entry)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
