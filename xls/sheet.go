@@ -266,7 +266,7 @@ func (s *sheet) AddPicture(loc, url string) error {
 // }
 
 // Println: start from col A, row `row` and each entry in a different cell from left to right
-func (s *sheet) Println(row int, entries ...string) error {
+func (s *sheet) Println(row int, entries ...any) error {
 
 	for i, entry := range entries {
 
