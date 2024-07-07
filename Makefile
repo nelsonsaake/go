@@ -1,11 +1,12 @@
 .PHONY: dep test ncommit pull
 
-VERSION = v0.0.47
+VERSION = v0.0.48
 
 init:
 	go mod init github.com/nelsonsaake/go
 
 dep:
+	echo $(VERSION) > VERSION.md
 	go mod tidy
 	git add .
 	git commit -m "go: changes for $(VERSION)"
