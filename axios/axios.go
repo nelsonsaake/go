@@ -11,28 +11,29 @@ import (
 	"time"
 
 	"github.com/nelsonsaake/go/arr"
+	"github.com/nelsonsaake/go/str"
 )
 
-type Axios struct {
+type axios struct {
 	baseUrl string
 	headers map[string]string
 }
 
-func (axios *Axios) SetBaseUrl(v string) {
+func (axios *axios) SetBaseUrl(v string) {
 	axios.baseUrl = v
 }
 
-func (axios *Axios) AddHeaders(headers map[string]string) {
+func (axios *axios) AddHeaders(headers map[string]string) {
 	for k, v := range headers {
 		axios.AddHeader(k, v)
 	}
 }
 
-func (axios *Axios) AddHeader(key, value string) {
+func (axios *axios) AddHeader(key, value string) {
 	axios.headers[key] = value
 }
 
-func (axios *Axios) Url(path string) (string, error) {
+func (axios *axios) Url(path string) (string, error) {
 
 	if arr.IsEmpty(axios.baseUrl) {
 		return path, nil
@@ -41,7 +42,7 @@ func (axios *Axios) Url(path string) (string, error) {
 	return url.JoinPath(axios.baseUrl, path)
 }
 
-func (axios *Axios) Body(body any) (io.Reader, error) {
+func (axios *axios) Body(body any) (io.Reader, error) {
 
 	raw, err := json.Marshal(body)
 	if err != nil {
@@ -53,7 +54,7 @@ func (axios *Axios) Body(body any) (io.Reader, error) {
 	return buf, nil
 }
 
-func (axios *Axios) Do(req *http.Request) (*Response, error) {
+func (axios *axios) Do(req *http.Request) (*Response, error) {
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -75,8 +76,25 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 	return NewResponse(res), err
 }
 
-func New() *Axios {
-	return &Axios{
+type Options struct {
+	BaseUrl string
+	Headers map[string]string
+}
+
+func New(options ...Options) *axios {
+
+	axois := axios{}
+
+	for _, opt := range options {
+		if str.IsEmpty(opt.BaseUrl) {
+			axois.baseUrl = opt.BaseUrl
+		}
+		if len(opt.Headers) == 0 {
+			axois.headers = opt.Headers
+		}
+	}
+
+	return &axios{
 		headers: map[string]string{
 			"Accept":       "application/json",
 			"Content-Type": "application/json",
