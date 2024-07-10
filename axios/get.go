@@ -20,7 +20,7 @@ func AppendQueryParam(q QueryParam) func(req *http.Request) {
 	}
 }
 
-func (axios *axios) Get(url string, config ...any) (*Response, error) {
+func (axios *Axios) Get(url string, config ...any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err

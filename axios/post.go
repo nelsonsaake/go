@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (axios *axios) Post(url string, body any) (*Response, error) {
+func (axios *Axios) Post(url string, body any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err

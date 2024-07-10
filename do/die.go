@@ -1,6 +1,8 @@
 package do
 
-import "github.com/nelsonsaake/go/str"
+import (
+	"github.com/nelsonsaake/go/str"
+)
 
 // Die: panic if err is not nil
 func Die(err any) {
