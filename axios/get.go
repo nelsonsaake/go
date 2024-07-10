@@ -20,13 +20,13 @@ func AppendQueryParam(q QueryParam) func(req *http.Request) {
 	}
 }
 
-func (axios *Axios) Get(url string, config ...any) (*Response, error) {
+func (client *Client) Get(url string, config ...any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err
 	}
 
-	url, err := axios.Url(url)
+	url, err := client.Url(url)
 	if err != nil {
 		return die(fmt.Errorf("error making request url: %v", err))
 	}
@@ -47,5 +47,5 @@ func (axios *Axios) Get(url string, config ...any) (*Response, error) {
 		}
 	}
 
-	return axios.Do(req)
+	return client.Do(req)
 }

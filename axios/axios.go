@@ -11,38 +11,37 @@ import (
 	"time"
 
 	"github.com/nelsonsaake/go/arr"
-	"github.com/nelsonsaake/go/str"
 )
 
-type Axios struct {
+type Client struct {
 	baseUrl string
 	headers map[string]string
 }
 
-func (axios *Axios) SetBaseUrl(v string) {
-	axios.baseUrl = v
+func (client *Client) SetBaseUrl(v string) {
+	client.baseUrl = v
 }
 
-func (axios *Axios) AddHeaders(headers map[string]string) {
+func (client *Client) AddHeaders(headers map[string]string) {
 	for k, v := range headers {
-		axios.AddHeader(k, v)
+		client.AddHeader(k, v)
 	}
 }
 
-func (axios *Axios) AddHeader(key, value string) {
-	axios.headers[key] = value
+func (client *Client) AddHeader(key, value string) {
+	client.headers[key] = value
 }
 
-func (axios *Axios) Url(path string) (string, error) {
+func (client *Client) Url(path string) (string, error) {
 
-	if arr.IsEmpty(axios.baseUrl) {
+	if arr.IsEmpty(client.baseUrl) {
 		return path, nil
 	}
 
-	return url.JoinPath(axios.baseUrl, path)
+	return url.JoinPath(client.baseUrl, path)
 }
 
-func (axios *Axios) Body(body any) (io.Reader, error) {
+func (client *Client) Body(body any) (io.Reader, error) {
 
 	raw, err := json.Marshal(body)
 	if err != nil {
@@ -54,7 +53,7 @@ func (axios *Axios) Body(body any) (io.Reader, error) {
 	return buf, nil
 }
 
-func (axios *Axios) Do(req *http.Request) (*Response, error) {
+func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -65,39 +64,24 @@ func (axios *Axios) Do(req *http.Request) (*Response, error) {
 		Timeout:   5 * time.Second,
 	}
 
-	hdr := req.Header
-	for k, v := range axios.headers {
-		hdr.Add(k, v)
+	headers := req.Header
+
+	reqHeaders := map[string]string{
+		"Accept":       "application/json",
+		"Content-Type": "application/json",
 	}
-	req.Header = hdr
+
+	for k, v := range axiosClient.headers {
+		reqHeaders[k] = v
+	}
+
+	for k, v := range reqHeaders {
+		headers.Add(k, v)
+	}
+
+	req.Header = headers
 
 	res, err := client.Do(req)
 
 	return NewResponse(res), err
-}
-
-type Options struct {
-	BaseUrl string
-	Headers map[string]string
-}
-
-func New(options ...Options) *Axios {
-
-	client := Axios{
-		headers: map[string]string{
-			"Accept":       "application/json",
-			"Content-Type": "application/json",
-		},
-	}
-
-	for _, opt := range options {
-		if !str.IsEmpty(opt.BaseUrl) {
-			client.baseUrl = opt.BaseUrl
-		}
-		for k, v := range opt.Headers {
-			client.headers[k] = v
-		}
-	}
-
-	return &client
 }
