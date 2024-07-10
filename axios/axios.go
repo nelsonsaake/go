@@ -83,21 +83,21 @@ type Options struct {
 
 func New(options ...Options) *axios {
 
-	axois := axios{}
-
-	for _, opt := range options {
-		if str.IsEmpty(opt.BaseUrl) {
-			axois.baseUrl = opt.BaseUrl
-		}
-		if len(opt.Headers) == 0 {
-			axois.headers = opt.Headers
-		}
-	}
-
-	return &axios{
+	client := axios{
 		headers: map[string]string{
 			"Accept":       "application/json",
 			"Content-Type": "application/json",
 		},
 	}
+
+	for _, opt := range options {
+		if str.IsEmpty(opt.BaseUrl) {
+			client.baseUrl = opt.BaseUrl
+		}
+		for k, v := range opt.Headers {
+			client.headers[k] = v
+		}
+	}
+
+	return &client
 }
