@@ -14,12 +14,12 @@ import (
 )
 
 type Client struct {
-	baseUrl string
-	headers map[string]string
+	BaseUrl string
+	Headers map[string]string
 }
 
 func (client *Client) SetBaseUrl(v string) {
-	client.baseUrl = v
+	client.BaseUrl = v
 }
 
 func (client *Client) AddHeaders(headers map[string]string) {
@@ -29,16 +29,16 @@ func (client *Client) AddHeaders(headers map[string]string) {
 }
 
 func (client *Client) AddHeader(key, value string) {
-	client.headers[key] = value
+	client.Headers[key] = value
 }
 
 func (client *Client) Url(path string) (string, error) {
 
-	if arr.IsEmpty(client.baseUrl) {
+	if arr.IsEmpty(client.BaseUrl) {
 		return path, nil
 	}
 
-	return url.JoinPath(client.baseUrl, path)
+	return url.JoinPath(client.BaseUrl, path)
 }
 
 func (client *Client) Body(body any) (io.Reader, error) {
@@ -71,7 +71,7 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 		"Content-Type": "application/json",
 	}
 
-	for k, v := range axiosClient.headers {
+	for k, v := range axiosClient.Headers {
 		reqHeaders[k] = v
 	}
 
