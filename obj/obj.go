@@ -2,15 +2,15 @@ package obj
 
 import "strings"
 
-type JsonMap map[string]any
+type Map map[string]any
 
-func New(src map[string]any) JsonMap {
-	return src
+func New(v map[string]any) Map {
+	return v
 }
 
-func (src JsonMap) Get(key string) any {
+func (m Map) Get(key string) any {
 
-	var res any = src
+	var res any = m
 
 	keys := strings.Split(key, ".")
 	for _, key := range keys {
@@ -26,18 +26,18 @@ func (src JsonMap) Get(key string) any {
 	return res
 }
 
-func (src JsonMap) GetString(key string) string {
-	return src.Get(key).(string)
+func (m Map) GetString(key string) string {
+	return m.Get(key).(string)
 }
 
-func (src JsonMap) GetInt(key string) int {
-	return src.Get(key).(int)
+func (m Map) GetInt(key string) int {
+	return m.Get(key).(int)
 }
 
-func (src JsonMap) GetFloat64(key string) float64 {
-	return src.Get(key).(float64)
+func (m Map) GetFloat64(key string) float64 {
+	return m.Get(key).(float64)
 }
 
-func (src JsonMap) GetBool(key string) bool {
-	return src.Get(key).(bool)
+func (m Map) GetBool(key string) bool {
+	return m.Get(key).(bool)
 }
