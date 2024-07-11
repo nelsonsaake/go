@@ -2,13 +2,13 @@ package obj
 
 import "strings"
 
-type Json map[string]any
+type JsonMap map[string]any
 
-func New(src map[string]any) Json {
+func New(src map[string]any) JsonMap {
 	return src
 }
 
-func (src Json) Get(key string) any {
+func (src JsonMap) Get(key string) any {
 
 	var res any = src
 
@@ -26,18 +26,18 @@ func (src Json) Get(key string) any {
 	return res
 }
 
-func (src Json) GetString(key string) string {
+func (src JsonMap) GetString(key string) string {
 	return src.Get(key).(string)
 }
 
-func (src Json) GetInt(key string) int {
+func (src JsonMap) GetInt(key string) int {
 	return src.Get(key).(int)
 }
 
-func (src Json) GetFloat64(key string) float64 {
+func (src JsonMap) GetFloat64(key string) float64 {
 	return src.Get(key).(float64)
 }
 
-func (src Json) GetBool(key string) bool {
+func (src JsonMap) GetBool(key string) bool {
 	return src.Get(key).(bool)
 }
