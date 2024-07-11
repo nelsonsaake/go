@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/nelsonsaake/go/obj"
 )
 
 type Response struct {
@@ -55,4 +57,14 @@ func (resp *Response) Json() (map[string]any, error) {
 	err := resp.Bind(&v)
 
 	return v, err
+}
+
+func (resp *Response) Obj() (obj.Json, error) {
+
+	res, err := resp.Json()
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.New(res), nil
 }
