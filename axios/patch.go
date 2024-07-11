@@ -21,7 +21,7 @@ func (client *Client) Patch(url string, body any) (*Response, error) {
 		return die(fmt.Errorf("error making request body: %v", err))
 	}
 
-	req, err := http.NewRequest(http.MethodPut, url, rBody)
+	req, err := http.NewRequest(http.MethodPatch, url, rBody)
 	if err != nil {
 		return die(fmt.Errorf("error making new request: %v", err))
 	}
