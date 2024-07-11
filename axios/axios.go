@@ -79,6 +79,8 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 		headers.Add(k, v)
 	}
 
+	print(headers)
+
 	req.Header = headers
 
 	res, err := client.Do(req)
