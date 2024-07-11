@@ -79,7 +79,7 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 		headers.Add(k, v)
 	}
 
-	print(headers)
+	fmt.Println(headers)
 
 	req.Header = headers
 
