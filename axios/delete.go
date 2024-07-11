@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (client *Client) Get(url string, config ...any) (*Response, error) {
+func (client *Client) Delete(url string, config ...any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err
@@ -22,6 +22,5 @@ func (client *Client) Get(url string, config ...any) (*Response, error) {
 	}
 
 	req = ResolveConfigArray(req, config...)
-
 	return client.Do(req)
 }
