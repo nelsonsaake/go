@@ -16,7 +16,7 @@ func (client *Client) Delete(url string, config ...any) (*Response, error) {
 		return die(fmt.Errorf("error making request url: %v", err))
 	}
 
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
 		return die(fmt.Errorf("error making new request: %v", err))
 	}
