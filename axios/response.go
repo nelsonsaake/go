@@ -59,7 +59,7 @@ func (resp *Response) Json() (map[string]any, error) {
 	return v, err
 }
 
-func (resp *Response) Obj() (obj.Map, error) {
+func (resp *Response) ObjMap() (obj.Map, error) {
 
 	res, err := resp.Json()
 	if err != nil {
@@ -67,4 +67,8 @@ func (resp *Response) Obj() (obj.Map, error) {
 	}
 
 	return obj.New(res), nil
+}
+
+func (resp *Response) Request() *http.Request {
+	return resp.resp.Request
 }
