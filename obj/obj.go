@@ -2,17 +2,15 @@ package obj
 
 import "strings"
 
-type Map struct {
-	inner map[string]any
-}
+type Map map[string]any
 
-func New(v map[string]any) *Map {
-	return &Map{v}
+func New(v map[string]any) Map {
+	return v
 }
 
 func (m Map) Get(key string) any {
 
-	var res any = m.inner
+	var res any = m
 
 	keys := strings.Split(key, ".")
 	for _, key := range keys {
@@ -50,7 +48,7 @@ func (m Map) Delete(key string) any {
 	var k string
 
 	// v = prev[k]
-	var v any = m.inner
+	var v any = m
 	var q = strings.Split(key, ".")
 
 	for _, key := range q {
@@ -72,9 +70,4 @@ func (m Map) Delete(key string) any {
 	}
 
 	return v
-}
-
-func (m Map) Len() int {
-
-	return len(m.inner)
 }
