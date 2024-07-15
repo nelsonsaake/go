@@ -2,15 +2,17 @@ package obj
 
 import "strings"
 
-type Map map[string]any
+type Map struct {
+	inner map[string]any
+}
 
-func New(v map[string]any) Map {
-	return v
+func New(v map[string]any) *Map {
+	return &Map{v}
 }
 
 func (m Map) Get(key string) any {
 
-	var res any = m
+	var res any = m.inner
 
 	keys := strings.Split(key, ".")
 	for _, key := range keys {
@@ -40,4 +42,39 @@ func (m Map) GetFloat64(key string) float64 {
 
 func (m Map) GetBool(key string) bool {
 	return m.Get(key).(bool)
+}
+
+func (m Map) Delete(key string) any {
+
+	var prev map[string]any
+	var k string
+
+	// v = prev[k]
+	var v any = m.inner
+	var q = strings.Split(key, ".")
+
+	for _, key := range q {
+
+		_v, ok := v.(map[string]any)
+		if !ok {
+			return nil
+		}
+
+		// save
+		prev = _v
+
+		// reset scope
+		v, k = _v[key], key
+	}
+
+	if prev != nil {
+		delete(prev, k)
+	}
+
+	return v
+}
+
+func (m Map) Len() int {
+
+	return len(m.inner)
 }
