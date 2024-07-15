@@ -2,26 +2,28 @@ package obj
 
 import "strings"
 
-type Map map[string]any
+type Map struct {
+	m map[string]any
+}
 
 func New(v map[string]any) *Map {
-	vv := Map(v)
-	return &vv
+	return &Map{v}
 }
 
 func (m Map) Get(key string) any {
 
-	var res any = m
+	var res any = m.m
 
 	keys := strings.Split(key, ".")
+
 	for _, key := range keys {
 
-		data, ok := res.(map[string]any)
+		_res, ok := res.(map[string]any)
 		if !ok {
 			return nil
 		}
 
-		res = data[key]
+		res = _res[key]
 	}
 
 	return res
