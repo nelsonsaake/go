@@ -4,8 +4,9 @@ import "strings"
 
 type Map map[string]any
 
-func New(v map[string]any) Map {
-	return v
+func New(v map[string]any) *Map {
+	vv := Map(v)
+	return &vv
 }
 
 func (m Map) Get(key string) any {
