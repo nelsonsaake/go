@@ -1,6 +1,9 @@
 package obj
 
-import "strings"
+import (
+	"encoding/json"
+	"strings"
+)
 
 type Map struct {
 	m map[string]any
@@ -73,4 +76,12 @@ func (m Map) Delete(key string) any {
 	}
 
 	return v
+}
+
+func (m Map) String() string {
+	jsonBytes, err := json.MarshalIndent(m.m, "", "  ")
+	if err != nil {
+		return ""
+	}
+	return string(jsonBytes)
 }
