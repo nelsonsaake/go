@@ -72,3 +72,7 @@ func (resp *Response) ObjMap() (*obj.Map, error) {
 func (resp *Response) Request() *http.Request {
 	return resp.resp.Request
 }
+
+func (resp *Response) Response() *http.Response {
+	return resp.resp
+}
