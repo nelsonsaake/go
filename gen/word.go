@@ -10,6 +10,9 @@ func Word() string {
 	return gofakeit.Word()
 }
 
-func Sentence() string {
-	return gofakeit.Sentence()
+func Sentence(wordCount ...int) string {
+	if len(wordCount) == 0 {
+		return gofakeit.Sentence(9)
+	}
+	return gofakeit.Sentence(wordCount[0])
 }
