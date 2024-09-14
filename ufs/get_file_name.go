@@ -1,12 +1,11 @@
-package ufs	
+package ufs
 
 import (
-    "path/filepath"
-    "strings"
+	"path/filepath"
 )
 
 func GetFileName(path string) string {
 
 	// Extract the base name (e.g., "myfile.txt")
-	return filepath.Base(path) 
+	return filepath.Base(path)
 }

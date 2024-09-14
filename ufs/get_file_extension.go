@@ -1,8 +1,7 @@
-package ufs	
+package ufs
 
 import (
-    "path/filepath"
-    "strings"
+	"path/filepath"
 )
 
 func GetFileExtension(path string) string {
@@ -11,7 +10,7 @@ func GetFileExtension(path string) string {
 	base := filepath.Base(path)
 
 	// Split the file name and extension
-	ext := filepath.Ext(base) 
+	ext := filepath.Ext(base)
 
 	return ext
 }
