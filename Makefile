@@ -1,4 +1,4 @@
-.PHONY: dep test ncommit pull
+.PHONY: dep test ncommit pull dd
 
 VERSION = v0.0.102
 
@@ -8,6 +8,7 @@ init:
 dep:
 	@echo $(VERSION) > VERSION.md
 	go mod tidy
+	
 	git add .
 	git commit -m "go: changes for $(VERSION)"
 	
@@ -17,11 +18,8 @@ dep:
 	@REM Push the version tag
 	git push origin $(VERSION)
 
-	@REM  Delete the existing latest tag if it exists and create a new one
-	@if git rev-parse "latest" >nul 2>&1; then \
-		git tag -d latest; \
-		git push origin :refs/tags/latest; \
-	fi
+	git tag -d latest;  
+	git push origin :refs/tags/latest;  
 
 	git tag latest # Tag the latest commit
 	git push origin latest
@@ -40,3 +38,7 @@ ncommit:
 
 pull:
 	git pull origin main 
+
+latest = $(shell git tag -l latest)
+dd:
+	echo $(latest)
