@@ -1,12 +1,12 @@
 .PHONY: dep test ncommit pull dd
 
-VERSION = v0.0.106
+VERSION = v0.0.107
 
 init:
 	go mod init github.com/nelsonsaake/go
 
 dep:
-	@echo $(VERSION) > VERSION.md
+	echo $(VERSION) > VERSION.md
 	go mod tidy
 
 	git add .
@@ -21,7 +21,7 @@ dep:
 	git tag latest
 	git push origin latest
 
-	@echo "--- DEPLOY COMPLETED ---"
+	echo deploy completed
 
 test:
 	go test ./...
