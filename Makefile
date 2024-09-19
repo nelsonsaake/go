@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit pull
 
-VERSION = v0.0.101
+VERSION = v0.0.102
 
 init:
 	go mod init github.com/nelsonsaake/go
@@ -10,7 +10,9 @@ dep:
 	go mod tidy
 	git add .
 	git commit -m "go: changes for $(VERSION)"
-	git tag $(VERSION) @REM Create a version tag
+	
+	@REM Create a version tag
+	git tag $(VERSION) 
 
 	@REM Push the version tag
 	git push origin $(VERSION)
