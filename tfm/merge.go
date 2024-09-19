@@ -4,7 +4,7 @@ package tfm
 import "html/template"
 
 // Function to merge multiple FuncMaps
-func MergeFuncMaps(funcMaps ...template.FuncMap) template.FuncMap {
+func Merge(funcMaps ...template.FuncMap) template.FuncMap {
 	merged := template.FuncMap{}
 	for _, fm := range funcMaps {
 		for key, value := range fm {
