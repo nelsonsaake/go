@@ -14,3 +14,12 @@ func B64ToRaw(b64 string) (bs []byte, err error) {
 	bs, err = base64.StdEncoding.DecodeString(b64)
 	return
 }
+
+func B64Ext(b64string string) (ext string, err error) {
+	bs, err := base64.StdEncoding.DecodeString(b64string)
+	if err != nil {
+		return
+	}
+
+	return ExtFromBytes(bs), nil
+}
