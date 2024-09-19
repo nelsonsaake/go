@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit pull dd
 
-VERSION = v0.0.104
+VERSION = v0.0.105
 
 init:
 	go mod init github.com/nelsonsaake/go
@@ -18,7 +18,7 @@ dep:
 	git tag -d latest
 	git push origin :refs/tags/latest  
 
-	git tag latest # Tag the latest commit
+	git tag latest
 	git push origin latest
 
 	@echo "--- DEPLOY COMPLETED ---"
