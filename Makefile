@@ -10,12 +10,12 @@ dep:
 	go mod tidy
 	git add .
 	git commit -m "go: changes for $(VERSION)"
-	git tag $(VERSION) # Create a version tag
+	git tag $(VERSION) @REM Create a version tag
 
-	# Push the version tag
+	@REM Push the version tag
 	git push origin $(VERSION)
 
-	# Delete the existing latest tag if it exists and create a new one
+	@REM  Delete the existing latest tag if it exists and create a new one
 	@if git rev-parse "latest" >nul 2>&1; then \
 		git tag -d latest; \
 		git push origin :refs/tags/latest; \
