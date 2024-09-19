@@ -6,7 +6,7 @@ import (
 )
 
 type Map struct {
-	m map[string]any
+	Data map[string]any
 }
 
 func New(v map[string]any) *Map {
@@ -15,7 +15,7 @@ func New(v map[string]any) *Map {
 
 func (m Map) Get(key string) any {
 
-	var res any = m.m
+	var res any = m.Data
 
 	keys := strings.Split(key, ".")
 
@@ -79,7 +79,7 @@ func (m Map) Delete(key string) any {
 }
 
 func (m Map) String() string {
-	jsonBytes, err := json.MarshalIndent(m.m, "", "  ")
+	jsonBytes, err := json.MarshalIndent(m.Data, "", "  ")
 	if err != nil {
 		return ""
 	}
