@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit pull
 
-VERSION = v0.0.100
+VERSION = v0.0.101
 
 init:
 	go mod init github.com/nelsonsaake/go
@@ -25,6 +25,8 @@ dep:
 	git push origin latest
 
 	@REM GOPROXY=proxy.golang.org go list -m https://github.com/nelsonsaake/go.git@$(VERSION) 
+
+	echo "--- DEPLOY COMPLETED ---"
 
 test:
 	go test ./...
