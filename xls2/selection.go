@@ -47,6 +47,7 @@ func (s *Selection) SetStyle(style excelize.Style) *Selection {
 	return s
 }
 
+// Set font color
 func (s *Selection) SetFontColor(color string) *Selection {
 	return s.SetStyle(
 		excelize.Style{
@@ -57,6 +58,7 @@ func (s *Selection) SetFontColor(color string) *Selection {
 	)
 }
 
+// Set fill color
 func (s *Selection) SetFill(color string) *Selection {
 	return s.SetStyle(
 		excelize.Style{
@@ -68,6 +70,7 @@ func (s *Selection) SetFill(color string) *Selection {
 	)
 }
 
+// Set alignment
 func (s *Selection) SetAlignment(alignment excelize.Alignment) *Selection {
 	return s.SetStyle(
 		excelize.Style{
@@ -76,6 +79,7 @@ func (s *Selection) SetAlignment(alignment excelize.Alignment) *Selection {
 	)
 }
 
+// Set border
 func (s *Selection) SetBorder(color string) *Selection {
 	return s.SetStyle(
 		excelize.Style{
