@@ -11,8 +11,8 @@ type Doc struct {
 	Sheets []*Sheet
 }
 
-func New() Doc {
-	return Doc{excelize.NewFile(), []*Sheet{}}
+func New() *Doc {
+	return &Doc{excelize.NewFile(), []*Sheet{}}
 }
 
 func (doc *Doc) NewSheet(name string) *Sheet {
