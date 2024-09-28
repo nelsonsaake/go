@@ -13,7 +13,7 @@ import (
 // IsRange checks if the provided string is a valid Excel range.
 func IsRange(s string) bool {
 	// Regular expression to match valid Excel ranges (e.g., A1, B2, A1:B2).
-	regex := `(?i)^[A-Z]+\d+(:[A-Z]+\d+)?$`
+	regex := `(?i)^[A-Z]+\d+(:[A-Z]+\d+)$`
 	matched, err := regexp.MatchString(regex, s)
 	if err != nil {
 		fmt.Println("Error:", err)

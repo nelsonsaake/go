@@ -44,9 +44,6 @@ func (doc *Doc) SaveAs(name string) error {
 				continue
 			}
 
-			fmt.Println(loc)
-			fmt.Printf("%v isRange? = %v", loc, IsRange(loc))
-
 			var (
 				tl  = loc // top left cell
 				br  = loc // bottom right cell
@@ -59,22 +56,15 @@ func (doc *Doc) SaveAs(name string) error {
 				}
 			}
 
-			fmt.Println(3)
-
 			styleID, err := doc.File.NewStyle(&style)
 			if err != nil {
 				return fmt.Errorf("error creating new style: %v", style)
 			}
 
-			fmt.Println(4)
-
 			err = doc.File.SetCellStyle(sheet.name, tl, br, styleID)
 			if err != nil {
 				return fmt.Errorf("error setting style: %v", err)
 			}
-
-			fmt.Println(5)
-			fmt.Println(tl, br)
 		}
 	}
 
