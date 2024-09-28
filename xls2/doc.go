@@ -40,9 +40,13 @@ func (doc *Doc) SaveAs(name string) error {
 	for _, sheet := range doc.Sheets {
 		for loc, style := range sheet.styles {
 
+			print(1)
+
 			if !(IsCell(loc) || IsRange(loc)) {
 				continue
 			}
+
+			print(2)
 
 			var (
 				tl  = loc // top left cell
@@ -56,16 +60,21 @@ func (doc *Doc) SaveAs(name string) error {
 				}
 			}
 
+			print(3)
+
 			styleID, err := doc.File.NewStyle(&style)
 			if err != nil {
 				return fmt.Errorf("error creating new style: %v", style)
 			}
+
+			print(4)
 
 			err = doc.File.SetCellStyle(sheet.name, tl, br, styleID)
 			if err != nil {
 				return fmt.Errorf("error setting style: %v", err)
 			}
 
+			print(5)
 			print(tl, br)
 		}
 	}
