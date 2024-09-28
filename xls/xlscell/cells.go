@@ -80,6 +80,7 @@ func __cells(hcell, vcell string) (cells []string, err error) {
 func Cells(loc ...string) (cells []string, err error) {
 
 	switch len(loc) {
+
 	case 0:
 		return nil, errors.New("no location provided")
 
