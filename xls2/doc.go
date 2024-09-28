@@ -40,13 +40,12 @@ func (doc *Doc) SaveAs(name string) error {
 	for _, sheet := range doc.Sheets {
 		for loc, style := range sheet.styles {
 
-			fmt.Println(1)
-
 			if !(IsCell(loc) || IsRange(loc)) {
 				continue
 			}
 
 			fmt.Println(loc)
+			fmt.Printf("%v isRange? = %v", loc, IsRange(loc))
 
 			var (
 				tl  = loc // top left cell
