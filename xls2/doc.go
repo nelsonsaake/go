@@ -65,6 +65,8 @@ func (doc *Doc) SaveAs(name string) error {
 			if err != nil {
 				return fmt.Errorf("error setting style: %v", err)
 			}
+
+			print(tl, br)
 		}
 	}
 
