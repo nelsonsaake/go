@@ -78,10 +78,10 @@ func (s *Selection) SetFill(color string) *Selection {
 }
 
 // Set alignment
-func (s *Selection) SetAlignment(alignment excelize.Alignment) *Selection {
+func (s *Selection) SetAlignment(alignment *excelize.Alignment) *Selection {
 	return s.SetStyle(
 		excelize.Style{
-			Alignment: &alignment,
+			Alignment: alignment,
 		},
 	)
 }
