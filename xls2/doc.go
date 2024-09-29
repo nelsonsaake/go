@@ -1,7 +1,9 @@
 package xls2
 
 import (
+	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -37,6 +39,38 @@ func (doc *Doc) NewSheet(name string) *Sheet {
 
 func (doc *Doc) SaveAs(name string) error {
 
+	styleIndex := map[string]int{}
+
+	toKey := func(s excelize.Style) string {
+		key, err := json.Marshal(s)
+		if err != nil {
+			return ""
+		}
+		return strings.ToLower(string(key))
+	}
+
+	// we do this to optimize style creation
+	// we don't want to `NewStyle` multiple time for the exact same `s`
+	// there is a limit of styles we can create
+	toId := func(s excelize.Style) (int, error) {
+
+		key := toKey(s)
+
+		id, ok := styleIndex[key]
+		if ok {
+			return id, nil
+		}
+
+		id, err := doc.File.NewStyle(&s)
+		if err != nil {
+			return 0, err
+		}
+
+		styleIndex[key] = id
+
+		return id, nil
+	}
+
 	for _, sheet := range doc.Sheets {
 		for loc, style := range sheet.styles {
 
@@ -56,7 +90,7 @@ func (doc *Doc) SaveAs(name string) error {
 				}
 			}
 
-			styleID, err := doc.File.NewStyle(&style)
+			styleID, err := toId(style)
 			if err != nil {
 				return fmt.Errorf("error creating new style: %v", style)
 			}

@@ -30,9 +30,16 @@ func (s *Selection) Select(loc string) *Selection {
 // Set style
 func (s *Selection) SetStyle(style excelize.Style) *Selection {
 
-	cells, err := xlscell.Cells(s.locs...)
-	if err != nil {
-		return s
+	var (
+		cells = []string{}
+		err   error
+	)
+
+	for _, loc := range s.locs {
+		cells, err = xlscell.Cells(loc)
+		if err != nil {
+			return s
+		}
 	}
 
 	for _, cell := range cells {
@@ -40,7 +47,7 @@ func (s *Selection) SetStyle(style excelize.Style) *Selection {
 		if !ok {
 			s.sheet.styles[cell] = style
 		} else {
-			s.sheet.styles[cell] = appendStyle(old, style)
+			s.sheet.styles[cell] = mergestyle(old, style)
 		}
 	}
 

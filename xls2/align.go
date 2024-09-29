@@ -1,23 +1,23 @@
-package styles
+package xls2
 
 import "github.com/xuri/excelize/v2"
 
 var (
-	Center = &excelize.Alignment{
+	AlignCenter = &excelize.Alignment{
 		Horizontal: "center",
 		Vertical:   "center",
 		Indent:     1,
 		WrapText:   true,
 	}
 
-	CenterRight = &excelize.Alignment{
+	AlignCenterRight = &excelize.Alignment{
 		Horizontal: "right",
 		Vertical:   "center",
 		Indent:     1,
 		WrapText:   true,
 	}
 
-	CenterLeft = &excelize.Alignment{
+	AlignCenterLeft = &excelize.Alignment{
 		Horizontal: "left",
 		Vertical:   "center",
 		Indent:     1,

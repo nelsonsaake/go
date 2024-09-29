@@ -1,9 +1,9 @@
-package xlsfill
+package xls2
 
 import "github.com/xuri/excelize/v2"
 
 var (
-	Slate50 = excelize.Fill{
+	FillSlate50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f8fafc",
@@ -11,7 +11,7 @@ var (
 		},
 	}
 
-	Slate100 = excelize.Fill{
+	FillSlate100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f1f5f9",
@@ -19,7 +19,7 @@ var (
 		},
 	}
 
-	Slate200 = excelize.Fill{
+	FillSlate200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e2e8f0",
@@ -27,7 +27,7 @@ var (
 		},
 	}
 
-	Slate300 = excelize.Fill{
+	FillSlate300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#cbd5e1",
@@ -35,7 +35,7 @@ var (
 		},
 	}
 
-	Slate400 = excelize.Fill{
+	FillSlate400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#94a3b8",
@@ -43,7 +43,7 @@ var (
 		},
 	}
 
-	Slate500 = excelize.Fill{
+	FillSlate500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#64748b",
@@ -51,7 +51,7 @@ var (
 		},
 	}
 
-	Slate600 = excelize.Fill{
+	FillSlate600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#475569",
@@ -59,7 +59,7 @@ var (
 		},
 	}
 
-	Slate700 = excelize.Fill{
+	FillSlate700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#334155",
@@ -67,7 +67,7 @@ var (
 		},
 	}
 
-	Slate800 = excelize.Fill{
+	FillSlate800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1e293b",
@@ -75,7 +75,7 @@ var (
 		},
 	}
 
-	Slate900 = excelize.Fill{
+	FillSlate900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0f172a",
@@ -83,7 +83,7 @@ var (
 		},
 	}
 
-	Slate950 = excelize.Fill{
+	FillSlate950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#020617",
@@ -91,7 +91,7 @@ var (
 		},
 	}
 
-	Gray50 = excelize.Fill{
+	FillGray50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f9fafb",
@@ -99,7 +99,7 @@ var (
 		},
 	}
 
-	Gray100 = excelize.Fill{
+	FillGray100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f3f4f6",
@@ -107,7 +107,7 @@ var (
 		},
 	}
 
-	Gray200 = excelize.Fill{
+	FillGray200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e5e7eb",
@@ -115,7 +115,7 @@ var (
 		},
 	}
 
-	Gray300 = excelize.Fill{
+	FillGray300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d1d5db",
@@ -123,7 +123,7 @@ var (
 		},
 	}
 
-	Gray400 = excelize.Fill{
+	FillGray400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#9ca3af",
@@ -131,7 +131,7 @@ var (
 		},
 	}
 
-	Gray500 = excelize.Fill{
+	FillGray500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#6b7280",
@@ -139,7 +139,7 @@ var (
 		},
 	}
 
-	Gray600 = excelize.Fill{
+	FillGray600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4b5563",
@@ -147,7 +147,7 @@ var (
 		},
 	}
 
-	Gray700 = excelize.Fill{
+	FillGray700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#374151",
@@ -155,7 +155,7 @@ var (
 		},
 	}
 
-	Gray800 = excelize.Fill{
+	FillGray800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1f2937",
@@ -163,7 +163,7 @@ var (
 		},
 	}
 
-	Gray900 = excelize.Fill{
+	FillGray900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#111827",
@@ -171,7 +171,7 @@ var (
 		},
 	}
 
-	Gray950 = excelize.Fill{
+	FillGray950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#030712",
@@ -179,7 +179,7 @@ var (
 		},
 	}
 
-	Zinc50 = excelize.Fill{
+	FillZinc50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fafafa",
@@ -187,7 +187,7 @@ var (
 		},
 	}
 
-	Zinc100 = excelize.Fill{
+	FillZinc100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f4f4f5",
@@ -195,7 +195,7 @@ var (
 		},
 	}
 
-	Zinc200 = excelize.Fill{
+	FillZinc200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e4e4e7",
@@ -203,7 +203,7 @@ var (
 		},
 	}
 
-	Zinc300 = excelize.Fill{
+	FillZinc300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d4d4d8",
@@ -211,7 +211,7 @@ var (
 		},
 	}
 
-	Zinc400 = excelize.Fill{
+	FillZinc400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a1a1aa",
@@ -219,7 +219,7 @@ var (
 		},
 	}
 
-	Zinc500 = excelize.Fill{
+	FillZinc500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#71717a",
@@ -227,7 +227,7 @@ var (
 		},
 	}
 
-	Zinc600 = excelize.Fill{
+	FillZinc600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#52525b",
@@ -235,7 +235,7 @@ var (
 		},
 	}
 
-	Zinc700 = excelize.Fill{
+	FillZinc700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#3f3f46",
@@ -243,7 +243,7 @@ var (
 		},
 	}
 
-	Zinc800 = excelize.Fill{
+	FillZinc800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#27272a",
@@ -251,7 +251,7 @@ var (
 		},
 	}
 
-	Zinc900 = excelize.Fill{
+	FillZinc900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#18181b",
@@ -259,7 +259,7 @@ var (
 		},
 	}
 
-	Zinc950 = excelize.Fill{
+	FillZinc950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#09090b",
@@ -267,7 +267,7 @@ var (
 		},
 	}
 
-	Neutral50 = excelize.Fill{
+	FillNeutral50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fafafa",
@@ -275,7 +275,7 @@ var (
 		},
 	}
 
-	Neutral100 = excelize.Fill{
+	FillNeutral100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f5f5f5",
@@ -283,7 +283,7 @@ var (
 		},
 	}
 
-	Neutral200 = excelize.Fill{
+	FillNeutral200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e5e5e5",
@@ -291,7 +291,7 @@ var (
 		},
 	}
 
-	Neutral300 = excelize.Fill{
+	FillNeutral300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d4d4d4",
@@ -299,7 +299,7 @@ var (
 		},
 	}
 
-	Neutral400 = excelize.Fill{
+	FillNeutral400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a3a3a3",
@@ -307,7 +307,7 @@ var (
 		},
 	}
 
-	Neutral500 = excelize.Fill{
+	FillNeutral500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#737373",
@@ -315,7 +315,7 @@ var (
 		},
 	}
 
-	Neutral600 = excelize.Fill{
+	FillNeutral600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#525252",
@@ -323,7 +323,7 @@ var (
 		},
 	}
 
-	Neutral700 = excelize.Fill{
+	FillNeutral700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#404040",
@@ -331,7 +331,7 @@ var (
 		},
 	}
 
-	Neutral800 = excelize.Fill{
+	FillNeutral800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#262626",
@@ -339,7 +339,7 @@ var (
 		},
 	}
 
-	Neutral900 = excelize.Fill{
+	FillNeutral900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#171717",
@@ -347,7 +347,7 @@ var (
 		},
 	}
 
-	Neutral950 = excelize.Fill{
+	FillNeutral950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0a0a0a",
@@ -355,7 +355,7 @@ var (
 		},
 	}
 
-	Stone50 = excelize.Fill{
+	FillStone50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fafaf9",
@@ -363,7 +363,7 @@ var (
 		},
 	}
 
-	Stone100 = excelize.Fill{
+	FillStone100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f5f5f4",
@@ -371,7 +371,7 @@ var (
 		},
 	}
 
-	Stone200 = excelize.Fill{
+	FillStone200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e7e5e4",
@@ -379,7 +379,7 @@ var (
 		},
 	}
 
-	Stone300 = excelize.Fill{
+	FillStone300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d6d3d1",
@@ -387,7 +387,7 @@ var (
 		},
 	}
 
-	Stone400 = excelize.Fill{
+	FillStone400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a8a29e",
@@ -395,7 +395,7 @@ var (
 		},
 	}
 
-	Stone500 = excelize.Fill{
+	FillStone500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#78716c",
@@ -403,7 +403,7 @@ var (
 		},
 	}
 
-	Stone600 = excelize.Fill{
+	FillStone600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#57534e",
@@ -411,7 +411,7 @@ var (
 		},
 	}
 
-	Stone700 = excelize.Fill{
+	FillStone700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#44403c",
@@ -419,7 +419,7 @@ var (
 		},
 	}
 
-	Stone800 = excelize.Fill{
+	FillStone800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#292524",
@@ -427,7 +427,7 @@ var (
 		},
 	}
 
-	Stone900 = excelize.Fill{
+	FillStone900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1c1917",
@@ -435,7 +435,7 @@ var (
 		},
 	}
 
-	Stone950 = excelize.Fill{
+	FillStone950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0c0a09",
@@ -443,7 +443,7 @@ var (
 		},
 	}
 
-	Red50 = excelize.Fill{
+	FillRed50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fef2f2",
@@ -451,7 +451,7 @@ var (
 		},
 	}
 
-	Red100 = excelize.Fill{
+	FillRed100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fee2e2",
@@ -459,7 +459,7 @@ var (
 		},
 	}
 
-	Red200 = excelize.Fill{
+	FillRed200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fecaca",
@@ -467,7 +467,7 @@ var (
 		},
 	}
 
-	Red300 = excelize.Fill{
+	FillRed300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fca5a5",
@@ -475,7 +475,7 @@ var (
 		},
 	}
 
-	Red400 = excelize.Fill{
+	FillRed400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f87171",
@@ -483,7 +483,7 @@ var (
 		},
 	}
 
-	Red500 = excelize.Fill{
+	FillRed500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ef4444",
@@ -491,7 +491,7 @@ var (
 		},
 	}
 
-	Red600 = excelize.Fill{
+	FillRed600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#dc2626",
@@ -499,7 +499,7 @@ var (
 		},
 	}
 
-	Red700 = excelize.Fill{
+	FillRed700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#b91c1c",
@@ -507,7 +507,7 @@ var (
 		},
 	}
 
-	Red800 = excelize.Fill{
+	FillRed800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#991b1b",
@@ -515,7 +515,7 @@ var (
 		},
 	}
 
-	Red900 = excelize.Fill{
+	FillRed900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#7f1d1d",
@@ -523,7 +523,7 @@ var (
 		},
 	}
 
-	Red950 = excelize.Fill{
+	FillRed950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#450a0a",
@@ -531,7 +531,7 @@ var (
 		},
 	}
 
-	Orange50 = excelize.Fill{
+	FillOrange50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fff7ed",
@@ -539,7 +539,7 @@ var (
 		},
 	}
 
-	Orange100 = excelize.Fill{
+	FillOrange100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ffedd5",
@@ -547,7 +547,7 @@ var (
 		},
 	}
 
-	Orange200 = excelize.Fill{
+	FillOrange200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fed7aa",
@@ -555,7 +555,7 @@ var (
 		},
 	}
 
-	Orange300 = excelize.Fill{
+	FillOrange300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fdba74",
@@ -563,7 +563,7 @@ var (
 		},
 	}
 
-	Orange400 = excelize.Fill{
+	FillOrange400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fb923c",
@@ -571,7 +571,7 @@ var (
 		},
 	}
 
-	Orange500 = excelize.Fill{
+	FillOrange500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f97316",
@@ -579,7 +579,7 @@ var (
 		},
 	}
 
-	Orange600 = excelize.Fill{
+	FillOrange600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ea580c",
@@ -587,7 +587,7 @@ var (
 		},
 	}
 
-	Orange700 = excelize.Fill{
+	FillOrange700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#c2410c",
@@ -595,7 +595,7 @@ var (
 		},
 	}
 
-	Orange800 = excelize.Fill{
+	FillOrange800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#9a3412",
@@ -603,7 +603,7 @@ var (
 		},
 	}
 
-	Orange900 = excelize.Fill{
+	FillOrange900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#7c2d12",
@@ -611,7 +611,7 @@ var (
 		},
 	}
 
-	Orange950 = excelize.Fill{
+	FillOrange950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#431407",
@@ -619,7 +619,7 @@ var (
 		},
 	}
 
-	Amber50 = excelize.Fill{
+	FillAmber50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fffbeb",
@@ -627,7 +627,7 @@ var (
 		},
 	}
 
-	Amber100 = excelize.Fill{
+	FillAmber100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fef3c7",
@@ -635,7 +635,7 @@ var (
 		},
 	}
 
-	Amber200 = excelize.Fill{
+	FillAmber200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fde68a",
@@ -643,7 +643,7 @@ var (
 		},
 	}
 
-	Amber300 = excelize.Fill{
+	FillAmber300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fcd34d",
@@ -651,7 +651,7 @@ var (
 		},
 	}
 
-	Amber400 = excelize.Fill{
+	FillAmber400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fbbf24",
@@ -659,7 +659,7 @@ var (
 		},
 	}
 
-	Amber500 = excelize.Fill{
+	FillAmber500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f59e0b",
@@ -667,7 +667,7 @@ var (
 		},
 	}
 
-	Amber600 = excelize.Fill{
+	FillAmber600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d97706",
@@ -675,7 +675,7 @@ var (
 		},
 	}
 
-	Amber700 = excelize.Fill{
+	FillAmber700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#b45309",
@@ -683,7 +683,7 @@ var (
 		},
 	}
 
-	Amber800 = excelize.Fill{
+	FillAmber800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#92400e",
@@ -691,7 +691,7 @@ var (
 		},
 	}
 
-	Amber900 = excelize.Fill{
+	FillAmber900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#78350f",
@@ -699,7 +699,7 @@ var (
 		},
 	}
 
-	Amber950 = excelize.Fill{
+	FillAmber950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#451a03",
@@ -707,7 +707,7 @@ var (
 		},
 	}
 
-	Yellow50 = excelize.Fill{
+	FillYellow50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fefce8",
@@ -715,7 +715,7 @@ var (
 		},
 	}
 
-	Yellow100 = excelize.Fill{
+	FillYellow100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fef9c3",
@@ -723,7 +723,7 @@ var (
 		},
 	}
 
-	Yellow200 = excelize.Fill{
+	FillYellow200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fef08a",
@@ -731,7 +731,7 @@ var (
 		},
 	}
 
-	Yellow300 = excelize.Fill{
+	FillYellow300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fde047",
@@ -739,7 +739,7 @@ var (
 		},
 	}
 
-	Yellow400 = excelize.Fill{
+	FillYellow400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#facc15",
@@ -747,7 +747,7 @@ var (
 		},
 	}
 
-	Yellow500 = excelize.Fill{
+	FillYellow500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#eab308",
@@ -755,7 +755,7 @@ var (
 		},
 	}
 
-	Yellow600 = excelize.Fill{
+	FillYellow600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ca8a04",
@@ -763,7 +763,7 @@ var (
 		},
 	}
 
-	Yellow700 = excelize.Fill{
+	FillYellow700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a16207",
@@ -771,7 +771,7 @@ var (
 		},
 	}
 
-	Yellow800 = excelize.Fill{
+	FillYellow800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#854d0e",
@@ -779,7 +779,7 @@ var (
 		},
 	}
 
-	Yellow900 = excelize.Fill{
+	FillYellow900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#713f12",
@@ -787,7 +787,7 @@ var (
 		},
 	}
 
-	Yellow950 = excelize.Fill{
+	FillYellow950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#422006",
@@ -795,7 +795,7 @@ var (
 		},
 	}
 
-	Lime50 = excelize.Fill{
+	FillLime50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f7fee7",
@@ -803,7 +803,7 @@ var (
 		},
 	}
 
-	Lime100 = excelize.Fill{
+	FillLime100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ecfccb",
@@ -811,7 +811,7 @@ var (
 		},
 	}
 
-	Lime200 = excelize.Fill{
+	FillLime200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d9f99d",
@@ -819,7 +819,7 @@ var (
 		},
 	}
 
-	Lime300 = excelize.Fill{
+	FillLime300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#bef264",
@@ -827,7 +827,7 @@ var (
 		},
 	}
 
-	Lime400 = excelize.Fill{
+	FillLime400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a3e635",
@@ -835,7 +835,7 @@ var (
 		},
 	}
 
-	Lime500 = excelize.Fill{
+	FillLime500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#84cc16",
@@ -843,7 +843,7 @@ var (
 		},
 	}
 
-	Lime600 = excelize.Fill{
+	FillLime600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#65a30d",
@@ -851,7 +851,7 @@ var (
 		},
 	}
 
-	Lime700 = excelize.Fill{
+	FillLime700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4d7c0f",
@@ -859,7 +859,7 @@ var (
 		},
 	}
 
-	Lime800 = excelize.Fill{
+	FillLime800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#3f6212",
@@ -867,7 +867,7 @@ var (
 		},
 	}
 
-	Lime900 = excelize.Fill{
+	FillLime900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#365314",
@@ -875,7 +875,7 @@ var (
 		},
 	}
 
-	Lime950 = excelize.Fill{
+	FillLime950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1a2e05",
@@ -883,7 +883,7 @@ var (
 		},
 	}
 
-	Green50 = excelize.Fill{
+	FillGreen50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f0fdf4",
@@ -891,7 +891,7 @@ var (
 		},
 	}
 
-	Green100 = excelize.Fill{
+	FillGreen100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#dcfce7",
@@ -899,7 +899,7 @@ var (
 		},
 	}
 
-	Green200 = excelize.Fill{
+	FillGreen200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#bbf7d0",
@@ -907,7 +907,7 @@ var (
 		},
 	}
 
-	Green300 = excelize.Fill{
+	FillGreen300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#86efac",
@@ -915,7 +915,7 @@ var (
 		},
 	}
 
-	Green400 = excelize.Fill{
+	FillGreen400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4ade80",
@@ -923,7 +923,7 @@ var (
 		},
 	}
 
-	Green500 = excelize.Fill{
+	FillGreen500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#22c55e",
@@ -931,7 +931,7 @@ var (
 		},
 	}
 
-	Green600 = excelize.Fill{
+	FillGreen600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#16a34a",
@@ -939,7 +939,7 @@ var (
 		},
 	}
 
-	Green700 = excelize.Fill{
+	FillGreen700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#15803d",
@@ -947,7 +947,7 @@ var (
 		},
 	}
 
-	Green800 = excelize.Fill{
+	FillGreen800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#166534",
@@ -955,7 +955,7 @@ var (
 		},
 	}
 
-	Green900 = excelize.Fill{
+	FillGreen900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#14532d",
@@ -963,7 +963,7 @@ var (
 		},
 	}
 
-	Green950 = excelize.Fill{
+	FillGreen950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#052e16",
@@ -971,7 +971,7 @@ var (
 		},
 	}
 
-	Emerald50 = excelize.Fill{
+	FillEmerald50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ecfdf5",
@@ -979,7 +979,7 @@ var (
 		},
 	}
 
-	Emerald100 = excelize.Fill{
+	FillEmerald100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d1fae5",
@@ -987,7 +987,7 @@ var (
 		},
 	}
 
-	Emerald200 = excelize.Fill{
+	FillEmerald200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a7f3d0",
@@ -995,7 +995,7 @@ var (
 		},
 	}
 
-	Emerald300 = excelize.Fill{
+	FillEmerald300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#6ee7b7",
@@ -1003,7 +1003,7 @@ var (
 		},
 	}
 
-	Emerald400 = excelize.Fill{
+	FillEmerald400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#34d399",
@@ -1011,7 +1011,7 @@ var (
 		},
 	}
 
-	Emerald500 = excelize.Fill{
+	FillEmerald500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#10b981",
@@ -1019,7 +1019,7 @@ var (
 		},
 	}
 
-	Emerald600 = excelize.Fill{
+	FillEmerald600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#059669",
@@ -1027,7 +1027,7 @@ var (
 		},
 	}
 
-	Emerald700 = excelize.Fill{
+	FillEmerald700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#047857",
@@ -1035,7 +1035,7 @@ var (
 		},
 	}
 
-	Emerald800 = excelize.Fill{
+	FillEmerald800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#065f46",
@@ -1043,7 +1043,7 @@ var (
 		},
 	}
 
-	Emerald900 = excelize.Fill{
+	FillEmerald900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#064e3b",
@@ -1051,7 +1051,7 @@ var (
 		},
 	}
 
-	Emerald950 = excelize.Fill{
+	FillEmerald950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#022c22",
@@ -1059,7 +1059,7 @@ var (
 		},
 	}
 
-	Teal50 = excelize.Fill{
+	FillTeal50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f0fdfa",
@@ -1067,7 +1067,7 @@ var (
 		},
 	}
 
-	Teal100 = excelize.Fill{
+	FillTeal100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ccfbf1",
@@ -1075,7 +1075,7 @@ var (
 		},
 	}
 
-	Teal200 = excelize.Fill{
+	FillTeal200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#99f6e4",
@@ -1083,7 +1083,7 @@ var (
 		},
 	}
 
-	Teal300 = excelize.Fill{
+	FillTeal300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#5eead4",
@@ -1091,7 +1091,7 @@ var (
 		},
 	}
 
-	Teal400 = excelize.Fill{
+	FillTeal400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#2dd4bf",
@@ -1099,7 +1099,7 @@ var (
 		},
 	}
 
-	Teal500 = excelize.Fill{
+	FillTeal500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#14b8a6",
@@ -1107,7 +1107,7 @@ var (
 		},
 	}
 
-	Teal600 = excelize.Fill{
+	FillTeal600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0d9488",
@@ -1115,7 +1115,7 @@ var (
 		},
 	}
 
-	Teal700 = excelize.Fill{
+	FillTeal700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0f766e",
@@ -1123,7 +1123,7 @@ var (
 		},
 	}
 
-	Teal800 = excelize.Fill{
+	FillTeal800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#115e59",
@@ -1131,7 +1131,7 @@ var (
 		},
 	}
 
-	Teal900 = excelize.Fill{
+	FillTeal900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#134e4a",
@@ -1139,7 +1139,7 @@ var (
 		},
 	}
 
-	Teal950 = excelize.Fill{
+	FillTeal950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#042f2e",
@@ -1147,7 +1147,7 @@ var (
 		},
 	}
 
-	Cyan50 = excelize.Fill{
+	FillCyan50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ecfeff",
@@ -1155,7 +1155,7 @@ var (
 		},
 	}
 
-	Cyan100 = excelize.Fill{
+	FillCyan100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#cffafe",
@@ -1163,7 +1163,7 @@ var (
 		},
 	}
 
-	Cyan200 = excelize.Fill{
+	FillCyan200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a5f3fc",
@@ -1171,7 +1171,7 @@ var (
 		},
 	}
 
-	Cyan300 = excelize.Fill{
+	FillCyan300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#67e8f9",
@@ -1179,7 +1179,7 @@ var (
 		},
 	}
 
-	Cyan400 = excelize.Fill{
+	FillCyan400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#22d3ee",
@@ -1187,7 +1187,7 @@ var (
 		},
 	}
 
-	Cyan500 = excelize.Fill{
+	FillCyan500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#06b6d4",
@@ -1195,7 +1195,7 @@ var (
 		},
 	}
 
-	Cyan600 = excelize.Fill{
+	FillCyan600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0891b2",
@@ -1203,7 +1203,7 @@ var (
 		},
 	}
 
-	Cyan700 = excelize.Fill{
+	FillCyan700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0e7490",
@@ -1211,7 +1211,7 @@ var (
 		},
 	}
 
-	Cyan800 = excelize.Fill{
+	FillCyan800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#155e75",
@@ -1219,7 +1219,7 @@ var (
 		},
 	}
 
-	Cyan900 = excelize.Fill{
+	FillCyan900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#164e63",
@@ -1227,7 +1227,7 @@ var (
 		},
 	}
 
-	Cyan950 = excelize.Fill{
+	FillCyan950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#083344",
@@ -1235,7 +1235,7 @@ var (
 		},
 	}
 
-	Sky50 = excelize.Fill{
+	FillSky50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f0f9ff",
@@ -1243,7 +1243,7 @@ var (
 		},
 	}
 
-	Sky100 = excelize.Fill{
+	FillSky100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e0f2fe",
@@ -1251,7 +1251,7 @@ var (
 		},
 	}
 
-	Sky200 = excelize.Fill{
+	FillSky200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#bae6fd",
@@ -1259,7 +1259,7 @@ var (
 		},
 	}
 
-	Sky300 = excelize.Fill{
+	FillSky300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#7dd3fc",
@@ -1267,7 +1267,7 @@ var (
 		},
 	}
 
-	Sky400 = excelize.Fill{
+	FillSky400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#38bdf8",
@@ -1275,7 +1275,7 @@ var (
 		},
 	}
 
-	Sky500 = excelize.Fill{
+	FillSky500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0ea5e9",
@@ -1283,7 +1283,7 @@ var (
 		},
 	}
 
-	Sky600 = excelize.Fill{
+	FillSky600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0284c7",
@@ -1291,7 +1291,7 @@ var (
 		},
 	}
 
-	Sky700 = excelize.Fill{
+	FillSky700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0369a1",
@@ -1299,7 +1299,7 @@ var (
 		},
 	}
 
-	Sky800 = excelize.Fill{
+	FillSky800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#075985",
@@ -1307,7 +1307,7 @@ var (
 		},
 	}
 
-	Sky900 = excelize.Fill{
+	FillSky900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#0c4a6e",
@@ -1315,7 +1315,7 @@ var (
 		},
 	}
 
-	Sky950 = excelize.Fill{
+	FillSky950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#082f49",
@@ -1323,7 +1323,7 @@ var (
 		},
 	}
 
-	Blue50 = excelize.Fill{
+	FillBlue50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#eff6ff",
@@ -1331,7 +1331,7 @@ var (
 		},
 	}
 
-	Blue100 = excelize.Fill{
+	FillBlue100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#dbeafe",
@@ -1339,7 +1339,7 @@ var (
 		},
 	}
 
-	Blue200 = excelize.Fill{
+	FillBlue200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#bfdbfe",
@@ -1347,7 +1347,7 @@ var (
 		},
 	}
 
-	Blue300 = excelize.Fill{
+	FillBlue300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#93c5fd",
@@ -1355,7 +1355,7 @@ var (
 		},
 	}
 
-	Blue400 = excelize.Fill{
+	FillBlue400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#60a5fa",
@@ -1363,7 +1363,7 @@ var (
 		},
 	}
 
-	Blue500 = excelize.Fill{
+	FillBlue500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#3b82f6",
@@ -1371,7 +1371,7 @@ var (
 		},
 	}
 
-	Blue600 = excelize.Fill{
+	FillBlue600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#2563eb",
@@ -1379,7 +1379,7 @@ var (
 		},
 	}
 
-	Blue700 = excelize.Fill{
+	FillBlue700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1d4ed8",
@@ -1387,7 +1387,7 @@ var (
 		},
 	}
 
-	Blue800 = excelize.Fill{
+	FillBlue800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1e40af",
@@ -1395,7 +1395,7 @@ var (
 		},
 	}
 
-	Blue900 = excelize.Fill{
+	FillBlue900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1e3a8a",
@@ -1403,7 +1403,7 @@ var (
 		},
 	}
 
-	Blue950 = excelize.Fill{
+	FillBlue950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#172554",
@@ -1411,7 +1411,7 @@ var (
 		},
 	}
 
-	Indigo50 = excelize.Fill{
+	FillIndigo50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#eef2ff",
@@ -1419,7 +1419,7 @@ var (
 		},
 	}
 
-	Indigo100 = excelize.Fill{
+	FillIndigo100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e0e7ff",
@@ -1427,7 +1427,7 @@ var (
 		},
 	}
 
-	Indigo200 = excelize.Fill{
+	FillIndigo200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#c7d2fe",
@@ -1435,7 +1435,7 @@ var (
 		},
 	}
 
-	Indigo300 = excelize.Fill{
+	FillIndigo300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a5b4fc",
@@ -1443,7 +1443,7 @@ var (
 		},
 	}
 
-	Indigo400 = excelize.Fill{
+	FillIndigo400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#818cf8",
@@ -1451,7 +1451,7 @@ var (
 		},
 	}
 
-	Indigo500 = excelize.Fill{
+	FillIndigo500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#6366f1",
@@ -1459,7 +1459,7 @@ var (
 		},
 	}
 
-	Indigo600 = excelize.Fill{
+	FillIndigo600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4f46e5",
@@ -1467,7 +1467,7 @@ var (
 		},
 	}
 
-	Indigo700 = excelize.Fill{
+	FillIndigo700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4338ca",
@@ -1475,7 +1475,7 @@ var (
 		},
 	}
 
-	Indigo800 = excelize.Fill{
+	FillIndigo800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#3730a3",
@@ -1483,7 +1483,7 @@ var (
 		},
 	}
 
-	Indigo900 = excelize.Fill{
+	FillIndigo900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#312e81",
@@ -1491,7 +1491,7 @@ var (
 		},
 	}
 
-	Indigo950 = excelize.Fill{
+	FillIndigo950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#1e1b4b",
@@ -1499,7 +1499,7 @@ var (
 		},
 	}
 
-	Violet50 = excelize.Fill{
+	FillViolet50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f5f3ff",
@@ -1507,7 +1507,7 @@ var (
 		},
 	}
 
-	Violet100 = excelize.Fill{
+	FillViolet100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ede9fe",
@@ -1515,7 +1515,7 @@ var (
 		},
 	}
 
-	Violet200 = excelize.Fill{
+	FillViolet200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ddd6fe",
@@ -1523,7 +1523,7 @@ var (
 		},
 	}
 
-	Violet300 = excelize.Fill{
+	FillViolet300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#c4b5fd",
@@ -1531,7 +1531,7 @@ var (
 		},
 	}
 
-	Violet400 = excelize.Fill{
+	FillViolet400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a78bfa",
@@ -1539,7 +1539,7 @@ var (
 		},
 	}
 
-	Violet500 = excelize.Fill{
+	FillViolet500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#8b5cf6",
@@ -1547,7 +1547,7 @@ var (
 		},
 	}
 
-	Violet600 = excelize.Fill{
+	FillViolet600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#7c3aed",
@@ -1555,7 +1555,7 @@ var (
 		},
 	}
 
-	Violet700 = excelize.Fill{
+	FillViolet700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#6d28d9",
@@ -1563,7 +1563,7 @@ var (
 		},
 	}
 
-	Violet800 = excelize.Fill{
+	FillViolet800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#5b21b6",
@@ -1571,7 +1571,7 @@ var (
 		},
 	}
 
-	Violet900 = excelize.Fill{
+	FillViolet900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4c1d95",
@@ -1579,7 +1579,7 @@ var (
 		},
 	}
 
-	Violet950 = excelize.Fill{
+	FillViolet950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#2e1065",
@@ -1587,7 +1587,7 @@ var (
 		},
 	}
 
-	Purple50 = excelize.Fill{
+	FillPurple50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#faf5ff",
@@ -1595,7 +1595,7 @@ var (
 		},
 	}
 
-	Purple100 = excelize.Fill{
+	FillPurple100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f3e8ff",
@@ -1603,7 +1603,7 @@ var (
 		},
 	}
 
-	Purple200 = excelize.Fill{
+	FillPurple200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e9d5ff",
@@ -1611,7 +1611,7 @@ var (
 		},
 	}
 
-	Purple300 = excelize.Fill{
+	FillPurple300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d8b4fe",
@@ -1619,7 +1619,7 @@ var (
 		},
 	}
 
-	Purple400 = excelize.Fill{
+	FillPurple400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#c084fc",
@@ -1627,7 +1627,7 @@ var (
 		},
 	}
 
-	Purple500 = excelize.Fill{
+	FillPurple500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a855f7",
@@ -1635,7 +1635,7 @@ var (
 		},
 	}
 
-	Purple600 = excelize.Fill{
+	FillPurple600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#9333ea",
@@ -1643,7 +1643,7 @@ var (
 		},
 	}
 
-	Purple700 = excelize.Fill{
+	FillPurple700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#7e22ce",
@@ -1651,7 +1651,7 @@ var (
 		},
 	}
 
-	Purple800 = excelize.Fill{
+	FillPurple800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#6b21a8",
@@ -1659,7 +1659,7 @@ var (
 		},
 	}
 
-	Purple900 = excelize.Fill{
+	FillPurple900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#581c87",
@@ -1667,7 +1667,7 @@ var (
 		},
 	}
 
-	Purple950 = excelize.Fill{
+	FillPurple950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#3b0764",
@@ -1675,7 +1675,7 @@ var (
 		},
 	}
 
-	Fuchsia50 = excelize.Fill{
+	FillFuchsia50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fdf4ff",
@@ -1683,7 +1683,7 @@ var (
 		},
 	}
 
-	Fuchsia100 = excelize.Fill{
+	FillFuchsia100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fae8ff",
@@ -1691,7 +1691,7 @@ var (
 		},
 	}
 
-	Fuchsia200 = excelize.Fill{
+	FillFuchsia200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f5d0fe",
@@ -1699,7 +1699,7 @@ var (
 		},
 	}
 
-	Fuchsia300 = excelize.Fill{
+	FillFuchsia300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f0abfc",
@@ -1707,7 +1707,7 @@ var (
 		},
 	}
 
-	Fuchsia400 = excelize.Fill{
+	FillFuchsia400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e879f9",
@@ -1715,7 +1715,7 @@ var (
 		},
 	}
 
-	Fuchsia500 = excelize.Fill{
+	FillFuchsia500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#d946ef",
@@ -1723,7 +1723,7 @@ var (
 		},
 	}
 
-	Fuchsia600 = excelize.Fill{
+	FillFuchsia600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#c026d3",
@@ -1731,7 +1731,7 @@ var (
 		},
 	}
 
-	Fuchsia700 = excelize.Fill{
+	FillFuchsia700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#a21caf",
@@ -1739,7 +1739,7 @@ var (
 		},
 	}
 
-	Fuchsia800 = excelize.Fill{
+	FillFuchsia800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#86198f",
@@ -1747,7 +1747,7 @@ var (
 		},
 	}
 
-	Fuchsia900 = excelize.Fill{
+	FillFuchsia900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#701a75",
@@ -1755,7 +1755,7 @@ var (
 		},
 	}
 
-	Fuchsia950 = excelize.Fill{
+	FillFuchsia950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4a044e",
@@ -1763,7 +1763,7 @@ var (
 		},
 	}
 
-	Pink50 = excelize.Fill{
+	FillPink50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fdf2f8",
@@ -1771,7 +1771,7 @@ var (
 		},
 	}
 
-	Pink100 = excelize.Fill{
+	FillPink100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fce7f3",
@@ -1779,7 +1779,7 @@ var (
 		},
 	}
 
-	Pink200 = excelize.Fill{
+	FillPink200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fbcfe8",
@@ -1787,7 +1787,7 @@ var (
 		},
 	}
 
-	Pink300 = excelize.Fill{
+	FillPink300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f9a8d4",
@@ -1795,7 +1795,7 @@ var (
 		},
 	}
 
-	Pink400 = excelize.Fill{
+	FillPink400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f472b6",
@@ -1803,7 +1803,7 @@ var (
 		},
 	}
 
-	Pink500 = excelize.Fill{
+	FillPink500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ec4899",
@@ -1811,7 +1811,7 @@ var (
 		},
 	}
 
-	Pink600 = excelize.Fill{
+	FillPink600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#db2777",
@@ -1819,7 +1819,7 @@ var (
 		},
 	}
 
-	Pink700 = excelize.Fill{
+	FillPink700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#be185d",
@@ -1827,7 +1827,7 @@ var (
 		},
 	}
 
-	Pink800 = excelize.Fill{
+	FillPink800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#9d174d",
@@ -1835,7 +1835,7 @@ var (
 		},
 	}
 
-	Pink900 = excelize.Fill{
+	FillPink900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#831843",
@@ -1843,7 +1843,7 @@ var (
 		},
 	}
 
-	Pink950 = excelize.Fill{
+	FillPink950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#500724",
@@ -1851,7 +1851,7 @@ var (
 		},
 	}
 
-	Rose50 = excelize.Fill{
+	FillRose50 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fff1f2",
@@ -1859,7 +1859,7 @@ var (
 		},
 	}
 
-	Rose100 = excelize.Fill{
+	FillRose100 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#ffe4e6",
@@ -1867,7 +1867,7 @@ var (
 		},
 	}
 
-	Rose200 = excelize.Fill{
+	FillRose200 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fecdd3",
@@ -1875,7 +1875,7 @@ var (
 		},
 	}
 
-	Rose300 = excelize.Fill{
+	FillRose300 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fda4af",
@@ -1883,7 +1883,7 @@ var (
 		},
 	}
 
-	Rose400 = excelize.Fill{
+	FillRose400 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#fb7185",
@@ -1891,7 +1891,7 @@ var (
 		},
 	}
 
-	Rose500 = excelize.Fill{
+	FillRose500 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#f43f5e",
@@ -1899,7 +1899,7 @@ var (
 		},
 	}
 
-	Rose600 = excelize.Fill{
+	FillRose600 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#e11d48",
@@ -1907,7 +1907,7 @@ var (
 		},
 	}
 
-	Rose700 = excelize.Fill{
+	FillRose700 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#be123c",
@@ -1915,7 +1915,7 @@ var (
 		},
 	}
 
-	Rose800 = excelize.Fill{
+	FillRose800 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#9f1239",
@@ -1923,7 +1923,7 @@ var (
 		},
 	}
 
-	Rose900 = excelize.Fill{
+	FillRose900 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#881337",
@@ -1931,7 +1931,7 @@ var (
 		},
 	}
 
-	Rose950 = excelize.Fill{
+	FillRose950 = excelize.Fill{
 		Type: "gradient",
 		Color: []string{
 			"#4c0519",

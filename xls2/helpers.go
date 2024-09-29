@@ -138,3 +138,42 @@ func Cells(locs ...string) (cells []string, err error) {
 
 	return
 }
+
+// mergestyle: merges two excelize.Styles into one
+func mergestyle(old, new excelize.Style) excelize.Style {
+	if new.Border != nil {
+		old.Border = new.Border
+	}
+
+	if fmt.Sprint(new.Fill) != fmt.Sprint(excelize.Fill{}) {
+		old.Fill = new.Fill
+	}
+
+	if new.Font != nil {
+		old.Font = new.Font
+	}
+
+	if new.Alignment != nil {
+		old.Alignment = new.Alignment
+	}
+
+	if new.Protection != nil {
+		old.Protection = new.Protection
+	}
+
+	if new.NumFmt != 0 {
+		old.NumFmt = new.NumFmt
+	}
+
+	if new.DecimalPlaces != nil {
+		old.DecimalPlaces = new.DecimalPlaces
+	}
+
+	if new.CustomNumFmt != nil {
+		old.CustomNumFmt = new.CustomNumFmt
+	}
+
+	old.NegRed = new.NegRed
+
+	return old
+}
