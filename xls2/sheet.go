@@ -50,3 +50,7 @@ func (s *Sheet) Println(row int, entries ...any) error {
 
 	return nil
 }
+
+func (s *Sheet) PageBreak(cell string) error {
+	return s.File.InsertPageBreak(s.name, cell)
+}
