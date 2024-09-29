@@ -31,18 +31,19 @@ func (s *Selection) Select(loc string) *Selection {
 func (s *Selection) SetStyle(style excelize.Style) *Selection {
 
 	var (
-		cells = []string{}
-		err   error
+		allCells = []string{}
 	)
 
 	for _, loc := range s.locs {
-		cells, err = xlscell.Cells(loc)
+		cells, err := xlscell.Cells(loc)
 		if err != nil {
 			return s
+		} else {
+			allCells = append(allCells, cells...)
 		}
 	}
 
-	for _, cell := range cells {
+	for _, cell := range allCells {
 		old, ok := s.sheet.styles[cell]
 		if !ok {
 			s.sheet.styles[cell] = style
