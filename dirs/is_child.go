@@ -1,4 +1,4 @@
-package dir
+package dirs
 
 import (
 	"path/filepath"

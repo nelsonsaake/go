@@ -9,7 +9,7 @@ func isgomodpath(d string) bool {
 	return IsFile(filepath.Join(d, "go.mod"))
 }
 
-func ModDir() (string, error) {
+func CurrentGoModDir() (string, error) {
 
 	badDir := ""
 

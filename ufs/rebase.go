@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func RebasePath(oldpath, oldbase, newbase string) string {
+func Rebase(oldpath, oldbase, newbase string) string {
 	toslash := filepath.ToSlash
 	oldbase = toslash(oldbase)
 	newbase = toslash(newbase)
