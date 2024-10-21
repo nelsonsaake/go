@@ -9,3 +9,7 @@ func init() {
 func Word() string {
 	return gofakeit.Word()
 }
+
+func Name() string {
+	return gofakeit.Name()
+}
