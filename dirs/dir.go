@@ -2,6 +2,7 @@ package dirs
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/nelsonsaake/go/ufs"
 )
@@ -14,6 +15,11 @@ func New(path string) (*Dir, error) {
 
 	die := func(err error) (*Dir, error) {
 		return nil, err
+	}
+
+	path, err := filepath.Abs(path)
+	if err != nil {
+		return die(fmt.Errorf("error convert path into absolute path: %v", err))
 	}
 
 	exists, err := ufs.Exists(path)
