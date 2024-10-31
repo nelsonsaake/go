@@ -24,9 +24,7 @@ func (dir *Dir) Files() ([]string, error) {
 			return nil
 		}
 
-		if dir.IsChild(path) {
-			files = append(files, clean(path))
-		}
+		files = append(files, clean(path))
 
 		return nil
 	}
