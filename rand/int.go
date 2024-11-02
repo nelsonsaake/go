@@ -1,17 +1,16 @@
-package gen
+package rand
 
 import (
 	"math/rand"
-	"time"
 )
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 func Int(max int) int {
 	if max == 0 {
 		return 0
 	}
 	return rand.Intn(max)
+}
+
+func IntBetween(min, max int) int {
+	return rand.Intn(max-min+1) + min
 }

@@ -1,4 +1,4 @@
-package gen
+package rand
 
 import "github.com/brianvoe/gofakeit/v6"
 
