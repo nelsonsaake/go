@@ -2,6 +2,7 @@ package obj
 
 import (
 	"encoding/json"
+	"strconv"
 	"strings"
 )
 
@@ -37,7 +38,8 @@ func (m Map) GetString(key string) string {
 }
 
 func (m Map) GetInt(key string) int {
-	return m.Get(key).(int)
+	i, _ := strconv.Atoi(m.GetString(key))
+	return i
 }
 
 func (m Map) GetFloat64(key string) float64 {
