@@ -35,11 +35,11 @@ func (m Map) Get(key string) any {
 }
 
 func (m Map) GetString(key string) string {
-	return m.Get(key).(string)
+	return fmt.Sprintf("%s", m.Get(key))
 }
 
 func (m Map) GetInt(key string) int {
-	i, _ := strconv.Atoi(fmt.Sprintf("%s", m.Get(key)))
+	i, _ := strconv.Atoi(m.GetString(key))
 	return i
 }
 
