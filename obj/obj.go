@@ -35,7 +35,7 @@ func (m Map) Get(key string) any {
 }
 
 func (m Map) GetString(key string) string {
-	return fmt.Sprintf("%s", m.Get(key))
+	return fmt.Sprintf("%v", m.Get(key))
 }
 
 func (m Map) GetInt(key string) int {
