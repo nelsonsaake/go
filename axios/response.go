@@ -76,3 +76,8 @@ func (resp *Response) Request() *http.Request {
 func (resp *Response) Response() *http.Response {
 	return resp.resp
 }
+
+func (resp *Response) IsSuccessful() bool {
+	r := resp.Response()
+	return r.StatusCode >= 200 && r.StatusCode < 300
+}
