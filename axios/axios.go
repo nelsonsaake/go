@@ -43,6 +43,11 @@ func (client *Client) Url(path string) (string, error) {
 
 func (client *Client) Body(body any) (io.Reader, error) {
 
+	reader, ok := body.(io.Reader)
+	if ok {
+		return reader, nil
+	}
+
 	raw, err := json.Marshal(body)
 	if err != nil {
 		return nil, fmt.Errorf("error marshalling request body: %v", raw)

@@ -1,6 +1,6 @@
 .PHONY: dep test ncommit pull dd
 
-VERSION = v0.0.140
+VERSION = v0.0.141
 
 init:
 	go mod init github.com/nelsonsaake/go
