@@ -1,4 +1,4 @@
-package otp
+package code
 
 import (
 	"crypto/rand"
