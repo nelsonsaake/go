@@ -10,12 +10,12 @@ func Cast(from, to any) (err error) {
 
 	j, err := json.Marshal(from)
 	if err != nil {
-		return fmt.Errorf("err doing json convert: err marshalling: %v", err)
+		return fmt.Errorf("err marshalling: %v", err)
 	}
 
 	err = json.Unmarshal(j, to)
 	if err != nil {
-		return fmt.Errorf("err doing json convert: un-marshalling: %v", err)
+		return fmt.Errorf("un-marshalling: %v", err)
 	}
 
 	return nil
