@@ -14,21 +14,19 @@ func Path(path string) (string, error) {
 		return "", fmt.Errorf(f, a)
 	}
 
+	// find the root of the app
+	cwd, err := Root()
+	if err == nil {
+
+		// path from the root of the app
+		path = filepath.Join(cwd, path)
+	}
+
 	// check if file exists
-	_, err := os.Stat("path")
+	_, err = os.Stat(path)
 	if err != nil {
 		return die("%v", err)
 	}
-
-	// find the root of the app
-	cwd, err := Root()
-	if err != nil {
-		// return path as is
-		return path, nil
-	}
-
-	// path from the root of the app
-	path = filepath.Join(cwd, path)
 
 	return path, nil
 }

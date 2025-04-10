@@ -1,11 +1,17 @@
-.PHONY: dep test ncommit pull dd
+.PHONY: dep dep2 test ncommit pull dd
+.SILENT:
+.ONESHELL:
 
-VERSION = v0.0.148
+VERSION := $(strip $(subst VERSION=,,$(firstword $(filter VERSION=%, $(shell type .env)))))
 
 init:
 	go mod init github.com/nelsonsaake/go
 
-dep:
+v++:
+	cd cmd/v++
+	go run .
+
+dep: v++
 	echo $(VERSION) > VERSION.md
 	go mod tidy
 
@@ -39,3 +45,4 @@ pull:
 latest = $(shell git tag -l latest)
 dd:
 	echo $(latest)
+
