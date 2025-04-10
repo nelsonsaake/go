@@ -8,11 +8,14 @@ import (
 
 // Path: resolve from the root of the app, if we find the root
 // otherwise, we return it as it
-func Path(path string) (string, error) {
+func Path(ls ...string) (string, error) {
 
 	die := func(f string, a ...any) (string, error) {
 		return "", fmt.Errorf(f, a)
 	}
+
+	// join path fragments
+	path := filepath.Join(ls...)
 
 	// find the root of the app
 	cwd, err := Root()
