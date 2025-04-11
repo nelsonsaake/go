@@ -4,7 +4,6 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
-	"server/src/env"
 )
 
 func encrypt(data string, key string) (string, error) {
@@ -26,5 +25,11 @@ func encrypt(data string, key string) (string, error) {
 }
 
 func Encrypt(data string) (string, error) {
-	return encrypt(data, env.HashSecret())
+
+	secret, err := getSecret()
+	if err != nil {
+		return "", err
+	}
+
+	return encrypt(data, secret)
 }
