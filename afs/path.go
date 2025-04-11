@@ -1,18 +1,12 @@
 package afs
 
 import (
-	"fmt"
-	"os"
 	"path/filepath"
 )
 
 // Path: resolve from the root of the app, if we find the root
 // otherwise, we return it as it
-func Path(ls ...string) (string, error) {
-
-	die := func(f string, a ...any) (string, error) {
-		return "", fmt.Errorf(f, a)
-	}
+func Path(ls ...string) string {
 
 	// join path fragments
 	path := filepath.Join(ls...)
@@ -25,11 +19,5 @@ func Path(ls ...string) (string, error) {
 		path = filepath.Join(cwd, path)
 	}
 
-	// check if file exists
-	_, err = os.Stat(path)
-	if err != nil {
-		return die("%v", err)
-	}
-
-	return path, nil
+	return path
 }

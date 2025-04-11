@@ -14,11 +14,9 @@ var die = do.Die
 func main() {
 
 	// efp = env file path
-	efp, err := afs.Path(".env")
-	die(err)
-
+	efp := afs.Path(".env")
 	// load envs from file
-	err = envs.Load(efp)
+	err := envs.Load(efp)
 	die(err)
 
 	// get version from env

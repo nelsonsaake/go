@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -13,15 +12,14 @@ import (
 func mainv1() {
 
 	// vfp = version file path
-	vfp, err := afs.Path("VERSION.md")
-	die(err)
+	vfp := afs.Path("VERSION.md")
 
 	// read version from file
 	bs, err := os.ReadFile(vfp)
 	die(err)
 
 	// v = version
-	v := fmt.Sprintf("%s", bs)
+	v := string(bs)
 
 	// vs = version slice
 	vs := strings.Split(v, ".")
@@ -62,8 +60,7 @@ func mainv1() {
 	die(err)
 
 	// efp = env file path
-	efp, err := afs.Path(".env")
-	die(err)
+	efp := afs.Path(".env")
 
 	// set version in .env
 	err = envs.Set(efp, "VERSION", v)
