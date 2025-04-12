@@ -4,12 +4,16 @@ type Map struct {
 	Data map[string]any
 }
 
-func New(v map[string]any) *Map {
+func New() *Map {
+	return &Map{map[string]any{}}
+}
+
+func From(v map[string]any) *Map {
 	return &Map{v}
 }
 
 func (m Map) Set(key string, value any) {
-	m.Data = Set(m.Data, key, value)
+	Set(m.Data, key, value)
 }
 
 func (m Map) Get(key string) any {
