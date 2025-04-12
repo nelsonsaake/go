@@ -1,4 +1,4 @@
-package ifile
+package ifs
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-func New(url string) (_ *ifile, err error) {
-	
+func Read(url string) (_ *ifile, err error) {
+
 	response, err := http.Get(url)
 	if err != nil {
 		err = fmt.Errorf("error getting url: %v", err)

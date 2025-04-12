@@ -1,4 +1,4 @@
-package ifile
+package ifs
 
 import (
 	"bytes"

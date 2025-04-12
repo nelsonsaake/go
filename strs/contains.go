@@ -1,4 +1,4 @@
-package str
+package strs
 
 func Contains(arr []string, e string) bool {
 

@@ -1,4 +1,4 @@
-package obj
+package objs
 
 type Map struct {
 	Data map[string]any

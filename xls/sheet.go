@@ -10,7 +10,7 @@ import (
 	_ "image/png"
 
 	"github.com/nelsonsaake/go/do"
-	"github.com/nelsonsaake/go/ifile"
+	"github.com/nelsonsaake/go/ifs"
 	"github.com/nelsonsaake/go/xls/xlsborder"
 	"github.com/nelsonsaake/go/xls/xlscell"
 
@@ -124,7 +124,7 @@ func (s *sheet) SetRowHeight(row int, height float64) error {
 
 func (s *sheet) AddPictureWithOffset(loc, url string, offset Offset) error {
 
-	file, err := ifile.New(url)
+	file, err := ifs.Read(url)
 	if err != nil {
 		return err
 	}
@@ -156,7 +156,7 @@ func (s *sheet) AddPictureWithOffset(loc, url string, offset Offset) error {
 
 func (s *sheet) AddPicturef(loc, url, format string) error {
 
-	file, err := ifile.New(url)
+	file, err := ifs.Read(url)
 	if err != nil {
 		return err
 	}
@@ -187,10 +187,10 @@ func (s *sheet) AddPicturef(loc, url, format string) error {
 
 func (s *sheet) AddPicture(loc, url string) error {
 
-	file, err := ifile.New(url)
+	file, err := ifs.Read(url)
 	if !(err != nil && do.IsImage(file.Bytes)) {
 
-		file, err = ifile.New(url) // try again
+		file, err = ifs.Read(url) // try again
 		if err != nil {
 			return err
 		}
@@ -201,7 +201,7 @@ func (s *sheet) AddPicture(loc, url string) error {
 	}
 
 	if !do.IsImage(file.Bytes) {
-		file, err = ifile.New(url) // try again
+		file, err = ifs.Read(url) // try again
 		if err != nil {
 			return err
 		}

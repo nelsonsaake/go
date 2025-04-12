@@ -1,4 +1,4 @@
-package obj
+package objs
 
 func GetBool(m map[string]any, k string) bool {
 	return Get(m, k).(bool)

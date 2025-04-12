@@ -1,4 +1,4 @@
-package str
+package strs
 
 import (
 	"golang.org/x/text/cases"

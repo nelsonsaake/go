@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/nelsonsaake/go/obj"
+	"github.com/nelsonsaake/go/objs"
 )
 
 type Response struct {
@@ -59,14 +59,14 @@ func (resp *Response) Json() (map[string]any, error) {
 	return v, err
 }
 
-func (resp *Response) ObjMap() (*obj.Map, error) {
+func (resp *Response) ObjMap() (*objs.Map, error) {
 
 	res, err := resp.Json()
 	if err != nil {
 		return nil, err
 	}
 
-	return obj.New(res), nil
+	return objs.New(res), nil
 }
 
 func (resp *Response) Request() *http.Request {

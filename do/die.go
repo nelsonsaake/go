@@ -1,7 +1,7 @@
 package do
 
 import (
-	"github.com/nelsonsaake/go/str"
+	"github.com/nelsonsaake/go/strs"
 )
 
 // Die: panic if err is not nil
@@ -15,7 +15,7 @@ func Die(err any) {
 			return
 		}
 	case string:
-		if !str.IsEmpty(err) {
+		if !strs.IsEmpty(err) {
 			panic(err)
 		} else {
 			return
