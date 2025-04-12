@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func isParentDir(parentDir, childDir string) bool {
+func IsParentDir(parentDir, childDir string) bool {
 	parentDir = filepath.Clean(parentDir)
 	childDir = filepath.Clean(childDir)
 
@@ -16,7 +16,7 @@ func isParentDir(parentDir, childDir string) bool {
 	return strings.HasPrefix(childDir, parentDir+"/")
 }
 
-func isChildOfDir(file, dir string) bool {
+func IsChildOfDir(file, dir string) bool {
 	absFilePath, err := filepath.Abs(file)
 	if err != nil {
 		return false
@@ -32,5 +32,5 @@ func isChildOfDir(file, dir string) bool {
 
 // IsChild: check to see if path, is a direct child of this dir
 func (dir *Dir) IsChild(path string) bool {
-	return isParentDir(dir.path, path)
+	return IsParentDir(dir.path, path)
 }

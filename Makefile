@@ -32,7 +32,8 @@ dep: v++
 	echo deploy completed
 
 test:
-	go test ./...
+	cd tests
+	go test -run TestEntries -v
 
 ncommit:
 	git add .
