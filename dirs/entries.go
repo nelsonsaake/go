@@ -10,8 +10,8 @@ import (
 func (dir *Dir) Entries() ([]os.FileInfo, error) {
 
 	var (
-		root    = dir.path
-		entries = []os.FileInfo{}
+		root = dir.path
+		mp   = map[string]os.FileInfo{}
 	)
 
 	findfiles := func(path string, info os.FileInfo, err error) error {
@@ -20,7 +20,7 @@ func (dir *Dir) Entries() ([]os.FileInfo, error) {
 			return fmt.Errorf("error accessing path %s: %v", path, err)
 		}
 
-		entries = append(entries, info)
+		mp[path] = info
 
 		return nil
 	}
@@ -30,5 +30,10 @@ func (dir *Dir) Entries() ([]os.FileInfo, error) {
 		err = fmt.Errorf("error walking the path %s: %v", root, err)
 	}
 
-	return entries, err
+	ls := make([]os.FileInfo, 0, len(mp))
+	for _, info := range mp {
+		ls = append(ls, info)
+	}
+
+	return ls, err
 }
