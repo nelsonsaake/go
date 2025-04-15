@@ -8,7 +8,7 @@ func New() *Map {
 	return &Map{map[string]any{}}
 }
 
-func From(v map[string]any) *Map {
+func FromMap(v map[string]any) *Map {
 	return &Map{v}
 }
 

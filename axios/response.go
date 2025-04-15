@@ -66,7 +66,7 @@ func (resp *Response) ObjMap() (*objs.Map, error) {
 		return nil, err
 	}
 
-	return objs.From(res), nil
+	return objs.FromMap(res), nil
 }
 
 func (resp *Response) Request() *http.Request {

@@ -24,5 +24,5 @@ func FromFile(path string) (*Map, error) {
 		return die("error unmarshalling file content: %v", err)
 	}
 
-	return From(res), nil
+	return FromMap(res), nil
 }
