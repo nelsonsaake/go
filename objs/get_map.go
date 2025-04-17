@@ -17,9 +17,15 @@ func GetSlice(m map[string]any, k string) []any {
 }
 
 func GetStringSlice(m map[string]any, k string) []string {
-	v, ok := Get(m, k).([]string)
-	if !ok {
+	var (
+		from = Get(m, k)
+		to   = []string{}
+	)
+
+	err := cast(from, &to)
+	if err != nil {
 		return nil
 	}
-	return v
+
+	return to
 }
