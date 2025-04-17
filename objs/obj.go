@@ -36,6 +36,18 @@ func (m Map) GetBool(key string) bool {
 	return GetBool(m.Data, key)
 }
 
+func (m Map) GetMap(key string) map[string]any {
+	return GetMap(m.Data, key)
+}
+
+func (m Map) GetSlice(key string) []any {
+	return GetSlice(m.Data, key)
+}
+
+func (m Map) GetStringSlice(key string) []string {
+	return GetStringSlice(m.Data, key)
+}
+
 func (m Map) Delete(key string) any {
 	return Delete(m.Data, key)
 }
