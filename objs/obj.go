@@ -40,6 +40,10 @@ func (m Map) GetMap(key string) map[string]any {
 	return GetMap(m.Data, key)
 }
 
+func (m Map) GetStringMap(key string) map[string]string {
+	return GetStringMap(m.Data, key)
+}
+
 func (m Map) GetSlice(key string) []any {
 	return GetSlice(m.Data, key)
 }
