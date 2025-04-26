@@ -6,9 +6,9 @@ import (
 	"os"
 )
 
-func FromFile(path string) (*Map, error) {
+func FromFile(path string) (*Obj, error) {
 
-	die := func(f string, a ...any) (*Map, error) {
+	die := func(f string, a ...any) (*Obj, error) {
 		return nil, fmt.Errorf(f, a...)
 	}
 

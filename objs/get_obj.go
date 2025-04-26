@@ -1,9 +1,9 @@
 package objs
 
-func GetMap(m map[string]any, k string) map[string]any {
+func GetObj(m map[string]any, k string) *Obj {
 	v, ok := Get(m, k).(map[string]any)
 	if !ok {
 		return nil
 	}
-	return v
+	return &Obj{v}
 }

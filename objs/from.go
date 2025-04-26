@@ -4,11 +4,11 @@ import (
 	"fmt"
 )
 
-func From(from any) (*Map, error) {
+func From(from any) (*Obj, error) {
 
 	to := map[string]any{}
 
-	die := func(f string, a ...any) (*Map, error) {
+	die := func(f string, a ...any) (*Obj, error) {
 		return nil, fmt.Errorf(f, a...)
 	}
 

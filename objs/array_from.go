@@ -2,9 +2,9 @@ package objs
 
 import "fmt"
 
-func ArrayFrom(a any) ([]*Map, error) {
+func ArrayFrom(a any) ([]*Obj, error) {
 
-	die := func(f string, a ...any) ([]*Map, error) {
+	die := func(f string, a ...any) ([]*Obj, error) {
 		return nil, fmt.Errorf(f, a...)
 	}
 
@@ -15,7 +15,7 @@ func ArrayFrom(a any) ([]*Map, error) {
 		return die("error casting input: %v", err)
 	}
 
-	res := []*Map{}
+	res := []*Obj{}
 
 	for i, v := range ls {
 

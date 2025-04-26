@@ -1,61 +1,61 @@
 package objs
 
-type Map struct {
+type Obj struct {
 	Data map[string]any
 }
 
-func New() *Map {
-	return &Map{map[string]any{}}
+func New() *Obj {
+	return &Obj{map[string]any{}}
 }
 
-func FromMap(v map[string]any) *Map {
-	return &Map{v}
+func FromMap(v map[string]any) *Obj {
+	return &Obj{v}
 }
 
-func (m Map) Set(key string, value any) {
+func (m Obj) Set(key string, value any) {
 	Set(m.Data, key, value)
 }
 
-func (m Map) Get(key string) any {
+func (m Obj) Get(key string) any {
 	return Get(m.Data, key)
 }
 
-func (m Map) GetString(key string) string {
+func (m Obj) GetString(key string) string {
 	return GetString(m.Data, key)
 }
 
-func (m Map) GetInt(key string) int {
+func (m Obj) GetInt(key string) int {
 	return GetInt(m.Data, key)
 }
 
-func (m Map) GetFloat64(key string) float64 {
+func (m Obj) GetFloat64(key string) float64 {
 	return GetFloat64(m.Data, key)
 }
 
-func (m Map) GetBool(key string) bool {
+func (m Obj) GetBool(key string) bool {
 	return GetBool(m.Data, key)
 }
 
-func (m Map) GetMap(key string) map[string]any {
+func (m Obj) GetMap(key string) map[string]any {
 	return GetMap(m.Data, key)
 }
 
-func (m Map) GetStringMap(key string) map[string]string {
+func (m Obj) GetStringMap(key string) map[string]string {
 	return GetStringMap(m.Data, key)
 }
 
-func (m Map) GetSlice(key string) []any {
+func (m Obj) GetSlice(key string) []any {
 	return GetSlice(m.Data, key)
 }
 
-func (m Map) GetStringSlice(key string) []string {
+func (m Obj) GetStringSlice(key string) []string {
 	return GetStringSlice(m.Data, key)
 }
 
-func (m Map) Delete(key string) any {
+func (m Obj) Delete(key string) any {
 	return Delete(m.Data, key)
 }
 
-func (m Map) String() string {
+func (m Obj) String() string {
 	return String(m.Data)
 }
