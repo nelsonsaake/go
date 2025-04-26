@@ -52,6 +52,10 @@ func (m Obj) GetStringSlice(key string) []string {
 	return GetStringSlice(m.Data, key)
 }
 
+func (m Obj) GetObj(key string) *Obj {
+	return GetObj(m.Data, key)
+}
+
 func (m Obj) Delete(key string) any {
 	return Delete(m.Data, key)
 }

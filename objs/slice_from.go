@@ -2,7 +2,7 @@ package objs
 
 import "fmt"
 
-func ArrayFrom(a any) ([]*Obj, error) {
+func SliceFrom(a any) ([]*Obj, error) {
 
 	die := func(f string, a ...any) ([]*Obj, error) {
 		return nil, fmt.Errorf(f, a...)
