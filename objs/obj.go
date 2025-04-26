@@ -56,6 +56,10 @@ func (m Obj) GetObj(key string) *Obj {
 	return GetObj(m.Data, key)
 }
 
+func (m Obj) Cast(to any) error {
+	return cast(m.Data, to)
+}
+
 func (m Obj) Delete(key string) any {
 	return Delete(m.Data, key)
 }
