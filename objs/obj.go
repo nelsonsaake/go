@@ -1,5 +1,10 @@
 package objs
 
+import (
+	"iter"
+	"maps"
+)
+
 type Obj struct {
 	Data map[string]any
 }
@@ -10,6 +15,10 @@ func New() *Obj {
 
 func FromMap(v map[string]any) *Obj {
 	return &Obj{v}
+}
+
+func (m Obj) Keys() iter.Seq[string] {
+	return maps.Keys(m.Data)
 }
 
 func (m Obj) Set(key string, value any) {
