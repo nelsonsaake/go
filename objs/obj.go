@@ -13,10 +13,6 @@ func New() *Obj {
 	return &Obj{map[string]any{}}
 }
 
-func FromMap(v map[string]any) *Obj {
-	return &Obj{v}
-}
-
 func (m Obj) Keys() iter.Seq[string] {
 	return maps.Keys(m.Data)
 }
