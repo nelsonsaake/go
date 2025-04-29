@@ -1,2 +1,2 @@
 // pty: pretty
-package pty
+package pretty

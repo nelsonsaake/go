@@ -1,9 +1,9 @@
 package cli
 
-import "github.com/nelsonsaake/go/pty"
+import "github.com/nelsonsaake/go/pretty"
 
 type RunFunc func(args ...string)
 
 func printArgs(args ...string) {
-	pty.Println(args)
+	pretty.Print(args)
 }
