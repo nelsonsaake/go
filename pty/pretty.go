@@ -1,4 +1,4 @@
-package jfm
+package pty
 
 import (
 	"encoding/json"

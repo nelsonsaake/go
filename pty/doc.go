@@ -1,2 +1,2 @@
 // jfm: json format pretty
-package jfm
+package pty
