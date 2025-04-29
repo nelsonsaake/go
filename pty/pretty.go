@@ -1,4 +1,4 @@
-package pretty
+package pty
 
 import (
 	"encoding/json"
@@ -20,6 +20,10 @@ func Error(data any) error {
 	return errors.New(JSON(data))
 }
 
-func Print(data any) {
+func Println(data any) {
 	fmt.Println(JSON(data))
+}
+
+func Print(data any) {
+	fmt.Print(JSON(data))
 }
