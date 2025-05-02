@@ -1,6 +1,10 @@
-package fake
+package fkr
 
-import "github.com/brianvoe/gofakeit/v6"
+import (
+	"math/rand/v2"
+
+	"github.com/brianvoe/gofakeit/v6"
+)
 
 func init() {
 	gofakeit.Seed(0)
@@ -12,4 +16,8 @@ func Word() string {
 
 func Name() string {
 	return gofakeit.Name()
+}
+
+func Bool() bool {
+	return rand.Float32() >= 0.5
 }
