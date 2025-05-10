@@ -1,4 +1,4 @@
-package jmap
+package jfs
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func FromFile(path string) (map[string]any, error) {
+func ReadFile(path string) (map[string]any, error) {
 
 	die := func(f string, a ...any) (map[string]any, error) {
 		return nil, fmt.Errorf(f, a...)
