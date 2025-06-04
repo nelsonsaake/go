@@ -6,6 +6,20 @@ import (
 	"strings"
 )
 
+func cleanURL(raw string) (string, error) {
+	parsed, err := url.Parse(raw)
+	if err != nil {
+		return "", err
+	}
+
+	// Remove trailing slash in path, but preserve `/` root
+	if strings.HasSuffix(parsed.Path, "/") && parsed.Path != "/" {
+		parsed.Path = strings.TrimSuffix(parsed.Path, "/")
+	}
+
+	return parsed.String(), nil
+}
+
 // Build generates a URL by replacing placeholders in the path with values from params.
 // Any missing params are added as query parameters.
 func Build(base, path string, params ...map[string]string) string {
@@ -47,5 +61,7 @@ func Build(base, path string, params ...map[string]string) string {
 	parsedURL.Path = path
 	parsedURL.RawQuery = urlValues.Encode()
 
-	return parsedURL.String()
+	res, _ := cleanURL(parsedURL.String())
+
+	return res
 }
