@@ -9,12 +9,15 @@ import (
 // Build generates a URL by replacing placeholders in the path with values from params.
 // Any missing params are added as query parameters.
 func Build(base, path string, params ...map[string]string) string {
+
 	// Initialize a URL object to manipulate the query string
 	parsedURL, err := url.Parse(base)
 	if err != nil {
 		// Handle error (optional, return empty string in case of error)
 		return ""
 	}
+
+	urlValues := parsedURL.Query()
 
 	// Iterate over all provided params
 	for _, params := range params {
@@ -29,7 +32,7 @@ func Build(base, path string, params ...map[string]string) string {
 				path = strings.ReplaceAll(path, placeholder, val)
 			} else {
 				// otherwise, add it as a query param
-				parsedURL.Query().Add(key, val)
+				urlValues.Add(key, val)
 			}
 		}
 
@@ -42,7 +45,7 @@ func Build(base, path string, params ...map[string]string) string {
 
 	// Set the path in the parsed URL after replacing placeholders
 	parsedURL.Path = path
-	parsedURL.RawQuery = parsedURL.Query().Encode()
+	parsedURL.RawQuery = urlValues.Encode()
 
 	return parsedURL.String()
 }
