@@ -19,5 +19,5 @@ func WriteFile(fpath, content string) (err error) {
 
 	err = os.WriteFile(fpath, []byte(content), fs.ModePerm.Perm())
 
-	return
+	return err
 }
