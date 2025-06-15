@@ -106,6 +106,10 @@ func (m Obj) GetObj(key string) *Obj {
 	return GetObj(m.Data, key)
 }
 
+func (m Obj) GetAs(key string, as any) {
+	GetAs(m.Data, key, as)
+}
+
 // GO: get Obj
 func (m Obj) GO(key string) *Obj {
 	return GetObj(m.Data, key)

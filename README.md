@@ -11,3 +11,7 @@ Hopefull none of this packages will depened on each other.
 
 - Merge: merge multiple template.FuncMaps
 
+## todo
+
+- obj.Data can be map or array, 
+- just like array can be map or array

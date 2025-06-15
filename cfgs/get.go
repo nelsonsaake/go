@@ -196,6 +196,7 @@ func GetInt(arg ...string) int {
 	if err != nil {
 		panic(err)
 	}
+
 	v := cfg.GetInt(getik(k))
 	cache.Store(key, v)
 	return v
@@ -266,7 +267,9 @@ func GetSlice(arg ...string) []any {
 }
 
 func GetStringSlice(arg ...string) []string {
+
 	k := strings.Join(arg, ".")
+
 	key := getck("stringslice", k)
 	if res, ok := cache.Load(key); ok {
 		return res.([]string)
@@ -300,4 +303,16 @@ func GetObj(arg ...string) *objs.Obj {
 	v := cfg.GetObj(getik(k))
 	cache.Store(ck, v)
 	return v
+}
+
+func GetAs(as any, arg ...string) {
+
+	k := strings.Join(arg, ".")
+
+	cfg, err := getCfg(k)
+	if err != nil {
+		panic(err)
+	}
+
+	cfg.GetAs(getik(k), as)
 }
