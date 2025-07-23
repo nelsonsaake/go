@@ -2,6 +2,7 @@ package cfgs
 
 import (
 	"fmt"
+	"path/filepath"
 	"slices"
 	"strings"
 	"sync"
@@ -17,9 +18,9 @@ type cfg struct {
 	cache sync.Map
 }
 
-func New(dir string) *cfg {
+func New(dir ...string) *cfg {
 	return &cfg{
-		dir:   dir,
+		dir:   filepath.Join(dir...),
 		cache: sync.Map{},
 	}
 }
