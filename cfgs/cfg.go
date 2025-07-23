@@ -27,8 +27,11 @@ func New(dir ...string) *cfg {
 
 func (c cfg) _splitKey(arg ...string) (string, string, error) {
 
+	s := strings.Split
+	j := strings.Join
+
 	var (
-		keys          = strings.Split(strings.Join(arg, "."), ".")
+		keys          = s(j(s(j(arg, "."), "."), "/"), "/")
 		pathfragments = slices.Insert(keys, 0, c.dir)
 	)
 
