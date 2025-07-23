@@ -35,8 +35,6 @@ func (c cfg) _splitKey(arg ...string) (string, string, error) {
 		pathfragments = slices.Insert(keys, 0, c.dir)
 	)
 
-	fmt.Println(pathfragments)
-
 	for i := range pathfragments {
 
 		// n: partition i+1
@@ -57,7 +55,7 @@ func (c cfg) _splitKey(arg ...string) (string, string, error) {
 		return p, strings.Join(keys[i:], "."), nil
 	}
 
-	return "", "", fmt.Errorf("config file not found")
+	return "", "", fmt.Errorf("config file not found, hint(%v)", pathfragments)
 }
 
 func (c cfg) splitKey(arg ...string) (string, string, error) {
