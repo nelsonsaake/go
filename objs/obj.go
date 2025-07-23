@@ -126,3 +126,9 @@ func (m Obj) Delete(key string) any {
 func (m Obj) String() string {
 	return String(m.Data)
 }
+
+// ----
+
+func ObjGetStrict[T any](m *Obj, key string) T {
+	return GetStrict[T](m.Data, key)
+}
