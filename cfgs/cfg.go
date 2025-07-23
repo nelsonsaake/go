@@ -35,6 +35,8 @@ func (c cfg) _splitKey(arg ...string) (string, string, error) {
 		pathfragments = slices.Insert(keys, 0, c.dir)
 	)
 
+	fmt.Println(pathfragments)
+
 	for i := range pathfragments {
 
 		// n: partition i+1
