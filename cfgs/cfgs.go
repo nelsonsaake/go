@@ -1,7 +1,7 @@
 package cfgs
 
 var (
-	defaultCfg = New("src/config")
+	defaultCfg = New("src/configs")
 )
 
 var (
