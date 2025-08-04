@@ -1,0 +1,45 @@
+{
+    "excluded": [
+        {
+            "tableName": [
+                "migrations",
+                "_prisma_migrations",
+                "failed_jobs",
+                "jobs",
+                "job_batches",
+                "password_reset_tokens",
+                "sessions",
+                "migrations"
+            ]
+        },
+        {
+            "model": "Userzzz",
+            "generator": "factory"
+        },
+        {
+            "model": "User",
+            "generator": "seeder"
+        },
+        {
+            "model": "Userzzz",
+            "generator": "model"
+        },
+        {
+            "model": "Userzzz",
+            "generator": "migration"
+        },
+        {
+            "model": "User",
+            "generator": "database_seeder"
+        },
+        {
+            "app": "rms",
+            "model": "Table",
+            "generator": "seeder"
+        },
+        {
+            "app": "rms",
+            "generator": "database_seeder"
+        }
+    ]
+}

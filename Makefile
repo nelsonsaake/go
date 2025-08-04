@@ -32,8 +32,9 @@ dep: v++
 	echo deploy completed
 
 test:
+	cls
 	cd tests
-	go test -run TestEntries -v
+	go test -run TestCfgs -v
 
 ncommit:
 	git add .

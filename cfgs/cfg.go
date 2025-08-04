@@ -13,19 +13,19 @@ import (
 	"github.com/nelsonsaake/go/ufs"
 )
 
-type cfg struct {
+type Config struct {
 	dir   string
 	cache sync.Map
 }
 
-func New(dir ...string) *cfg {
-	return &cfg{
+func New(dir ...string) *Config {
+	return &Config{
 		dir:   filepath.Join(dir...),
 		cache: sync.Map{},
 	}
 }
 
-func (c cfg) _splitKey(arg ...string) (string, string, error) {
+func (c Config) _splitKey(arg ...string) (string, string, error) {
 
 	s := strings.Split
 	j := strings.Join
@@ -58,7 +58,7 @@ func (c cfg) _splitKey(arg ...string) (string, string, error) {
 	return "", "", fmt.Errorf("config file not found, hint(%v)", pathfragments)
 }
 
-func (c cfg) splitKey(arg ...string) (string, string, error) {
+func (c Config) splitKey(arg ...string) (string, string, error) {
 
 	k := strings.Join(arg, ".")
 	ck := getck("splitKey", k)
@@ -79,7 +79,7 @@ func (c cfg) splitKey(arg ...string) (string, string, error) {
 }
 
 // getfilepath: get file key
-func (c cfg) getfilepath(k string) (string, error) {
+func (c Config) getfilepath(k string) (string, error) {
 	fk, _, err := c.splitKey(k)
 	if err != nil {
 		return "", fmt.Errorf("error getting file path: %v", err)
@@ -88,7 +88,7 @@ func (c cfg) getfilepath(k string) (string, error) {
 }
 
 // getik: get inner cfg key
-func (c cfg) getik(k string) string {
+func (c Config) getik(k string) string {
 	_, ok, err := c.splitKey(k)
 	if err != nil {
 		panic("error getting ik")
@@ -98,12 +98,12 @@ func (c cfg) getik(k string) string {
 }
 
 // isnk: checks if the key is nested
-func (c cfg) isnk(k string) bool {
+func (c Config) isnk(k string) bool {
 	ik := c.getik(k)
 	return len(ik) > 0
 }
 
-func (c cfg) loadFile(k string) (*objs.Obj, error) {
+func (c Config) loadFile(k string) (*objs.Obj, error) {
 
 	die := func(f string, a ...any) (*objs.Obj, error) {
 		return nil, fmt.Errorf(f, a...)
@@ -122,7 +122,7 @@ func (c cfg) loadFile(k string) (*objs.Obj, error) {
 	return obj, nil
 }
 
-func CFGGetStrict[T any](c cfg, arg ...string) T {
+func CFGGetStrict[T any](c Config, arg ...string) T {
 	k := strings.Join(arg, ".")
 	typ := typeString[T]() // ← Get string name for type T
 
@@ -155,43 +155,43 @@ func CFGGetStrict[T any](c cfg, arg ...string) T {
 	return v.(T)
 }
 
-func (c cfg) GetBool(arg ...string) bool {
+func (c Config) GetBool(arg ...string) bool {
 	return CFGGetStrict[bool](c, arg...)
 }
 
-func (c cfg) GetFloat64(arg ...string) float64 {
+func (c Config) GetFloat64(arg ...string) float64 {
 	return CFGGetStrict[float64](c, arg...)
 }
 
-func (c cfg) GetInt(arg ...string) int {
+func (c Config) GetInt(arg ...string) int {
 	return CFGGetStrict[int](c, arg...)
 }
 
-func (c cfg) GetString(arg ...string) string {
+func (c Config) GetString(arg ...string) string {
 	return CFGGetStrict[string](c, arg...)
 }
 
-func (c cfg) GetStringMap(arg ...string) map[string]string {
+func (c Config) GetStringMap(arg ...string) map[string]string {
 	return CFGGetStrict[map[string]string](c, arg...)
 }
 
-func (c cfg) GetMap(arg ...string) map[string]any {
+func (c Config) GetMap(arg ...string) map[string]any {
 	return CFGGetStrict[map[string]any](c, arg...)
 }
 
-func (c cfg) GetSlice(arg ...string) []any {
+func (c Config) GetSlice(arg ...string) []any {
 	return CFGGetStrict[[]any](c, arg...)
 }
 
-func (c cfg) GetStringSlice(arg ...string) []string {
+func (c Config) GetStringSlice(arg ...string) []string {
 	return CFGGetStrict[[]string](c, arg...)
 }
 
-func (c cfg) GetObj(arg ...string) *objs.Obj {
+func (c Config) GetObj(arg ...string) *objs.Obj {
 	return CFGGetStrict[*objs.Obj](c, arg...)
 }
 
-func (c cfg) GetAs(as any, arg ...string) {
+func (c Config) GetAs(as any, arg ...string) {
 
 	k := strings.Join(arg, ".")
 
@@ -203,7 +203,7 @@ func (c cfg) GetAs(as any, arg ...string) {
 	cfg.GetAs(c.getik(k), as)
 }
 
-func (c cfg) get(k string) (any, error) {
+func (c Config) get(k string) (any, error) {
 
 	var (
 		cfg *objs.Obj
@@ -224,7 +224,7 @@ func (c cfg) get(k string) (any, error) {
 	return res, nil
 }
 
-func (c cfg) Get(arg ...string) any {
+func (c Config) Get(arg ...string) any {
 	k := strings.Join(arg, ".")
 	ck := getck("any", k)
 	if res, ok := c.cache.Load(ck); ok {
