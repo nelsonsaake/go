@@ -13,6 +13,7 @@ var (
 )
 
 func Boot() error {
+	fmt.Println("Booting app ...")
 
 	cwd, err := afs.Root()
 	if err == nil {
@@ -24,14 +25,18 @@ func Boot() error {
 		return fmt.Errorf("error loading %s: %v", env, err)
 	}
 
+	fmt.Println("running setups ..")
+
 	for name, setup := range setups() {
 		fmt.Println("setting up", name, "...")
 		err = setup.Setup()
 		if err != nil {
 			return fmt.Errorf("error setting up %s: %v", name, err)
 		}
-		fmt.Println("setyp", name, "completed successfully")
+		fmt.Println("setup", name, "complete")
 	}
+
+	fmt.Println("setups complete")
 
 	return nil
 }
