@@ -1,6 +1,6 @@
 package app
 
-import "github.com/sirupsen/logrus"
+import "log"
 
 // map[name]Resource
 var resources = map[string]Resource{}
@@ -12,7 +12,7 @@ func Register(name string, resource Resource) {
 
 func setups() map[string]Setup {
 
-	logrus.Println("getting setups ...")
+	log.Println("getting setups ...")
 
 	var setups = map[string]Setup{}
 
@@ -25,7 +25,7 @@ func setups() map[string]Setup {
 		}
 	}
 
-	logrus.Println("found", len(setups), "...")
+	log.Println("found", len(setups), "...")
 
 	return setups
 }

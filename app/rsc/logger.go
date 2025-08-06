@@ -1,40 +1,22 @@
 package rsc
 
 import (
-	"fmt"
 	"io"
-
-	"github.com/sirupsen/logrus"
+	"log"
+	"os"
 )
 
-// SilentLogger disables all logging
+// SilentLogger disables all output from the default logger
 type SilentLogger struct{}
 
 func (SilentLogger) Setup() {
-	logrus.SetOutput(io.Discard)
+	log.SetOutput(io.Discard)
 }
 
-// VerboseLogger enables plain output (no timestamps or levels)
+// VerboseLogger enables simple plain output (no timestamps, no prefixes)
 type VerboseLogger struct{}
 
 func (VerboseLogger) Setup() {
-	logrus.SetFormatter(&logrus.TextFormatter{
-		DisableTimestamp:       true,
-		DisableLevelTruncation: true,
-		DisableSorting:         true,
-		DisableQuote:           true,
-		DisableColors:          true,
-		PadLevelText:           false,
-	})
-	logrus.SetLevel(logrus.InfoLevel)
-	logrus.SetReportCaller(false)
-	logrus.SetOutput(&plainWriter{})
-}
-
-// plainWriter strips all formatting and just prints the log message
-type plainWriter struct{}
-
-func (w *plainWriter) Write(p []byte) (n int, err error) {
-	fmt.Print(string(p))
-	return len(p), nil
+	log.SetOutput(os.Stdout)
+	log.SetFlags(0) // no timestamp, no file info
 }

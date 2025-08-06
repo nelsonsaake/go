@@ -2,8 +2,7 @@ package app
 
 import (
 	"fmt"
-
-	"github.com/sirupsen/logrus"
+	"log"
 )
 
 func bootRecover() {
@@ -11,30 +10,30 @@ func bootRecover() {
 	err := recover()
 
 	if err != nil {
-		logrus.Println("boot failed:", err)
+		log.Println("boot failed:", err)
 	}
 }
 
 func Boot() error {
 
-	logrus.Println("Booting app ...")
+	log.Println("Booting app ...")
 	defer bootRecover()
 
-	logrus.Println("running setups ..")
+	log.Println("running setups ..")
 
 	for name, setup := range setups() {
 
-		logrus.Println("setting up", name, "...")
+		log.Println("setting up", name, "...")
 
 		err := setup.Setup()
 		if err != nil {
 			return fmt.Errorf("error setting up %s: %v", name, err)
 		}
 
-		logrus.Println("setup", name, "complete")
+		log.Println("setup", name, "complete")
 	}
 
-	logrus.Println("setups complete")
+	log.Println("setups complete")
 
 	return nil
 }
