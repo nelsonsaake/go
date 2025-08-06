@@ -25,10 +25,12 @@ func Boot() error {
 	}
 
 	for name, setup := range setups() {
+		fmt.Println("setting up", name, "...")
 		err = setup.Setup()
 		if err != nil {
 			return fmt.Errorf("error setting up %s: %v", name, err)
 		}
+		fmt.Println("setyp", name, "completed successfully")
 	}
 
 	return nil

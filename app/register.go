@@ -12,6 +12,8 @@ func Register(name string, resource Resource) {
 
 func setups() map[string]Setup {
 
+	fmt.Println("setting setups ...")
+
 	var setups = map[string]Setup{}
 
 	for name, resource := range resources {
@@ -19,9 +21,11 @@ func setups() map[string]Setup {
 		setup, ok := resource.(Setup)
 		if ok {
 			setups[name] = setup
-			fmt.Println(name)
+
 		}
 	}
+
+	fmt.Println("found", len(setups), "...")
 
 	return setups
 }
