@@ -1,5 +1,7 @@
 package app
 
+import "fmt"
+
 // map[name]Resource
 var resources = map[string]Resource{}
 
@@ -17,6 +19,7 @@ func setups() map[string]Setup {
 		setup, ok := resource.(Setup)
 		if ok {
 			setups[name] = setup
+			fmt.Println(name)
 		}
 	}
 
