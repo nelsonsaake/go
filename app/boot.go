@@ -12,8 +12,17 @@ var (
 	env = ".env"
 )
 
+func bootRecover() {
+	res := recover()
+
+	fmt.Println("boot failed")
+	fmt.Println(res)
+}
+
 func Boot() error {
+
 	fmt.Println("Booting app ...")
+	defer bootRecover()
 
 	cwd, err := afs.Root()
 	if err == nil {
