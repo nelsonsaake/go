@@ -8,11 +8,11 @@ import (
 	"github.com/nelsonsaake/go/afs"
 )
 
-type EnvLoader struct {
+type envLoader struct {
 	paths []string
 }
 
-func (r EnvLoader) load(env string) error {
+func (r envLoader) load(env string) error {
 
 	cwd, err := afs.Root()
 	if err == nil {
@@ -27,7 +27,7 @@ func (r EnvLoader) load(env string) error {
 	return nil
 }
 
-func (r EnvLoader) Setup() error {
+func (r envLoader) Setup() error {
 
 	for _, path := range r.paths {
 		r.load(path)
@@ -36,11 +36,11 @@ func (r EnvLoader) Setup() error {
 	return nil
 }
 
-func NewEnvLoader(paths ...string) *EnvLoader {
+func NewEnvLoader(paths ...string) *envLoader {
 	if len(paths) == 0 {
 		paths = []string{".env"}
 	}
-	return &EnvLoader{
+	return &envLoader{
 		paths: paths,
 	}
 }

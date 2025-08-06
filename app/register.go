@@ -1,6 +1,6 @@
 package app
 
-import "fmt"
+import "github.com/sirupsen/logrus"
 
 // map[name]Resource
 var resources = map[string]Resource{}
@@ -12,7 +12,7 @@ func Register(name string, resource Resource) {
 
 func setups() map[string]Setup {
 
-	fmt.Println("setting setups ...")
+	logrus.Println("getting setups ...")
 
 	var setups = map[string]Setup{}
 
@@ -25,7 +25,7 @@ func setups() map[string]Setup {
 		}
 	}
 
-	fmt.Println("found", len(setups), "...")
+	logrus.Println("found", len(setups), "...")
 
 	return setups
 }
