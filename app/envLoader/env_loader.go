@@ -1,4 +1,4 @@
-package rsc
+package envLoader
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ func (r envLoader) Setup() error {
 	return nil
 }
 
-func NewEnvLoader(paths ...string) *envLoader {
+func Setup(paths ...string) *envLoader {
 	if len(paths) == 0 {
 		paths = []string{".env"}
 	}
