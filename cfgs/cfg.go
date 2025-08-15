@@ -1,240 +1,178 @@
 package cfgs
 
 import (
-	"fmt"
+	"io/fs"
 	"path/filepath"
-	"slices"
 	"strings"
 	"sync"
 
-	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/objs"
-	"github.com/nelsonsaake/go/strs"
-	"github.com/nelsonsaake/go/ufs"
 )
 
+// Config holds all parsed configs from multiple directories
 type Config struct {
-	dir   string
-	cache sync.Map
+	mu   sync.RWMutex
+	data map[string]*objs.Obj
 }
 
-func New(dir ...string) *Config {
-	return &Config{
-		dir:   filepath.Join(dir...),
-		cache: sync.Map{},
+// New loads all configs from given directories into memory in parallel
+func New(dirs ...string) *Config {
+	c := &Config{
+		data: make(map[string]*objs.Obj),
 	}
-}
 
-func (c Config) _splitKey(arg ...string) (string, string, error) {
+	var wg sync.WaitGroup
+	fileCh := make(chan string, 100)
 
-	s := strings.Split
-	j := strings.Join
+	// Start workers to parse files
+	workerCount := 8
+	for range workerCount {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for file := range fileCh {
+				obj, err := objs.FromFile(file)
+				if err != nil {
+					continue
+				}
+				key := normalizeKey(file)
+				c.mu.Lock()
+				c.data[key] = obj
+				c.mu.Unlock()
+			}
+		}()
+	}
 
-	var (
-		keys          = s(j(s(j(arg, "."), "."), "/"), "/")
-		pathfragments = slices.Insert(keys, 0, c.dir)
-	)
-
-	for i := range pathfragments {
-
-		// n: partition i+1
-		n := i + 1
-
-		// pfn: path fragments at n
-		pfn := pathfragments[:n]
-
-		// p: from the p fragments from the root
-		p := afs.Path(pfn...) + ".json"
-
-		// if p doesn't exists, we continue the search to other partitions
-		exists, _ := ufs.Exists(p)
-		if !exists {
-			continue
+	// Feed files into channel
+	for _, dir := range dirs {
+		files := walkJSONFiles(dir)
+		for _, f := range files {
+			fileCh <- f
 		}
-
-		return p, strings.Join(keys[i:], "."), nil
 	}
+	close(fileCh)
 
-	return "", "", fmt.Errorf("config file not found, hint(%v)", pathfragments)
+	wg.Wait()
+	return c
 }
 
-func (c Config) splitKey(arg ...string) (string, string, error) {
-
-	k := strings.Join(arg, ".")
-	ck := getck("splitKey", k)
-	if res, ok := c.cache.Load(ck); ok {
-		ls := res.([]string)
-		return ls[0], ls[1], nil
-	}
-
-	fk, ok, err := c._splitKey(k)
-	if err != nil {
-		return "", "", err
-	}
-
-	ls := []string{fk, ok}
-	c.cache.Store(ck, ls)
-
-	return fk, ok, nil
+// normalizeKey converts file path to a config key (without .json)
+func normalizeKey(path string) string {
+	key := strings.TrimSuffix(path, filepath.Ext(path))
+	return strings.ReplaceAll(key, string(filepath.Separator), ".")
 }
 
-// getfilepath: get file key
-func (c Config) getfilepath(k string) (string, error) {
-	fk, _, err := c.splitKey(k)
-	if err != nil {
-		return "", fmt.Errorf("error getting file path: %v", err)
-	}
-	return fk, nil
-}
-
-// getik: get inner cfg key
-func (c Config) getik(k string) string {
-	_, ok, err := c.splitKey(k)
-	if err != nil {
-		panic("error getting ik")
-	}
-	return ok
-
-}
-
-// isnk: checks if the key is nested
-func (c Config) isnk(k string) bool {
-	ik := c.getik(k)
-	return len(ik) > 0
-}
-
-func (c Config) loadFile(k string) (*objs.Obj, error) {
-
-	die := func(f string, a ...any) (*objs.Obj, error) {
-		return nil, fmt.Errorf(f, a...)
-	}
-
-	file, err := c.getfilepath(k)
-	if err != nil {
-		return die("error getting file key: %v", err)
-	}
-
-	obj, err := objs.FromFile(file)
-	if err != nil {
-		return die("error loading file: %v", err)
-	}
-
-	return obj, nil
-}
-
-func CFGGetStrict[T any](c Config, arg ...string) T {
-	k := strings.Join(arg, ".")
-	typ := typeString[T]() // ← Get string name for type T
-
-	key := getck(typ, k)
-	if res, ok := c.cache.Load(key); ok {
-		return res.(T)
-	}
-
-	obj, err := c.loadFile(k)
-	if err != nil {
-		panic(err)
-	}
-
-	var v any
-	switch any(*new(T)).(type) {
-	case int, string, bool, float64, map[string]string, map[string]any, []any, []string:
-		v = objs.ObjGetStrict[T](obj, c.getik(k))
-	case *objs.Obj:
-		// TODO, send this validation down
-		if strs.IsEmpty(c.getik(k)) {
-			v = obj
-		} else {
-			v = obj.GetObj(c.getik(k))
+// walkJSONFiles finds all .json files recursively in a dir
+func walkJSONFiles(dir string) []string {
+	var files []string
+	filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return nil
 		}
-	default:
-		panic("unsupported type")
+		if d.IsDir() {
+			return nil
+		}
+		if strings.HasSuffix(strings.ToLower(d.Name()), ".json") {
+			files = append(files, path)
+		}
+		return nil
+	})
+	return files
+}
+
+// get retrieves *objs.Obj for a key
+func (c *Config) get(key string) *objs.Obj {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return c.data[key]
+}
+
+// ---------------------- Get methods ----------------------
+
+func (c *Config) Get(key string) any {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
 	}
-
-	c.cache.Store(key, v)
-	return v.(T)
+	return obj.Data
 }
 
-func (c Config) GetBool(arg ...string) bool {
-	return CFGGetStrict[bool](c, arg...)
-}
-
-func (c Config) GetFloat64(arg ...string) float64 {
-	return CFGGetStrict[float64](c, arg...)
-}
-
-func (c Config) GetInt(arg ...string) int {
-	return CFGGetStrict[int](c, arg...)
-}
-
-func (c Config) GetString(arg ...string) string {
-	return CFGGetStrict[string](c, arg...)
-}
-
-func (c Config) GetStringMap(arg ...string) map[string]string {
-	return CFGGetStrict[map[string]string](c, arg...)
-}
-
-func (c Config) GetMap(arg ...string) map[string]any {
-	return CFGGetStrict[map[string]any](c, arg...)
-}
-
-func (c Config) GetSlice(arg ...string) []any {
-	return CFGGetStrict[[]any](c, arg...)
-}
-
-func (c Config) GetStringSlice(arg ...string) []string {
-	return CFGGetStrict[[]string](c, arg...)
-}
-
-func (c Config) GetObj(arg ...string) *objs.Obj {
-	return CFGGetStrict[*objs.Obj](c, arg...)
-}
-
-func (c Config) GetAs(as any, arg ...string) {
-
-	k := strings.Join(arg, ".")
-
-	cfg, err := c.loadFile(k)
-	if err != nil {
-		panic(err)
+func (c *Config) GetString(key string) string {
+	obj := c.get(key)
+	if obj == nil {
+		return ""
 	}
-
-	cfg.GetAs(c.getik(k), as)
+	return obj.GetString("")
 }
 
-func (c Config) get(k string) (any, error) {
-
-	var (
-		cfg *objs.Obj
-		res any
-	)
-
-	cfg, err := c.loadFile(k)
-	if err != nil {
-		return nil, err
+func (c *Config) GetInt(key string) int {
+	obj := c.get(key)
+	if obj == nil {
+		return 0
 	}
-
-	if c.isnk(k) {
-		res = cfg.Get(c.getik(k))
-	} else {
-		res = cfg.Data
-	}
-
-	return res, nil
+	return obj.GetInt("")
 }
 
-func (c Config) Get(arg ...string) any {
-	k := strings.Join(arg, ".")
-	ck := getck("any", k)
-	if res, ok := c.cache.Load(ck); ok {
-		return res
+func (c *Config) GetBool(key string) bool {
+	obj := c.get(key)
+	if obj == nil {
+		return false
 	}
+	return obj.GetBool("")
+}
 
-	v, err := c.get(k)
-	if err != nil {
-		panic(err)
+func (c *Config) GetFloat64(key string) float64 {
+	obj := c.get(key)
+	if obj == nil {
+		return 0
 	}
-	c.cache.Store(ck, v)
-	return v
+	return obj.GetFloat64("")
+}
+
+func (c *Config) GetMap(key string) map[string]any {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
+	}
+	return obj.GetMap("")
+}
+
+func (c *Config) GetStringMap(key string) map[string]string {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
+	}
+	return obj.GetStringMap("")
+}
+
+func (c *Config) GetSlice(key string) []any {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
+	}
+	return obj.GetSlice("")
+}
+
+func (c *Config) GetStringSlice(key string) []string {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
+	}
+	return obj.GetStringSlice("")
+}
+
+func (c *Config) GetObj(key string) *objs.Obj {
+	obj := c.get(key)
+	if obj == nil {
+		return nil
+	}
+	return obj
+}
+
+func (c *Config) GetAs(dest any, key string) {
+	obj := c.get(key)
+	if obj == nil {
+		return
+	}
+	obj.GetAs("", dest)
 }

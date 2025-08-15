@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-// getck: get cache key
-func getck(t, k string) string {
+// makeCacheKey: get cache key
+func makeCacheKey(t, k string) string {
 	return fmt.Sprintf("%s:%s", t, k)
 }
 
