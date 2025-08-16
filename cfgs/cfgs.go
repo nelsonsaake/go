@@ -3,7 +3,7 @@ package cfgs
 var defaultCfg *Config
 
 func init() {
-	Load("src/configs")
+	// Load("src/configs")
 }
 
 func Load(dirs ...string) {
@@ -14,8 +14,9 @@ type cfgsSetup struct {
 	dirs []string
 }
 
-func (c cfgsSetup) Setup() {
+func (c cfgsSetup) Setup() error {
 	Load(c.dirs...)
+	return nil
 }
 
 func Setup(dirs ...string) cfgsSetup {
