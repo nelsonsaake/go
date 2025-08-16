@@ -4,6 +4,10 @@ var (
 	defaultCfg = New("src/configs")
 )
 
+func Load(dirs ...string) {
+	defaultCfg = New(dirs...)
+}
+
 var (
 	GetBool        = defaultCfg.GetBool
 	GetFloat64     = defaultCfg.GetFloat64
