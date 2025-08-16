@@ -1,11 +1,25 @@
 package cfgs
 
-var (
-	defaultCfg = New("src/configs")
-)
+var defaultCfg *Config
+
+func init() {
+	Load("src/configs")
+}
 
 func Load(dirs ...string) {
 	defaultCfg = New(dirs...)
+}
+
+type cfgsSetup struct {
+	dirs []string
+}
+
+func (c cfgsSetup) Setup() {
+	Load(c.dirs...)
+}
+
+func Setup(dirs ...string) cfgsSetup {
+	return cfgsSetup{dirs: dirs}
 }
 
 var (
