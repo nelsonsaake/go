@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/cfgs"
 	"github.com/nelsonsaake/go/pty"
 )
 
 func TestCfgs(t *testing.T) {
 	c := cfgs.New(
-		afs.Path("src/configs"),
+		"src/configs",
 	)
 
 	ln := func(arg ...int) {

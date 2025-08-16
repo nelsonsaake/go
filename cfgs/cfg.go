@@ -56,7 +56,7 @@ func (c *Config) resolve(ks ...string) (*objs.Obj, string) {
 	rest := ks[1:]
 
 	// If no subkey, check here
-	if len(rest) == 1 {
+	if len(rest) == 0 {
 		cc, ok := c.configs[k0]
 		if !ok {
 			return nil, ""
