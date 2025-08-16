@@ -20,6 +20,9 @@ func (c cfgsSetup) Setup() error {
 }
 
 func Setup(dirs ...string) cfgsSetup {
+	if len(dirs) == 0 {
+		dirs = []string{"src/configs"}
+	}
 	return cfgsSetup{dirs: dirs}
 }
 
