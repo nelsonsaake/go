@@ -146,8 +146,11 @@ func walkJSONFiles(dir string) []string {
 // ---------------------- Get methods ----------------------
 func (c *Config) Get(key string) any {
 	obj, innerKey := c.find(key)
-	if obj == nil || innerKey == "" {
+	if obj == nil {
 		return nil
+	}
+	if innerKey == "" {
+		return obj.Data
 	}
 	return obj.Get(innerKey)
 }
@@ -218,8 +221,11 @@ func (c *Config) GetStringSlice(key string) []string {
 
 func (c *Config) GetObj(key string) *objs.Obj {
 	obj, innerKey := c.find(key)
-	if obj == nil || innerKey == "" {
+	if obj == nil {
 		return nil
+	}
+	if innerKey == "" {
+		return obj
 	}
 	return obj.GetObj(innerKey)
 }
