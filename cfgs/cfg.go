@@ -41,20 +41,22 @@ func (c *Config) set(key string, obj *objs.Obj) {
 	cc.set(strings.Join(parts[1:], "."), obj)
 }
 
-func (c *Config) find(key string) (*objs.Obj, string) {
+// resolve walks down the tree using the given key parts
+// and returns the found object and any remaining innerKey
+func (c *Config) resolve(ks ...string) (*objs.Obj, string) {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
-	parts := strings.Split(key, ".")
-	if len(parts) == 0 {
+	ks = strings.Split(strings.Join(ks, "."), ".")
+	if len(ks) == 0 {
 		return nil, ""
 	}
 
-	k0 := parts[0]
-	rest := strings.Join(parts[1:], ".")
+	k0 := ks[0]
+	rest := ks[1:]
 
 	// If no subkey, check here
-	if len(parts) == 1 {
+	if len(rest) == 1 {
 		cc, ok := c.configs[k0]
 		if !ok {
 			return nil, ""
@@ -70,11 +72,11 @@ func (c *Config) find(key string) (*objs.Obj, string) {
 
 	// If cc has data, stop traversal and pass remaining as innerKey
 	if cc.data != nil && len(cc.configs) == 0 {
-		return cc.data, rest
+		return cc.data, strings.Join(rest, ".")
 	}
 
 	// Continue traversal
-	return cc.find(rest)
+	return cc.resolve(rest...)
 }
 
 // New loads all configs from given directories into memory in parallel
@@ -146,8 +148,9 @@ func walkJSONFiles(dir string) []string {
 }
 
 // ---------------------- Get methods ----------------------
-func (c *Config) Get(key string) any {
-	obj, innerKey := c.find(key)
+
+func (c *Config) Get(ks ...string) any {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil {
 		return nil
 	}
@@ -157,72 +160,72 @@ func (c *Config) Get(key string) any {
 	return obj.Get(innerKey)
 }
 
-func (c *Config) GetString(key string) string {
-	obj, innerKey := c.find(key)
+func (c *Config) GetString(ks ...string) string {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return ""
 	}
 	return obj.GetString(innerKey)
 }
 
-func (c *Config) GetInt(key string) int {
-	obj, innerKey := c.find(key)
+func (c *Config) GetInt(ks ...string) int {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return 0
 	}
 	return obj.GetInt(innerKey)
 }
 
-func (c *Config) GetBool(key string) bool {
-	obj, innerKey := c.find(key)
+func (c *Config) GetBool(ks ...string) bool {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return false
 	}
 	return obj.GetBool(innerKey)
 }
 
-func (c *Config) GetFloat64(key string) float64 {
-	obj, innerKey := c.find(key)
+func (c *Config) GetFloat64(ks ...string) float64 {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return 0
 	}
 	return obj.GetFloat64(innerKey)
 }
 
-func (c *Config) GetMap(key string) map[string]any {
-	obj, innerKey := c.find(key)
+func (c *Config) GetMap(ks ...string) map[string]any {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return nil
 	}
 	return obj.GetMap(innerKey)
 }
 
-func (c *Config) GetStringMap(key string) map[string]string {
-	obj, innerKey := c.find(key)
+func (c *Config) GetStringMap(ks ...string) map[string]string {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return nil
 	}
 	return obj.GetStringMap(innerKey)
 }
 
-func (c *Config) GetSlice(key string) []any {
-	obj, innerKey := c.find(key)
+func (c *Config) GetSlice(ks ...string) []any {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return nil
 	}
 	return obj.GetSlice(innerKey)
 }
 
-func (c *Config) GetStringSlice(key string) []string {
-	obj, innerKey := c.find(key)
+func (c *Config) GetStringSlice(ks ...string) []string {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return nil
 	}
 	return obj.GetStringSlice(innerKey)
 }
 
-func (c *Config) GetObj(key string) *objs.Obj {
-	obj, innerKey := c.find(key)
+func (c *Config) GetObj(ks ...string) *objs.Obj {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil {
 		return nil
 	}
@@ -232,8 +235,8 @@ func (c *Config) GetObj(key string) *objs.Obj {
 	return obj.GetObj(innerKey)
 }
 
-func (c *Config) GetAs(dest any, key string) {
-	obj, innerKey := c.find(key)
+func (c *Config) GetAs(dest any, ks ...string) {
+	obj, innerKey := c.resolve(ks...)
 	if obj == nil || innerKey == "" {
 		return
 	}
