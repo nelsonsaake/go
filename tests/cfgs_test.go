@@ -11,6 +11,10 @@ func TestCfgs(t *testing.T) {
 	c := cfgs.New(
 		afs.Path("src/configs"),
 	)
+
+	t.Log("dbs.model")
 	t.Log(c.Get("dbs.model"))
+
+	t.Log("dbs.model.excluded")
 	t.Log(c.Get("dbs.model.excluded"))
 }
