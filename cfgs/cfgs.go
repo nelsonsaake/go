@@ -2,10 +2,6 @@ package cfgs
 
 var defaultCfg *Config
 
-func init() {
-	// Load("src/configs")
-}
-
 func Load(dirs ...string) {
 	defaultCfg = New(dirs...)
 }
@@ -20,9 +16,6 @@ func (c cfgsSetup) Setup() error {
 }
 
 func Setup(dirs ...string) cfgsSetup {
-	if len(dirs) == 0 {
-		dirs = []string{"src/configs"}
-	}
 	return cfgsSetup{dirs: dirs}
 }
 
