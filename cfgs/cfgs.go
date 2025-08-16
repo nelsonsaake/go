@@ -8,19 +8,6 @@ func Load(dirs ...string) {
 	defaultCfg = New(dirs...)
 }
 
-type cfgsSetup struct {
-	dirs []string
-}
-
-func (c cfgsSetup) Setup() error {
-	Load(c.dirs...)
-	return nil
-}
-
-func Setup(dirs ...string) cfgsSetup {
-	return cfgsSetup{dirs: dirs}
-}
-
 func Get(key ...string) any {
 	return defaultCfg.Get(key...)
 }

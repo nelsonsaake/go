@@ -15,8 +15,9 @@ func main() {
 
 	// efp = env file path
 	efp := afs.Path(".env")
+
 	// load envs from file
-	err := envs.Load(efp)
+	err := envs.Load(".env")
 	die(err)
 
 	// get version from env

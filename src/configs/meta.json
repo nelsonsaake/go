@@ -1,0 +1,21 @@
+{
+    "name": "mcsA",
+    "dir": "C:/Users/user/Desktop/projects/ebits/sinapi-aba/A",
+    "namespace_prefix": "App",
+    "db": {
+        "name": "sinapi_aba_5",
+        "username": "root",
+        "password": "admin",
+        "url": "mysql://root:admin@localhost:3306/sinapi_aba_5"
+    },
+    "cmds": {
+        "fresh": [
+            "make",
+            "fresh",
+            "central"
+        ]
+    },
+    "endpoints": {
+        "base": "http://127.0.0.1:8000"
+    }
+}

@@ -2,20 +2,50 @@ package envs
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/joho/godotenv"
+	"github.com/nelsonsaake/go/afs"
 )
 
-var isLoaded = false
+var (
+	loadedFiles = make(map[string]struct{})
+	mu          sync.Mutex
+)
 
-func Load(path string) error {
+// loadFile loads a single .env file if it hasn't been loaded yet
+func loadFile(path string) error {
+	mu.Lock()
+	if _, ok := loadedFiles[path]; ok {
+		mu.Unlock()
+		return nil // already loaded, skip
+	}
+	mu.Unlock()
 
-	err := godotenv.Load(path)
-	if err != nil {
-		return fmt.Errorf("error loading %s: %v", path, err)
-	} else {
-		isLoaded = true
+	if err := godotenv.Load(path); err != nil {
+		return fmt.Errorf("error loading %s: %w", path, err)
 	}
 
+	mu.Lock()
+	loadedFiles[path] = struct{}{}
+	mu.Unlock()
+
+	return nil
+}
+
+// Load loads one or more .env files, propagating errors.
+// It skips already-loaded files.
+func Load(paths ...string) error {
+
+	if len(paths) == 0 {
+		paths = []string{".env"}
+	}
+
+	for _, path := range paths {
+		fullPath := afs.Path(path)
+		if err := loadFile(fullPath); err != nil {
+			return err
+		}
+	}
 	return nil
 }

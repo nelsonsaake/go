@@ -44,4 +44,10 @@ func TestCfgs(t *testing.T) {
 
 	t.Log(pty.JSON(c.Get("dbs.model.excluded")))
 	ln()
+
+	t.Log("meta")
+	ln(1)
+
+	t.Log(pty.JSON(c.Get("meta")))
+	ln()
 }
