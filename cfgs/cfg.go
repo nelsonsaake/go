@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/objs"
 )
 
@@ -107,6 +108,7 @@ func New(dirs ...string) *Config {
 	}
 
 	for _, dir := range dirs {
+		dir = afs.Path(dir)
 		files := walkJSONFiles(dir)
 		for _, f := range files {
 			fileCh <- fileJob{base: dir, path: f}
