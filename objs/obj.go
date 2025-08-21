@@ -127,6 +127,11 @@ func (m Obj) String() string {
 	return String(m.Data)
 }
 
+func (m Obj) IsSet(key string) bool {
+	_, ok := m.Data[key]
+	return ok
+}
+
 // ----
 
 func ObjGetStrict[T any](m *Obj, key string) T {
