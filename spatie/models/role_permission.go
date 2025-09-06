@@ -1,0 +1,9 @@
+package models
+
+type RolePermission struct {
+	ID           string     `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	RoleID       string     `gorm:"index;not null"`
+	PermissionID string     `gorm:"index;not null"`
+	Role         Role       `gorm:"foreignKey:RoleID"`
+	Permission   Permission `gorm:"foreignKey:PermissionID"`
+}

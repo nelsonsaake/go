@@ -1,0 +1,68 @@
+
+
+model Role {
+  id            String              @id @default(uuid())
+  name          String              @unique
+
+  // relations
+  permissions   RolePermission[]
+  users         UserRole[]
+}
+
+model Permission {
+  id            String              @id @default(uuid())
+  name          String              @unique
+
+  // relations
+  roles         RolePermission[]
+  users         UserPermission[]
+  revokedBy     UserPermissionRevoked[]
+}
+
+/// Pivot: users x roles
+model UserRole {
+  id      String  @id @default(uuid())
+  userId  String
+  roleId  String
+
+  user    User    @relation(fields: [userId], references: [id])
+  role    Role    @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, roleId])
+}
+
+/// Pivot: roles x permissions
+model RolePermission {
+  id           String  @id @default(uuid())
+  roleId       String
+  permissionId String
+
+  role         Role       @relation(fields: [roleId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+}
+
+/// Pivot: users x permissions (direct assignment)
+model UserPermission {
+  id           String  @id @default(uuid())
+  userId       String
+  permissionId String
+
+  user         User       @relation(fields: [userId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([userId, permissionId])
+}
+
+/// Pivot: users x revoked permissions
+model UserPermissionRevoked {
+  id           String  @id @default(uuid())
+  userId       String
+  permissionId String
+
+  user         User       @relation(fields: [userId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([userId, permissionId])
+}
