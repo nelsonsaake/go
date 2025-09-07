@@ -10,7 +10,8 @@ func JSON(data any) string {
 
 	jsonBytes, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		return ""
+		err = fmt.Errorf("error making pretty json: %v", err)
+		panic(err)
 	}
 
 	return string(jsonBytes)
