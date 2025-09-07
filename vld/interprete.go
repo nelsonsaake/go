@@ -4,12 +4,11 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/nelsonsaake/go/strs"
 )
 
 // interprete: organize error in a user-friendly way like in laravel
 func interprete(err validator.FieldError) string {
-	field := strs.ToWords(err.Field())
+	field := toWords(err.Field())
 
 	tr := map[string]string{
 		"required": fmt.Sprintf("%s is required.", field),
@@ -25,5 +24,5 @@ func interprete(err validator.FieldError) string {
 		msg = fmt.Sprintf("The %s is not valid.", field)
 	}
 
-	return strs.ToSentenceCase(msg)
+	return toSentenceCase(msg)
 }

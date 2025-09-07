@@ -3,7 +3,6 @@ package servers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/nelsonsaake/go/ports"
 )
 
 type FiberServer struct {
@@ -12,7 +11,7 @@ type FiberServer struct {
 }
 
 func (s *FiberServer) Run() error {
-	return s.App.Listen(ports.Clean(s.Port))
+	return s.App.Listen(cleanPort(s.Port))
 }
 
 func (s *FiberServer) NewNgrokServer() Server {
