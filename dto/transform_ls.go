@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func Transformls(v any, dtoname string) ([]map[string]any, error) {
+func transformls(v any, dtoname string) ([]map[string]any, error) {
 
 	var (
 		raw = []map[string]any{}
