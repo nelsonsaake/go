@@ -1,9 +1,9 @@
-package prt
+package ports
 
 import "strings"
 
-// fmt: takes in a port and return is in this format :PORT_NUMBER
-// fmt: makes sure that port has a `:` before the port number
+// Clean: takes in a port and return is in this format :PORT_NUMBER
+// Clean: makes sure that port has a `:` before the port number
 // eg. `3000` or `:3000` and this function will make sure it's always comes out as `:3000`
 func Clean(port string) string {
 
