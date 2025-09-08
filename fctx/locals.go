@@ -10,11 +10,11 @@ var (
 	ErrUnauthorized = serr.Message("You're not authorized to perform this action.").WithStatus(401)
 )
 
-func User(c *fiber.Ctx) (any, error) {
+func User[T any](c *fiber.Ctx) (T, error) {
 
-	user, ok := c.Locals("user").(any)
+	user, ok := c.Locals("user").(T)
 	if !ok {
-		return nil, ErrUnauthorized.WithError("user not set")
+		return *new(T), ErrUnauthorized.WithError("user not set")
 	}
 
 	return user, nil
