@@ -293,8 +293,8 @@ func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) er
 }
 
 // ...existing code...
-// GetRolesForUser returns all role names for a given user ID
-func (s *Spatie) GetRolesForUser(userId string) ([]string, error) {
+// GetRoles returns all role names for a given user ID
+func (s *Spatie) GetRoles(userId string) ([]string, error) {
 	var userRoles []models.UserRole
 	if err := s.do().Preload("Role").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
 		return nil, err
@@ -309,9 +309,9 @@ func (s *Spatie) GetRolesForUser(userId string) ([]string, error) {
 }
 
 // GetPermissionsForUser returns all permission names for a given user ID
-// GetDetailedPermissionsForUser returns all permission names for a given user ID
+// GetDetailedPermissions returns all permission names for a given user ID
 // Includes direct permissions, permissions via roles, minus revoked, with details
-func (s *Spatie) GetDetailedPermissionsForUser(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
+func (s *Spatie) GetDetailedPermissions(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
 	result := make(map[string]struct{ Direct, ViaRole, Revoked bool })
 
 	// Direct permissions
@@ -361,9 +361,9 @@ func (s *Spatie) GetDetailedPermissionsForUser(userId string) (map[string]struct
 	return result, nil
 }
 
-// GetPermissionsForUser returns all effective permission names for a given user ID
+// GetPermissions returns all effective permission names for a given user ID
 // Includes direct and via roles, minus revoked
-func (s *Spatie) GetPermissionsForUser(userId string) ([]string, error) {
+func (s *Spatie) GetPermissions(userId string) ([]string, error) {
 	permSet := make(map[string]struct{})
 
 	// Direct permissions
