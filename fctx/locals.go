@@ -30,11 +30,11 @@ func UserID(c *fiber.Ctx) (string, error) {
 	return userID, nil
 }
 
-func Auth(c *fiber.Ctx) (any, error) {
+func Auth[T any](c *fiber.Ctx) (T, error) {
 
-	auth, ok := c.Locals("auth").(any)
+	auth, ok := c.Locals("auth").(T)
 	if !ok {
-		return nil, ErrUnauthorized.WithError("auth not set")
+		return *new(T), ErrUnauthorized.WithError("auth not set")
 	}
 
 	return auth, nil
