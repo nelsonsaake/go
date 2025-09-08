@@ -71,3 +71,15 @@ func Can(userId string, perms ...string) (bool, error) {
 func CanAny(userId string, perms ...string) (bool, error) {
 	return spatieInstance.CanAny(userId, perms...)
 }
+
+func GetRolesForUser(userId string) ([]string, error) {
+	return spatieInstance.GetRolesForUser(userId)
+}
+
+func GetDetailedPermissionsForUser(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
+	return spatieInstance.GetDetailedPermissionsForUser(userId)
+}
+
+func GetPermissionsForUser(userId string) ([]string, error) {
+	return spatieInstance.GetPermissionsForUser(userId)
+}

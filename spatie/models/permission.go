@@ -1,7 +1,7 @@
 package models
 
 type Permission struct {
-	ID        string                  `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	Base
 	Name      string                  `gorm:"uniqueIndex"`
 	Roles     []RolePermission        `gorm:"foreignKey:PermissionID"`
 	Users     []UserPermission        `gorm:"foreignKey:PermissionID"`

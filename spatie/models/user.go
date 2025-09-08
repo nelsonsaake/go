@@ -1,5 +1,5 @@
 package models
 
-type User interface {
-	GetID() any
+type User struct {
+	Base
 }

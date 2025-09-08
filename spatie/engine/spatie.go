@@ -226,6 +226,11 @@ func (s *Spatie) AssignPermissionToRole(roleName string, permNames ...string) er
 }
 
 func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
+	// Ensure user exists
+	var user models.User
+	if err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error; err != nil {
+		return err
+	}
 	for _, roleName := range roleNames {
 		var role models.Role
 		if err := s.do().
@@ -245,6 +250,11 @@ func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
 }
 
 func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error {
+	// Ensure user exists
+	var user models.User
+	if err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error; err != nil {
+		return err
+	}
 	for _, permName := range permNames {
 		var perm models.Permission
 		if err := s.do().
@@ -283,3 +293,118 @@ func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) er
 }
 
 // ...existing code...
+// GetRolesForUser returns all role names for a given user ID
+func (s *Spatie) GetRolesForUser(userId string) ([]string, error) {
+	var userRoles []models.UserRole
+	if err := s.do().Preload("Role").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+		return nil, err
+	}
+	roles := make([]string, 0, len(userRoles))
+	for _, ur := range userRoles {
+		if ur.Role.ID != "" {
+			roles = append(roles, ur.Role.Name)
+		}
+	}
+	return roles, nil
+}
+
+// GetPermissionsForUser returns all permission names for a given user ID
+// GetDetailedPermissionsForUser returns all permission names for a given user ID
+// Includes direct permissions, permissions via roles, minus revoked, with details
+func (s *Spatie) GetDetailedPermissionsForUser(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
+	result := make(map[string]struct{ Direct, ViaRole, Revoked bool })
+
+	// Direct permissions
+	var userPerms []models.UserPermission
+	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
+		return nil, err
+	}
+	for _, up := range userPerms {
+		if up.Permission.ID != "" {
+			name := up.Permission.Name
+			entry := result[name]
+			entry.Direct = true
+			result[name] = entry
+		}
+	}
+
+	// Permissions via roles
+	var userRoles []models.UserRole
+	if err := s.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+		return nil, err
+	}
+	for _, ur := range userRoles {
+		for _, rp := range ur.Role.Permissions {
+			if rp.Permission.ID != "" {
+				name := rp.Permission.Name
+				entry := result[name]
+				entry.ViaRole = true
+				result[name] = entry
+			}
+		}
+	}
+
+	// Revoked permissions
+	var revoked []models.UserPermissionRevoked
+	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
+		return nil, err
+	}
+	for _, rev := range revoked {
+		if rev.Permission.ID != "" {
+			name := rev.Permission.Name
+			entry := result[name]
+			entry.Revoked = true
+			result[name] = entry
+		}
+	}
+
+	return result, nil
+}
+
+// GetPermissionsForUser returns all effective permission names for a given user ID
+// Includes direct and via roles, minus revoked
+func (s *Spatie) GetPermissionsForUser(userId string) ([]string, error) {
+	permSet := make(map[string]struct{})
+
+	// Direct permissions
+	var userPerms []models.UserPermission
+	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
+		return nil, err
+	}
+	for _, up := range userPerms {
+		if up.Permission.ID != "" {
+			permSet[up.Permission.Name] = struct{}{}
+		}
+	}
+
+	// Permissions via roles
+	var userRoles []models.UserRole
+	if err := s.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+		return nil, err
+	}
+	for _, ur := range userRoles {
+		for _, rp := range ur.Role.Permissions {
+			if rp.Permission.ID != "" {
+				permSet[rp.Permission.Name] = struct{}{}
+			}
+		}
+	}
+
+	// Remove revoked permissions
+	var revoked []models.UserPermissionRevoked
+	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
+		return nil, err
+	}
+	for _, rev := range revoked {
+		if rev.Permission.ID != "" {
+			delete(permSet, rev.Permission.Name)
+		}
+	}
+
+	// Convert set to slice
+	perms := make([]string, 0, len(permSet))
+	for name := range permSet {
+		perms = append(perms, name)
+	}
+	return perms, nil
+}
