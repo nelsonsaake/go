@@ -1,6 +1,7 @@
 package kernel
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -18,6 +19,9 @@ func register(c *cobra.Command, name string, h Handler) {
 	c.AddCommand(&cobra.Command{
 		Use: name,
 		Run: func(cmd *cobra.Command, args []string) {
+
+			fmt.Println("Executing", name, "...")
+
 			err := h(args)
 			if err != nil {
 				log.Fatalf("error executing %v: %v", name, err)
