@@ -4,58 +4,58 @@ import (
 	"net/http"
 )
 
-func SendErrorWithStatus(status int, f string, a ...any) *ServerError {
-	return New().WithStatus(status).WithErrorf(f, a...)
+func SendErrorWithStatus(status int) *ServerError {
+	return New().WithStatus(status).WithMessage(http.StatusText(status))
 }
 
-func SendError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusUnprocessableEntity, f, a...)
+func SendError() *ServerError {
+	return SendErrorWithStatus(http.StatusUnprocessableEntity)
 }
 
-func BadRequestError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusBadRequest, f, a...)
+func BadRequestError() *ServerError {
+	return SendErrorWithStatus(http.StatusBadRequest)
 }
 
-func UnauthorizedError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusUnauthorized, f, a...)
+func UnauthorizedError() *ServerError {
+	return SendErrorWithStatus(http.StatusUnauthorized)
 }
 
-func ForbiddenError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusForbidden, f, a...)
+func ForbiddenError() *ServerError {
+	return SendErrorWithStatus(http.StatusForbidden)
 }
 
-func NotFoundError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusNotFound, f, a...)
+func NotFoundError() *ServerError {
+	return SendErrorWithStatus(http.StatusNotFound)
 }
 
-func MethodNotAllowedError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusMethodNotAllowed, f, a...)
+func MethodNotAllowedError() *ServerError {
+	return SendErrorWithStatus(http.StatusMethodNotAllowed)
 }
 
-func ConflictError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusConflict, f, a...)
+func ConflictError() *ServerError {
+	return SendErrorWithStatus(http.StatusConflict)
 }
 
-func UnprocessableEntityError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusUnprocessableEntity, f, a...)
+func UnprocessableEntityError() *ServerError {
+	return SendErrorWithStatus(http.StatusUnprocessableEntity)
 }
 
-func TooManyRequestsError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusTooManyRequests, f, a...)
+func TooManyRequestsError() *ServerError {
+	return SendErrorWithStatus(http.StatusTooManyRequests)
 }
 
-func InternalServerError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusInternalServerError, f, a...)
+func InternalServerError() *ServerError {
+	return SendErrorWithStatus(http.StatusInternalServerError)
 }
 
-func BadGatewayError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusBadGateway, f, a...)
+func BadGatewayError() *ServerError {
+	return SendErrorWithStatus(http.StatusBadGateway)
 }
 
-func ServiceUnavailableError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusServiceUnavailable, f, a...)
+func ServiceUnavailableError() *ServerError {
+	return SendErrorWithStatus(http.StatusServiceUnavailable)
 }
 
-func GatewayTimeoutError(f string, a ...any) *ServerError {
-	return SendErrorWithStatus(http.StatusGatewayTimeout, f, a...)
+func GatewayTimeoutError() *ServerError {
+	return SendErrorWithStatus(http.StatusGatewayTimeout)
 }
