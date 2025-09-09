@@ -22,10 +22,18 @@ var (
 	spatieInstanceOnce sync.Once
 )
 
-func Instance(db *gorm.DB, ctx context.Context) *Spatie {
+func Connect(db *gorm.DB, ctx context.Context) *Spatie {
 	spatieInstanceOnce.Do(func() {
 		spatieInstance = New(db, ctx)
 	})
+	return spatieInstance
+}
+
+func Instance() *Spatie {
+	if spatieInstance == nil {
+		panic("spatie instance not initialized, call Connect() first")
+	}
+
 	return spatieInstance
 }
 
@@ -33,53 +41,53 @@ func Instance(db *gorm.DB, ctx context.Context) *Spatie {
 
 // Facade methods (examples, add all Spatie methods here)
 func CreateRole(names ...string) ([]*models.Role, error) {
-	return spatieInstance.CreateRole(names...)
+	return Instance().CreateRole(names...)
 }
 
 func CreatePermission(names ...string) ([]*models.Permission, error) {
-	return spatieInstance.CreatePermission(names...)
+	return Instance().CreatePermission(names...)
 }
 
 func AssignPermissionToRole(roleName string, permNames ...string) error {
-	return spatieInstance.AssignPermissionToRole(roleName, permNames...)
+	return Instance().AssignPermissionToRole(roleName, permNames...)
 }
 
 func GiveRoleToUser(userId string, roleNames ...string) error {
-	return spatieInstance.GiveRoleToUser(userId, roleNames...)
+	return Instance().GiveRoleToUser(userId, roleNames...)
 }
 
 func GivePermissionToUser(userId string, permNames ...string) error {
-	return spatieInstance.GivePermissionToUser(userId, permNames...)
+	return Instance().GivePermissionToUser(userId, permNames...)
 }
 
 func RevokePermissionFromUser(userId string, permNames ...string) error {
-	return spatieInstance.RevokePermissionFromUser(userId, permNames...)
+	return Instance().RevokePermissionFromUser(userId, permNames...)
 }
 
 func Is(userId string, roles ...string) (bool, error) {
-	return spatieInstance.Is(userId, roles...)
+	return Instance().Is(userId, roles...)
 }
 
 func IsAny(userId string, roles ...string) (bool, error) {
-	return spatieInstance.IsAny(userId, roles...)
+	return Instance().IsAny(userId, roles...)
 }
 
 func Can(userId string, perms ...string) (bool, error) {
-	return spatieInstance.Can(userId, perms...)
+	return Instance().Can(userId, perms...)
 }
 
 func CanAny(userId string, perms ...string) (bool, error) {
-	return spatieInstance.CanAny(userId, perms...)
+	return Instance().CanAny(userId, perms...)
 }
 
 func GetRoles(userId string) ([]string, error) {
-	return spatieInstance.GetRoles(userId)
+	return Instance().GetRoles(userId)
 }
 
 func GetDetailedPermissions(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
-	return spatieInstance.GetDetailedPermissions(userId)
+	return Instance().GetDetailedPermissions(userId)
 }
 
 func GetPermissions(userId string) ([]string, error) {
-	return spatieInstance.GetPermissions(userId)
+	return Instance().GetPermissions(userId)
 }
