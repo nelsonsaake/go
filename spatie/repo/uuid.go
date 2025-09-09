@@ -1,4 +1,4 @@
-package strs
+package repo
 
 import (
 	"github.com/google/uuid"

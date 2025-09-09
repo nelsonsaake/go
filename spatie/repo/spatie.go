@@ -1,9 +1,10 @@
-package engine
+package repo
 
 import (
 	"context"
 
 	"github.com/nelsonsaake/go/spatie/models"
+	"github.com/nelsonsaake/go/strs"
 	"gorm.io/gorm"
 )
 
@@ -173,122 +174,137 @@ func (s *Spatie) getEffectivePermissions(userId string) (map[string]bool, error)
 // Management methods
 func (s *Spatie) CreateRole(names ...string) ([]*models.Role, error) {
 	var roles []*models.Role
+
 	for _, name := range names {
 		role := &models.Role{Name: name}
-		if err := s.do().
-			FirstOrCreate(role, models.Role{Name: name}).
-			Error; err != nil {
+		role.ID = strs.UUID()
+
+		err := s.do().FirstOrCreate(role, models.Role{Name: name}).Error
+		if err != nil {
 			return nil, err
 		}
+
 		roles = append(roles, role)
 	}
+
 	return roles, nil
 }
 
 func (s *Spatie) CreatePermission(names ...string) ([]*models.Permission, error) {
 	var perms []*models.Permission
+
 	for _, name := range names {
 		perm := &models.Permission{Name: name}
-		if err := s.do().
-			FirstOrCreate(perm, models.Permission{Name: name}).
-			Error; err != nil {
+		perm.ID = strs.UUID()
+
+		err := s.do().FirstOrCreate(perm, models.Permission{Name: name}).Error
+		if err != nil {
 			return nil, err
 		}
+
 		perms = append(perms, perm)
 	}
+
 	return perms, nil
 }
 
 func (s *Spatie) AssignPermissionToRole(roleName string, permNames ...string) error {
 	var role models.Role
-	if err := s.do().
-		Where("name = ?", roleName).
-		First(&role).
-		Error; err != nil {
+	err := s.do().Where("name = ?", roleName).First(&role).Error
+	if err != nil {
 		return err
 	}
+
 	for _, permName := range permNames {
 		var perm models.Permission
-		if err := s.do().
-			Where("name = ?", permName).
-			First(&perm).
-			Error; err != nil {
+		err := s.do().Where("name = ?", permName).First(&perm).Error
+		if err != nil {
 			return err
 		}
+
 		rp := models.RolePermission{RoleID: role.ID, PermissionID: perm.ID}
-		if err := s.do().
-			FirstOrCreate(&rp, rp).
-			Error; err != nil {
+		rp.ID = strs.UUID()
+
+		err = s.do().FirstOrCreate(&rp, rp).Error
+		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
 func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
 	// Ensure user exists
 	var user models.User
-	if err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error; err != nil {
+	err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
+	if err != nil {
 		return err
 	}
+
 	for _, roleName := range roleNames {
 		var role models.Role
-		if err := s.do().
-			Where("name = ?", roleName).
-			First(&role).
-			Error; err != nil {
+		err := s.do().Where("name = ?", roleName).First(&role).Error
+		if err != nil {
 			return err
 		}
+
 		ur := models.UserRole{UserID: userId, RoleID: role.ID}
-		if err := s.do().
-			FirstOrCreate(&ur, ur).
-			Error; err != nil {
+		ur.ID = strs.UUID()
+
+		err = s.do().FirstOrCreate(&ur, ur).Error
+		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
 func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error {
 	// Ensure user exists
 	var user models.User
-	if err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error; err != nil {
+	err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
+	if err != nil {
 		return err
 	}
+
 	for _, permName := range permNames {
 		var perm models.Permission
-		if err := s.do().
-			Where("name = ?", permName).
-			First(&perm).
-			Error; err != nil {
+		err := s.do().Where("name = ?", permName).First(&perm).Error
+		if err != nil {
 			return err
 		}
+
 		up := models.UserPermission{UserID: userId, PermissionID: perm.ID}
-		if err := s.do().
-			FirstOrCreate(&up, up).
-			Error; err != nil {
+		up.ID = strs.UUID()
+
+		err = s.do().FirstOrCreate(&up, up).Error
+		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
 func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) error {
 	for _, permName := range permNames {
 		var perm models.Permission
-		if err := s.do().
-			Where("name = ?", permName).
-			First(&perm).
-			Error; err != nil {
+		err := s.do().Where("name = ?", permName).First(&perm).Error
+		if err != nil {
 			return err
 		}
+
 		rev := models.UserPermissionRevoked{UserID: userId, PermissionID: perm.ID}
-		if err := s.do().
-			FirstOrCreate(&rev, rev).
-			Error; err != nil {
+		rev.ID = strs.UUID()
+
+		err = s.do().FirstOrCreate(&rev, rev).Error
+		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 

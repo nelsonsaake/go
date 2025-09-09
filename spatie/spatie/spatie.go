@@ -4,15 +4,15 @@ import (
 	"context"
 	"sync"
 
-	"github.com/nelsonsaake/go/spatie/engine"
 	"github.com/nelsonsaake/go/spatie/models"
+	"github.com/nelsonsaake/go/spatie/repo"
 	"gorm.io/gorm"
 )
 
-type Spatie = engine.Spatie
+type Spatie = repo.Spatie
 
 func New(db *gorm.DB, ctx context.Context) *Spatie {
-	return engine.New(db, ctx)
+	return repo.New(db, ctx)
 }
 
 // Singleton management
