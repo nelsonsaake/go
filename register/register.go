@@ -69,6 +69,17 @@ func (r *Registry[T]) Get(name string) (T, bool) {
 	return value, ok
 }
 
+// GetAll returns a copy of all registered items as a map
+func (r *Registry[T]) GetAll() map[string]T {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	result := make(map[string]T, len(r.index))
+	for k, v := range r.index {
+		result[k] = v
+	}
+	return result
+}
+
 // ---- helpers ----
 
 // typeKey generates a unique string key per type
