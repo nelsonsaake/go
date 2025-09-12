@@ -6,10 +6,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var name string = "app"
+
+func Init(kernelName string) {
+	name = kernelName
+}
+
 func Start() error {
 
 	// create root command
-	var lts = &cobra.Command{Use: "ns"}
+	var lts = &cobra.Command{Use: name}
 
 	// add routes
 	loadRegister(lts)
