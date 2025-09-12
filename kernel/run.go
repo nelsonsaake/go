@@ -8,10 +8,6 @@ import (
 
 var name string = "app"
 
-func Init(kernelName string) {
-	name = kernelName
-}
-
 func Start() error {
 
 	// create root command
