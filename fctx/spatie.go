@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/nelsonsaake/go/spatie/spatie"
+	"github.com/nelsonsaake/go/spatie"
 )
 
 // Use facade methods directly, no need for CheckFunc or singleton
