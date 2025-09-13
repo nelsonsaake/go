@@ -3,7 +3,6 @@ package seeder
 import (
 	"fmt"
 	"math/rand"
-	"server/src/models"
 
 	"gorm.io/gorm"
 )
@@ -16,11 +15,11 @@ func GetRandom[T any](db *gorm.DB) (*T, error) {
 		return nil, fmt.Errorf(f, a...)
 	}
 
-	var res = new(T)
-
-	tableName := models.GetTableName(res)
-
-	var count int64
+	var (
+		res       = new(T)
+		tableName = getTableName[T](db)
+		count     int64
+	)
 
 	err := db.Table(tableName).Count(&count).Error
 	if err != nil {
