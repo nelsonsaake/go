@@ -35,3 +35,19 @@ func Sentence() string {
 func IPv4() string {
 	return gofakeit.IPv4Address()
 }
+
+func PhoneNumber() string {
+	// Ghanaian mobile prefixes
+	prefixes := []string{"024", "054", "055", "056", "057", "059", "020", "050"}
+	prefix := prefixes[rand.IntN(len(prefixes))]
+	// Generate 7 random digits
+	num := ""
+	for i := 0; i < 7; i++ {
+		num += gofakeit.Digit()
+	}
+	return "+233" + prefix[1:] + num
+}
+
+func Email() string {
+	return gofakeit.Email()
+}
