@@ -40,7 +40,7 @@ func SendHtml(c *fiber.Ctx, html string) error {
 	return c.Send([]byte(html))
 }
 
-func Send(c *fiber.Ctx, fs ...func(*Response)) error {
+func send(c *fiber.Ctx, fs ...func(*Response)) error {
 
 	res := &Response{}
 	for _, f := range fs {
