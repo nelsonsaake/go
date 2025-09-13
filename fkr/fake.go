@@ -53,3 +53,7 @@ func PhoneNumber() string {
 func Email() string {
 	return gofakeit.Email()
 }
+
+func Address() string {
+	return gofakeit.Address().Address
+}
