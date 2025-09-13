@@ -1,9 +1,10 @@
 package fkr
 
 import (
-	"math/rand/v2"
+	"fmt"
 
 	"github.com/brianvoe/gofakeit/v6"
+	"github.com/nelsonsaake/go/rand"
 	"github.com/nelsonsaake/go/strs"
 )
 
@@ -25,7 +26,7 @@ func Name() string {
 }
 
 func Bool() bool {
-	return rand.Float32() >= 0.5
+	return rand.Bool()
 }
 
 func Sentence() string {
@@ -37,14 +38,15 @@ func IPv4() string {
 }
 
 func PhoneNumber() string {
+
 	// Ghanaian mobile prefixes
 	prefixes := []string{"024", "054", "055", "056", "057", "059", "020", "050"}
-	prefix := prefixes[rand.IntN(len(prefixes))]
-	// Generate 7 random digits
-	num := ""
-	for i := 0; i < 7; i++ {
-		num += gofakeit.Digit()
-	}
+	prefix := rand.Element(prefixes)
+
+	// Generate 7 random digits and pad with zeros
+	randNum := rand.Int(10000000)
+	num := fmt.Sprintf("%07d", randNum)
+
 	return "+233" + prefix[1:] + num
 }
 
