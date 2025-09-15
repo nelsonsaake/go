@@ -56,6 +56,10 @@ func GiveRoleToUser(userId string, roleNames ...string) error {
 	return Instance().GiveRoleToUser(userId, roleNames...)
 }
 
+func RemoveRoleFromUser(userId string, roleNames ...string) error {
+	return Instance().RemoveRoleFromUser(userId, roleNames...)
+}
+
 func GivePermissionToUser(userId string, permNames ...string) error {
 	return Instance().GivePermissionToUser(userId, permNames...)
 }
