@@ -33,6 +33,11 @@ func SendAs(c *fiber.Ctx, data any, dtoname string) error {
 	return SendJSON(c, data)
 }
 
+func SendMessage(c *fiber.Ctx, message string) error {
+
+	return send(c, Message(message))
+}
+
 func SendHtml(c *fiber.Ctx, html string) error {
 
 	c.Set("Content-Type", "text/html")
