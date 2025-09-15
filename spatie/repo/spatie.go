@@ -288,6 +288,23 @@ func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error 
 	return nil
 }
 
+// RemoveRoleFromUser removes one or more roles from a user by role name
+func (s *Spatie) RemoveRoleFromUser(userId string, roleNames ...string) error {
+	for _, roleName := range roleNames {
+		var role models.Role
+		err := s.do().Where("name = ?", roleName).First(&role).Error
+		if err != nil {
+			return err
+		}
+
+		err = s.do().Where("user_id = ? AND role_id = ?", userId, role.ID).Delete(&models.UserRole{}).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) error {
 	for _, permName := range permNames {
 		var perm models.Permission
