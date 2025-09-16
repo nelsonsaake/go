@@ -1,12 +1,16 @@
 package repo
 
+import (
+	"github.com/nelsonsaake/go/spatie/models"
+)
+
 type Scope struct {
 	User
 	Roles       []string
 	Permissions []string
 }
 
-func (s *Spatie) Scope(user User) (*Scope, error) {
+func (s *Spatie) scope(user User) (*Scope, error) {
 
 	// Fetch roles and permissions in one query using UNION ALL
 	type resultRow struct {
@@ -45,11 +49,26 @@ func (s *Spatie) Scope(user User) (*Scope, error) {
 		}
 	}
 
-	return &Scope{
+	res := &Scope{
 		User:        user,
 		Roles:       roles,
 		Permissions: permissions,
-	}, nil
+	}
+
+	return res, nil
+}
+
+func (s *Spatie) Scope(user any) (*Scope, error) {
+
+	switch u := user.(type) {
+	case User:
+		return s.scope(u)
+	case string:
+		// If a string is passed, treat it as user ID
+		return s.scope(&models.Base{ID: u})
+	default:
+		return nil, ErrInvalidUserType
+	}
 }
 
 // Scopes returns scopes for multiple users

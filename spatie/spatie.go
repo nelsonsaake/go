@@ -96,8 +96,12 @@ func GetPermissions(userId string) ([]string, error) {
 	return Instance().GetPermissions(userId)
 }
 
-func Scope(user repo.User) (*repo.Scope, error) {
+func Scope(user any) (*repo.Scope, error) {
 	return Instance().Scope(user)
+}
+
+func Scopes(user repo.User) ([]*repo.Scope, error) {
+	return Instance().Scopes(user)
 }
 
 func MappedScope(users ...repo.User) (map[string]*repo.Scope, error) {
