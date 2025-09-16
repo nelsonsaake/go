@@ -13,6 +13,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/twinj/uuid v1.0.0
 	golang.ngrok.com/ngrok v1.13.0
+	gorm.io/driver/mysql v1.6.0
 	gorm.io/gorm v1.30.3
 )
 
@@ -47,7 +48,6 @@ require (
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/term v0.30.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/mysql v1.6.0 // indirect
 )
 
 require (

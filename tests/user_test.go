@@ -1,4 +1,4 @@
-package spatie
+package tests
 
 import (
 	"context"
@@ -31,10 +31,10 @@ func TestUser(t *testing.T) {
 
 	user := models.User{Base: models.Base{ID: "2fec39f7-4a62-4f96-b383-cacf3d7db13f"}}
 
-	scope, err := spatie.Scope(user)
+	scope, err := spatie.ScopeMany(user)
 	if err != nil {
 		t.Fatalf("error getting the scope: %v", err)
 	}
 
-	fmt.Println(scope)
+	fmt.Print(scope)
 }
