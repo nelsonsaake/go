@@ -249,10 +249,23 @@ func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
 			return err
 		}
 
+		// Check if already assigned
+		var count int64
+		err = s.do().Model(&models.UserRole{}).
+			Where("user_id = ? AND role_id = ?", userId, role.ID).
+			Count(&count).Error
+		if err != nil {
+			return err
+		}
+		if count > 0 {
+			// Already assigned, skip
+			continue
+		}
+
 		ur := models.UserRole{UserID: userId, RoleID: role.ID}
 		ur.ID = strs.UUID()
 
-		err = s.do().FirstOrCreate(&ur, ur).Error
+		err = s.do().Create(&ur).Error
 		if err != nil {
 			return err
 		}
@@ -276,10 +289,23 @@ func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error 
 			return err
 		}
 
+		// Check if already assigned
+		var count int64
+		err = s.do().Model(&models.UserPermission{}).
+			Where("user_id = ? AND permission_id = ?", userId, perm.ID).
+			Count(&count).Error
+		if err != nil {
+			return err
+		}
+		if count > 0 {
+			// Already assigned, skip
+			continue
+		}
+
 		up := models.UserPermission{UserID: userId, PermissionID: perm.ID}
 		up.ID = strs.UUID()
 
-		err = s.do().FirstOrCreate(&up, up).Error
+		err = s.do().Create(&up).Error
 		if err != nil {
 			return err
 		}
