@@ -88,7 +88,7 @@ func transformv(v any, dtoname string) (map[string]any, error) {
 
 	err = cast(v, &raw)
 	if err != nil {
-		return die("error casting input to []map[string]any: %w", err)
+		return die("error casting input to map[string]any: %w", err)
 	}
 
 	return transform(raw, dtoname)
