@@ -12,20 +12,20 @@ var (
 )
 
 type Config struct {
-	DB           *gorm.DB
-	Context      context.Context
-	TokenConfigs map[string]TokenConfig
+	DB      *gorm.DB
+	Context context.Context
+	Tokens  map[string]TokenConfig
 }
 
 func Setup(cfg Config) {
 
 	cfgInstance = &cfg
 
-	if cfg.TokenConfigs != nil {
+	if cfg.Tokens != nil {
 		return
 	}
 
-	cfg.TokenConfigs = map[string]TokenConfig{
+	cfg.Tokens = map[string]TokenConfig{
 		"access": {
 			Name:          "access",
 			TTL:           time.Minute * 5, // 5 minutes
