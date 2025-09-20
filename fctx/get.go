@@ -41,5 +41,7 @@ func GetQuery(c *fiber.Ctx) (GetRequest, error) {
 
 type GetResponse[T any] struct {
 	GetRequest
-	Data []T `json:"data"`
+	Data       []T `json:"data"`
+	Total      int64
+	TotalPages int64
 }
