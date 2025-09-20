@@ -53,7 +53,7 @@ func transform(raw map[string]any, dtoname string) (map[string]any, error) {
 			}
 		case transformType:
 			if vExists {
-				res[k], err = transformv(v, op.dtoname)
+				res[k], err = Transform(v, op.dtoname)
 				if err != nil {
 					return die("error transforming %v: %v", k, err)
 				}
