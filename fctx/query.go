@@ -14,13 +14,18 @@ type Query struct {
 	PageSize    int      `query:"pageSize"`
 }
 
-func GetQuery(c *fiber.Ctx) (*Query, error) {
+var zeroQuery = Query{
+	Page:     1,
+	PageSize: 20,
+}
 
-	var q Query
+func GetQuery(c *fiber.Ctx) (Query, error) {
+
+	var q = zeroQuery
 
 	err := c.QueryParser(&q)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse query params: %w", err)
+		return zeroQuery, fmt.Errorf("failed to parse query params: %w", err)
 	}
 
 	if q.Page == 0 {
@@ -31,5 +36,5 @@ func GetQuery(c *fiber.Ctx) (*Query, error) {
 		q.PageSize = 20
 	}
 
-	return &q, nil
+	return q, nil
 }
