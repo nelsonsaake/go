@@ -31,3 +31,15 @@ func Middlewares() []fiber.Handler {
 
 	return res
 }
+
+func Authorize() fiber.Handler {
+	return Middleware("access")
+}
+
+func AuthorizeRefresh() fiber.Handler {
+	return Middleware("refresh")
+}
+
+func AuthorizeReset() fiber.Handler {
+	return Middleware("reset")
+}
