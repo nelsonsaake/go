@@ -7,11 +7,11 @@ import (
 )
 
 type Query struct {
-	Search      string   `query:"search"`
-	With        []string `query:"with"`
-	NoPagiation bool     `query:"no_pagination"`
-	Page        int      `query:"page"`
-	PageSize    int      `query:"pageSize"`
+	Search       string   `query:"search"`
+	With         []string `query:"with"`
+	NoPagination bool     `query:"no_pagination"`
+	Page         int      `query:"page"`
+	PageSize     int      `query:"pageSize"`
 }
 
 var zeroQuery = Query{
