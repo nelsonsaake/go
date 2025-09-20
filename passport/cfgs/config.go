@@ -2,13 +2,14 @@ package cfgs
 
 import (
 	"errors"
+	"time"
 )
 
 type Token struct {
-	Name          string `json:"name"`
-	SigningMethod string `json:"signing_method"`
-	SigningKey    string `json:"signing_key"`
-	TTL           int    `json:"ttl"`
+	Name          string        `json:"name"`
+	SigningMethod string        `json:"signing_method"`
+	SigningKey    string        `json:"signing_key"`
+	TTL           time.Duration `json:"ttl"`
 }
 
 func New(name string) (Token, error) {
@@ -29,7 +30,7 @@ func (t Token) GetSigningKey() []byte {
 	return []byte(t.SigningKey)
 }
 
-func (t Token) GetTTL() int {
+func (t Token) GetTTL() time.Duration {
 	return t.TTL
 }
 

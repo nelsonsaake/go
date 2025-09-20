@@ -11,7 +11,7 @@ import (
 
 func newTokenString[T string | []byte](
 	id string,
-	ttl int,
+	ttl time.Duration,
 	signingKey T,
 	signingMethod string,
 	argClaims ...map[string]any,
@@ -19,7 +19,7 @@ func newTokenString[T string | []byte](
 
 	claims := jwt.MapClaims{
 		"id":  id,
-		"exp": time.Now().Add(time.Duration(ttl) * time.Second).Unix(),
+		"exp": time.Now().Add(ttl).Unix(),
 	}
 
 	for _, ac := range argClaims {

@@ -1,8 +1,10 @@
 package middleware
 
+import "time"
+
 type TokenConfig interface {
 	GetName() string
 	GetSigningKey() []byte
-	GetTTL() int
+	GetTTL() time.Duration
 	GetSigningMethod() string
 }
