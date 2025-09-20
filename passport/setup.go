@@ -20,9 +20,11 @@ func Setup(cfg Config) {
 
 	cfgInstance = &cfg
 
-	if cfg.Tokens != nil {
-		for _, token := range cfg.Tokens {
-			cfgsRegister(token.Name, token)
-		}
+	if cfg.Tokens == nil {
+		cfg.Tokens = cfgsDefault()
+	}
+
+	for _, token := range cfg.Tokens {
+		cfgsRegister(token.Name, token)
 	}
 }
