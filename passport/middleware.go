@@ -32,14 +32,14 @@ func Middlewares() []fiber.Handler {
 	return res
 }
 
-func Authorize() fiber.Handler {
+func MiddlewareAuth() fiber.Handler {
 	return Middleware("access")
 }
 
-func AuthorizeRefresh() fiber.Handler {
+func MiddlewareAuthRefresh() fiber.Handler {
 	return Middleware("refresh")
 }
 
-func AuthorizeReset() fiber.Handler {
+func MiddlewareAuthReset() fiber.Handler {
 	return Middleware("reset")
 }
