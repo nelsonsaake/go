@@ -11,8 +11,8 @@ type Router struct {
 	lastRoute  fiber.Router
 }
 
-// NewRouter wraps a fiber.Router
-func NewRouter(group fiber.Router) *Router {
+// New wraps a fiber.Router
+func New(group fiber.Router) *Router {
 	return &Router{group: group}
 }
 
