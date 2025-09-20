@@ -1,7 +1,7 @@
-package spatie
+package passport
 
 import (
-	"github.com/nelsonsaake/go/spatie/migration"
+	"github.com/nelsonsaake/go/passport/migration"
 	"gorm.io/gorm"
 )
 

@@ -10,7 +10,7 @@ type Scope struct {
 	Permissions []string
 }
 
-func (s *Spatie) scope(user User) (*Scope, error) {
+func (r *Repo) scope(user User) (*Scope, error) {
 
 	// Fetch roles and permissions in one query using UNION ALL
 	type resultRow struct {
@@ -32,7 +32,7 @@ func (s *Spatie) scope(user User) (*Scope, error) {
 		WHERE up.user_id = ?
 		GROUP BY p.name
 	`
-	if err := s.db.Raw(query, user.GetID(), user.GetID()).Scan(&rows).Error; err != nil {
+	if err := r.db.Raw(query, user.GetID(), user.GetID()).Scan(&rows).Error; err != nil {
 		return nil, err
 	}
 
@@ -58,21 +58,21 @@ func (s *Spatie) scope(user User) (*Scope, error) {
 	return res, nil
 }
 
-func (s *Spatie) Scope(user any) (*Scope, error) {
+func (r *Repo) Scope(user any) (*Scope, error) {
 
 	switch u := user.(type) {
 	case User:
-		return s.scope(u)
+		return r.scope(u)
 	case string:
 		// If a string is passed, treat it as user ID
-		return s.scope(&models.Base{ID: u})
+		return r.scope(&models.Base{ID: u})
 	default:
 		return nil, ErrInvalidUserType
 	}
 }
 
 // Scopes returns scopes for multiple users
-func (s *Spatie) Scopes(users ...User) ([]*Scope, error) {
+func (r *Repo) Scopes(users ...User) ([]*Scope, error) {
 
 	scopes := make([]*Scope, 0)
 	if len(users) == 0 {
@@ -106,7 +106,7 @@ func (s *Spatie) Scopes(users ...User) ([]*Scope, error) {
 		WHERE up.user_id IN ?
 		GROUP BY up.user_id, p.name
 	`
-	if err := s.db.Raw(query, userIDs, userIDs).Scan(&rows).Error; err != nil {
+	if err := r.db.Raw(query, userIDs, userIDs).Scan(&rows).Error; err != nil {
 		return nil, err
 	}
 
@@ -142,7 +142,7 @@ func (s *Spatie) Scopes(users ...User) ([]*Scope, error) {
 }
 
 // MappedScope returns scopes for multiple users
-func (s *Spatie) MappedScope(users ...User) (map[string]*Scope, error) {
+func (r *Repo) MappedScope(users ...User) (map[string]*Scope, error) {
 
 	scopes := make(map[string]*Scope)
 	if len(users) == 0 {
@@ -176,7 +176,7 @@ func (s *Spatie) MappedScope(users ...User) (map[string]*Scope, error) {
 		WHERE up.user_id IN ?
 		GROUP BY up.user_id, p.name
 	`
-	if err := s.db.Raw(query, userIDs, userIDs).Scan(&rows).Error; err != nil {
+	if err := r.db.Raw(query, userIDs, userIDs).Scan(&rows).Error; err != nil {
 		return nil, err
 	}
 

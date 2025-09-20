@@ -19,4 +19,3 @@ package repo
 
 // // revoke one or more permissions from user
 // spatie.RevokePermissionFromUser("user-uuid", "manage_users", "export_data")
-// ...existing code...

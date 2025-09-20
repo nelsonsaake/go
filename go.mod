@@ -23,6 +23,7 @@ require (
 	github.com/fatih/camelcase v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/inconshreveable/log15 v3.0.0-testing.5+incompatible // indirect
 	github.com/inconshreveable/log15/v3 v3.0.0-testing.5 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -62,6 +63,8 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.20.0
 	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/gofiber/jwt/v3 v3.3.10
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/iancoleman/strcase v0.3.0
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect

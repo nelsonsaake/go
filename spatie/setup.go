@@ -11,6 +11,6 @@ type Config struct {
 	Context context.Context
 }
 
-func Setup(cfg Config) *Spatie {
-	return Connect(cfg.DB, cfg.Context)
+func Setup(cfg Config) *Repo {
+	return connect(cfg.DB, cfg.Context)
 }

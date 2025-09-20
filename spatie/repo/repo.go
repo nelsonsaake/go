@@ -8,32 +8,32 @@ import (
 	"gorm.io/gorm"
 )
 
-type Spatie struct {
+type Repo struct {
 	db  *gorm.DB
 	ctx context.Context
 }
 
-func New(db *gorm.DB, ctx context.Context) *Spatie {
-	return &Spatie{db: db, ctx: ctx}
+func New(db *gorm.DB, ctx context.Context) *Repo {
+	return &Repo{db: db, ctx: ctx}
 }
 
 // do returns a *gorm.DB with the current context
-func (s *Spatie) do() *gorm.DB {
-	return s.db.WithContext(s.ctx)
+func (r *Repo) do() *gorm.DB {
+	return r.db.WithContext(r.ctx)
 }
 
-func (s *Spatie) WithContext(ctx context.Context) *Spatie {
-	s.ctx = ctx
-	return s
+func (r *Repo) WithContext(ctx context.Context) *Repo {
+	r.ctx = ctx
+	return r
 }
 
 // ===================
 // Query Methods
 // ===================
 
-func (s *Spatie) Is(userId string, roles ...string) (bool, error) {
+func (r *Repo) Is(userId string, roles ...string) (bool, error) {
 	var userRoles []models.UserRole
-	err := s.do().
+	err := r.do().
 		Preload("Role").
 		Where("user_id = ?", userId).
 		Find(&userRoles).
@@ -58,9 +58,9 @@ func (s *Spatie) Is(userId string, roles ...string) (bool, error) {
 	return true, nil
 }
 
-func (s *Spatie) IsAny(userId string, roles ...string) (bool, error) {
+func (r *Repo) IsAny(userId string, roles ...string) (bool, error) {
 	var userRoles []models.UserRole
-	err := s.do().
+	err := r.do().
 		Preload("Role").
 		Where("user_id = ?", userId).
 		Find(&userRoles).
@@ -83,8 +83,8 @@ func (s *Spatie) IsAny(userId string, roles ...string) (bool, error) {
 	return false, nil
 }
 
-func (s *Spatie) Can(userId string, perms ...string) (bool, error) {
-	permsSet, err := s.getEffectivePermissions(userId)
+func (r *Repo) Can(userId string, perms ...string) (bool, error) {
+	permsSet, err := r.getEffectivePermissions(userId)
 	if err != nil {
 		return false, err
 	}
@@ -96,8 +96,8 @@ func (s *Spatie) Can(userId string, perms ...string) (bool, error) {
 	return true, nil
 }
 
-func (s *Spatie) CanAny(userId string, perms ...string) (bool, error) {
-	permsSet, err := s.getEffectivePermissions(userId)
+func (r *Repo) CanAny(userId string, perms ...string) (bool, error) {
+	permsSet, err := r.getEffectivePermissions(userId)
 	if err != nil {
 		return false, err
 	}
@@ -109,12 +109,12 @@ func (s *Spatie) CanAny(userId string, perms ...string) (bool, error) {
 	return false, nil
 }
 
-func (s *Spatie) getEffectivePermissions(userId string) (map[string]bool, error) {
+func (r *Repo) getEffectivePermissions(userId string) (map[string]bool, error) {
 	permsSet := make(map[string]bool)
 
 	// Get roles for user
 	var userRoles []models.UserRole
-	if err := s.do().
+	if err := r.do().
 		Preload("Role.Permissions.Permission").
 		Where("user_id = ?", userId).
 		Find(&userRoles).
@@ -136,7 +136,7 @@ func (s *Spatie) getEffectivePermissions(userId string) (map[string]bool, error)
 
 	// Get direct permissions
 	var userPerms []models.UserPermission
-	if err := s.do().
+	if err := r.do().
 		Preload("Permission").
 		Where("user_id = ?", userId).
 		Find(&userPerms).
@@ -153,7 +153,7 @@ func (s *Spatie) getEffectivePermissions(userId string) (map[string]bool, error)
 
 	// Remove revoked
 	var revoked []models.UserPermissionRevoked
-	if err := s.do().
+	if err := r.do().
 		Preload("Permission").
 		Where("user_id = ?", userId).
 		Find(&revoked).
@@ -172,14 +172,14 @@ func (s *Spatie) getEffectivePermissions(userId string) (map[string]bool, error)
 }
 
 // Management methods
-func (s *Spatie) CreateRole(names ...string) ([]*models.Role, error) {
+func (r *Repo) CreateRole(names ...string) ([]*models.Role, error) {
 	var roles []*models.Role
 
 	for _, name := range names {
 		role := &models.Role{Name: name}
 		role.ID = strs.UUID()
 
-		err := s.do().FirstOrCreate(role, models.Role{Name: name}).Error
+		err := r.do().FirstOrCreate(role, models.Role{Name: name}).Error
 		if err != nil {
 			return nil, err
 		}
@@ -190,14 +190,14 @@ func (s *Spatie) CreateRole(names ...string) ([]*models.Role, error) {
 	return roles, nil
 }
 
-func (s *Spatie) CreatePermission(names ...string) ([]*models.Permission, error) {
+func (r *Repo) CreatePermission(names ...string) ([]*models.Permission, error) {
 	var perms []*models.Permission
 
 	for _, name := range names {
 		perm := &models.Permission{Name: name}
 		perm.ID = strs.UUID()
 
-		err := s.do().FirstOrCreate(perm, models.Permission{Name: name}).Error
+		err := r.do().FirstOrCreate(perm, models.Permission{Name: name}).Error
 		if err != nil {
 			return nil, err
 		}
@@ -208,16 +208,16 @@ func (s *Spatie) CreatePermission(names ...string) ([]*models.Permission, error)
 	return perms, nil
 }
 
-func (s *Spatie) AssignPermissionToRole(roleName string, permNames ...string) error {
+func (r *Repo) AssignPermissionToRole(roleName string, permNames ...string) error {
 	var role models.Role
-	err := s.do().Where("name = ?", roleName).First(&role).Error
+	err := r.do().Where("name = ?", roleName).First(&role).Error
 	if err != nil {
 		return err
 	}
 
 	for _, permName := range permNames {
 		var perm models.Permission
-		err := s.do().Where("name = ?", permName).First(&perm).Error
+		err := r.do().Where("name = ?", permName).First(&perm).Error
 		if err != nil {
 			return err
 		}
@@ -225,7 +225,7 @@ func (s *Spatie) AssignPermissionToRole(roleName string, permNames ...string) er
 		rp := models.RolePermission{RoleID: role.ID, PermissionID: perm.ID}
 		rp.ID = strs.UUID()
 
-		err = s.do().FirstOrCreate(&rp, rp).Error
+		err = r.do().FirstOrCreate(&rp, rp).Error
 		if err != nil {
 			return err
 		}
@@ -234,24 +234,24 @@ func (s *Spatie) AssignPermissionToRole(roleName string, permNames ...string) er
 	return nil
 }
 
-func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
+func (r *Repo) GiveRoleToUser(userId string, roleNames ...string) error {
 	// Ensure user exists
 	var user models.User
-	err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
+	err := r.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
 	if err != nil {
 		return err
 	}
 
 	for _, roleName := range roleNames {
 		var role models.Role
-		err := s.do().Where("name = ?", roleName).First(&role).Error
+		err := r.do().Where("name = ?", roleName).First(&role).Error
 		if err != nil {
 			return err
 		}
 
 		// Check if already assigned
 		var count int64
-		err = s.do().Model(&models.UserRole{}).
+		err = r.do().Model(&models.UserRole{}).
 			Where("user_id = ? AND role_id = ?", userId, role.ID).
 			Count(&count).Error
 		if err != nil {
@@ -265,7 +265,7 @@ func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
 		ur := models.UserRole{UserID: userId, RoleID: role.ID}
 		ur.ID = strs.UUID()
 
-		err = s.do().Create(&ur).Error
+		err = r.do().Create(&ur).Error
 		if err != nil {
 			return err
 		}
@@ -274,24 +274,24 @@ func (s *Spatie) GiveRoleToUser(userId string, roleNames ...string) error {
 	return nil
 }
 
-func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error {
+func (r *Repo) GivePermissionToUser(userId string, permNames ...string) error {
 	// Ensure user exists
 	var user models.User
-	err := s.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
+	err := r.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
 	if err != nil {
 		return err
 	}
 
 	for _, permName := range permNames {
 		var perm models.Permission
-		err := s.do().Where("name = ?", permName).First(&perm).Error
+		err := r.do().Where("name = ?", permName).First(&perm).Error
 		if err != nil {
 			return err
 		}
 
 		// Check if already assigned
 		var count int64
-		err = s.do().Model(&models.UserPermission{}).
+		err = r.do().Model(&models.UserPermission{}).
 			Where("user_id = ? AND permission_id = ?", userId, perm.ID).
 			Count(&count).Error
 		if err != nil {
@@ -305,7 +305,7 @@ func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error 
 		up := models.UserPermission{UserID: userId, PermissionID: perm.ID}
 		up.ID = strs.UUID()
 
-		err = s.do().Create(&up).Error
+		err = r.do().Create(&up).Error
 		if err != nil {
 			return err
 		}
@@ -315,15 +315,15 @@ func (s *Spatie) GivePermissionToUser(userId string, permNames ...string) error 
 }
 
 // RemoveRoleFromUser removes one or more roles from a user by role name
-func (s *Spatie) RemoveRoleFromUser(userId string, roleNames ...string) error {
+func (r *Repo) RemoveRoleFromUser(userId string, roleNames ...string) error {
 	for _, roleName := range roleNames {
 		var role models.Role
-		err := s.do().Where("name = ?", roleName).First(&role).Error
+		err := r.do().Where("name = ?", roleName).First(&role).Error
 		if err != nil {
 			return err
 		}
 
-		err = s.do().Where("user_id = ? AND role_id = ?", userId, role.ID).Delete(&models.UserRole{}).Error
+		err = r.do().Where("user_id = ? AND role_id = ?", userId, role.ID).Delete(&models.UserRole{}).Error
 		if err != nil {
 			return err
 		}
@@ -331,10 +331,10 @@ func (s *Spatie) RemoveRoleFromUser(userId string, roleNames ...string) error {
 	return nil
 }
 
-func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) error {
+func (r *Repo) RevokePermissionFromUser(userId string, permNames ...string) error {
 	for _, permName := range permNames {
 		var perm models.Permission
-		err := s.do().Where("name = ?", permName).First(&perm).Error
+		err := r.do().Where("name = ?", permName).First(&perm).Error
 		if err != nil {
 			return err
 		}
@@ -342,7 +342,7 @@ func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) er
 		rev := models.UserPermissionRevoked{UserID: userId, PermissionID: perm.ID}
 		rev.ID = strs.UUID()
 
-		err = s.do().FirstOrCreate(&rev, rev).Error
+		err = r.do().FirstOrCreate(&rev, rev).Error
 		if err != nil {
 			return err
 		}
@@ -351,11 +351,10 @@ func (s *Spatie) RevokePermissionFromUser(userId string, permNames ...string) er
 	return nil
 }
 
-// ...existing code...
 // GetRoles returns all role names for a given user ID
-func (s *Spatie) GetRoles(userId string) ([]string, error) {
+func (r *Repo) GetRoles(userId string) ([]string, error) {
 	var userRoles []models.UserRole
-	if err := s.do().Preload("Role").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+	if err := r.do().Preload("Role").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
 		return nil, err
 	}
 	roles := make([]string, 0, len(userRoles))
@@ -370,12 +369,12 @@ func (s *Spatie) GetRoles(userId string) ([]string, error) {
 // GetPermissionsForUser returns all permission names for a given user ID
 // GetDetailedPermissions returns all permission names for a given user ID
 // Includes direct permissions, permissions via roles, minus revoked, with details
-func (s *Spatie) GetDetailedPermissions(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
+func (r *Repo) GetDetailedPermissions(userId string) (map[string]struct{ Direct, ViaRole, Revoked bool }, error) {
 	result := make(map[string]struct{ Direct, ViaRole, Revoked bool })
 
 	// Direct permissions
 	var userPerms []models.UserPermission
-	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
+	if err := r.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
 		return nil, err
 	}
 	for _, up := range userPerms {
@@ -389,7 +388,7 @@ func (s *Spatie) GetDetailedPermissions(userId string) (map[string]struct{ Direc
 
 	// Permissions via roles
 	var userRoles []models.UserRole
-	if err := s.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+	if err := r.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
 		return nil, err
 	}
 	for _, ur := range userRoles {
@@ -405,7 +404,7 @@ func (s *Spatie) GetDetailedPermissions(userId string) (map[string]struct{ Direc
 
 	// Revoked permissions
 	var revoked []models.UserPermissionRevoked
-	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
+	if err := r.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
 		return nil, err
 	}
 	for _, rev := range revoked {
@@ -422,12 +421,12 @@ func (s *Spatie) GetDetailedPermissions(userId string) (map[string]struct{ Direc
 
 // GetPermissions returns all effective permission names for a given user ID
 // Includes direct and via roles, minus revoked
-func (s *Spatie) GetPermissions(userId string) ([]string, error) {
+func (r *Repo) GetPermissions(userId string) ([]string, error) {
 	permSet := make(map[string]struct{})
 
 	// Direct permissions
 	var userPerms []models.UserPermission
-	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
+	if err := r.do().Preload("Permission").Where("user_id = ?", userId).Find(&userPerms).Error; err != nil {
 		return nil, err
 	}
 	for _, up := range userPerms {
@@ -438,7 +437,7 @@ func (s *Spatie) GetPermissions(userId string) ([]string, error) {
 
 	// Permissions via roles
 	var userRoles []models.UserRole
-	if err := s.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
+	if err := r.do().Preload("Role.Permissions.Permission").Where("user_id = ?", userId).Find(&userRoles).Error; err != nil {
 		return nil, err
 	}
 	for _, ur := range userRoles {
@@ -451,7 +450,7 @@ func (s *Spatie) GetPermissions(userId string) ([]string, error) {
 
 	// Remove revoked permissions
 	var revoked []models.UserPermissionRevoked
-	if err := s.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
+	if err := r.do().Preload("Permission").Where("user_id = ?", userId).Find(&revoked).Error; err != nil {
 		return nil, err
 	}
 	for _, rev := range revoked {

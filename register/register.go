@@ -7,8 +7,8 @@ import (
 	"github.com/nelsonsaake/go/strs"
 )
 
-// Generic Registry type
-type Registry[T any] struct {
+// Generic Register type
+type Register[T any] struct {
 	index map[string]T
 	mu    sync.RWMutex
 }
@@ -20,36 +20,36 @@ var (
 	namedMu           sync.Mutex
 )
 
-// NewRegistry returns a singleton per type
-func NewRegistry[T any]() *Registry[T] {
+// New returns a singleton per type
+func New[T any]() *Register[T] {
 	// unique key per type
 	key := typeKey[T]()
 	if reg, ok := defaultRegistries.Load(key); ok {
-		return reg.(*Registry[T])
+		return reg.(*Register[T])
 	}
-	r := &Registry[T]{index: make(map[string]T)}
+	r := &Register[T]{index: make(map[string]T)}
 	defaultRegistries.Store(key, r)
 	return r
 }
 
-// NewNamedRegistry returns a singleton per type+name
-func NewNamedRegistry[T any](name string) *Registry[T] {
+// Named returns a singleton per type+name
+func Named[T any](name string) *Register[T] {
 	key := typeKey[T]() + ":" + name
 
 	namedMu.Lock()
 	defer namedMu.Unlock()
 
 	if reg, ok := namedRegistries[key]; ok {
-		return reg.(*Registry[T])
+		return reg.(*Register[T])
 	}
 
-	r := &Registry[T]{index: make(map[string]T)}
+	r := &Register[T]{index: make(map[string]T)}
 	namedRegistries[key] = r
 	return r
 }
 
 // Register a new item
-func (r *Registry[T]) Register(name string, value T) {
+func (r *Register[T]) Register(name string, value T) {
 	if strs.IsNotSnakeCase(name) {
 		panic("registry name must be snake cased: " + name + " given")
 	}
@@ -59,7 +59,7 @@ func (r *Registry[T]) Register(name string, value T) {
 }
 
 // Get an item by name
-func (r *Registry[T]) Get(name string) (T, bool) {
+func (r *Register[T]) Get(name string) (T, bool) {
 	if strs.IsNotSnakeCase(name) {
 		panic("registry name must be snake cased: " + name + " given")
 	}
@@ -70,7 +70,7 @@ func (r *Registry[T]) Get(name string) (T, bool) {
 }
 
 // GetAll returns a copy of all registered items as a map
-func (r *Registry[T]) GetAll() map[string]T {
+func (r *Register[T]) GetAll() map[string]T {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 	result := make(map[string]T, len(r.index))

@@ -14,4 +14,10 @@ Hopefull none of this packages will depened on each other.
 ## todo
 
 - obj.Data can be map or array, 
-- just like array can be map or array
+- just like json can be map or array
+
+
+## next steps
+
+- auths full rewrite
+- the component organisations doesn't make senese and it's hardly configurable
