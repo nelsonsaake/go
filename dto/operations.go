@@ -1,7 +1,7 @@
 package dto
 
 type Operation interface {
-	transformValue | transformType | transformlsType | includeValue | excludeValue | calcValue
+	transformValue | transformType | includeValue | excludeValue | calcValue
 }
 
 // --- value transformation
@@ -24,16 +24,6 @@ type transformType struct {
 
 func TransformType(name string) transformType {
 	return transformType{name}
-}
-
-// --- dto transformation type for array
-
-type transformlsType struct {
-	dtoname string
-}
-
-func TransformlsType(name string) transformlsType {
-	return transformlsType{name}
 }
 
 // --- inclusion strategy
