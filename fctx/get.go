@@ -10,8 +10,8 @@ type GetRequest struct {
 	Search       string   `query:"search" json:"search"`
 	With         []string `query:"with" json:"with"`
 	NoPagination bool     `query:"no_pagination" json:"no_pagination"`
-	Page         int      `query:"page" json:"page"`
-	PageSize     int      `query:"pageSize" json:"pageSize"`
+	Page         int64    `query:"page" json:"page"`
+	PageSize     int64    `query:"pageSize" json:"pageSize"`
 }
 
 var zeroQuery = GetRequest{
