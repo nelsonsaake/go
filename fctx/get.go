@@ -39,8 +39,6 @@ func GetQuery(c *fiber.Ctx) (GetRequest, error) {
 	return q, nil
 }
 
-//
-
 type GetResponse[T any] struct {
 	GetRequest
 	Data []T `json:"data"`

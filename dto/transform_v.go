@@ -62,7 +62,7 @@ func transform(raw map[string]any, dtoname string) (map[string]any, error) {
 			if vExists {
 				res[k], err = transformls(v, op.dtoname)
 				if err != nil {
-					return die("error transforming %v: %v", k, err)
+					return die("error transforming %q: %v", k, err)
 				}
 			}
 		default:
@@ -88,7 +88,7 @@ func transformv(v any, dtoname string) (map[string]any, error) {
 
 	err = cast(v, &raw)
 	if err != nil {
-		return die("error casting input to map[string]any: %w", err)
+		return die("error casting input to []map[string]any: %w", err)
 	}
 
 	return transform(raw, dtoname)
