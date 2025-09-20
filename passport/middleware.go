@@ -11,7 +11,7 @@ func newMiddleware(cfg TokenConfig, fctx *Fctx) fiber.Handler {
 
 func Middleware(name string) fiber.Handler {
 
-	cfg, exists := cfgInstance.Tokens[name]
+	cfg, exists := cfgsGet(name)
 	if !exists {
 		return nil
 	}
@@ -23,7 +23,7 @@ func Middlewares() []fiber.Handler {
 
 	res := []fiber.Handler{}
 
-	for _, cfg := range cfgInstance.Tokens {
+	for _, cfg := range cfgsGetAll() {
 
 		middleware := newMiddleware(cfg, getFctx())
 		res = append(res, middleware)

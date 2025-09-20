@@ -1,6 +1,10 @@
 package passport
 
-import "github.com/nelsonsaake/go/passport/cfgs"
+import (
+	"time"
+
+	"github.com/nelsonsaake/go/passport/cfgs"
+)
 
 type TokenConfig = cfgs.Token
 
@@ -14,4 +18,27 @@ func cfgsGet(name string) (TokenConfig, bool) {
 
 func cfgsGetAll() map[string]TokenConfig {
 	return cfgs.GetAll()
+}
+
+func cfgsDefault() []TokenConfig {
+	return []TokenConfig{
+		{
+			Name:          "access",
+			TTL:           time.Minute * 5, // 5 minutes
+			SigningKey:    "a6823c08-65de-4599-8698-64e78da6e2db",
+			SigningMethod: "HS256",
+		},
+		{
+			Name:          "refresh",
+			TTL:           time.Minute * 60 * 24 * 30 * 6, // six months
+			SigningKey:    "4c0b1f88-ea83-46c0-8ce1-7da3a2cf5096",
+			SigningMethod: "HS256",
+		},
+		{
+			Name:          "reset",
+			TTL:           time.Minute * 30, // 30 minutes
+			SigningKey:    "f5884751-dfd0-4054-99de-af33162e7075",
+			SigningMethod: "HS256",
+		},
+	}
 }
