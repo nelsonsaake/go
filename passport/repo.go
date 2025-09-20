@@ -36,3 +36,7 @@ func getAuthRepo() *AuthRepo {
 func getUserRepo() *UserRepo {
 	return &UserRepo{}
 }
+
+func Issue(user models.User) (*auths.Issue, error) {
+	return getRepo().Auths.Issue(user)
+}
