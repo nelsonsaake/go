@@ -12,7 +12,7 @@ func Validate(data any) *serr.ServerError {
 		return nil
 	}
 
-	return serr.New().
+	return serr.BadRequestError().
 		WithMessage("The given data was invalid.").
 		WithErrors(err.Errors)
 }
