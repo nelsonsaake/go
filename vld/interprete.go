@@ -11,10 +11,7 @@ func interprete(err validator.FieldError) string {
 	field := toWords(err.Field())
 
 	tr := map[string]string{
-		// "required": fmt.Sprintf("%s is required.", field),
 		"email": fmt.Sprintf("The %s provided is not a valid email.", field),
-		// "gte":      fmt.Sprintf("The %s must be greater than or equal to %s.", field, err.Param()),
-		// "lte":      fmt.Sprintf("The %s must be less than or equal to %s.", field, err.Param()),
 
 		// field comparison tags
 		"eqfield":       fmt.Sprintf("The %s must be equal to %s.", field, err.Param()),
@@ -95,7 +92,7 @@ func interprete(err validator.FieldError) string {
 		"startswith":      fmt.Sprintf("The %s must start with %s.", field, err.Param()),
 		"uppercase":       fmt.Sprintf("The %s must be uppercase.", field),
 
-		// Additions for new tags
+		// formats
 		"base64":                        fmt.Sprintf("The %s must be a valid Base64 string.", field),
 		"base64url":                     fmt.Sprintf("The %s must be a valid Base64URL string.", field),
 		"base64rawurl":                  fmt.Sprintf("The %s must be a valid Base64RawURL string.", field),
