@@ -21,7 +21,8 @@ func interprete(err validator.FieldError) string {
 	msg, exists := tr[err.Tag()]
 
 	if !exists {
-		msg = fmt.Sprintf("The %s is not valid.", field)
+		// msg = fmt.Sprintf("The %s is not valid.", field)
+		msg = err.Error() // default error message from validator
 	}
 
 	return toSentenceCase(msg)
