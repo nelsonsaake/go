@@ -21,7 +21,7 @@ func GiveRoleToUser(db *gorm.DB, userId string, roleNames ...string) error {
 
 	for _, roleName := range roleNames {
 		var role models.Role
-		err := db.Where("name = ?", roleName).First(&role).Error
+		err := db.Model(&models.Role{}).Where("name = ?", roleName).First(&role).Error
 		if err != nil {
 			return err
 		}
