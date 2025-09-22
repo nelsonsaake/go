@@ -48,10 +48,6 @@ func AssignPermissionToRole(roleName string, permNames ...string) error {
 	return gri().AssignPermissionToRole(roleName, permNames...)
 }
 
-func GiveRoleToUserTx(tx *gorm.DB, userId string, roleNames ...string) error {
-	return repo.GiveRoleToUser(tx, userId, roleNames...)
-}
-
 func GiveRoleToUser(userId string, roleNames ...string) error {
 	return gri().GiveRoleToUser(userId, roleNames...)
 }
