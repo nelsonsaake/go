@@ -14,7 +14,7 @@ func GiveRoleToUser(db *gorm.DB, userId string, roleNames ...string) error {
 		newUser = models.NewUser(userId)
 	)
 
-	err := db.FirstOrCreate(&user, newUser).Error
+	err := db.Model(&models.User{}).FirstOrCreate(&user, *newUser).Error
 	if err != nil {
 		return err
 	}
