@@ -1,6 +1,8 @@
 package vld
 
 import (
+	"regexp"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -56,6 +58,21 @@ func New() *Validator {
 	// myValidator.validator.RegisterValidation("same", func(fl validator.FieldLevel) bool {
 	// 	return fl.Field().Interface() == fl.Param()
 	// })
+
+	myValidator.validator.RegisterValidation("owasp_password", func(fl validator.FieldLevel) bool {
+		val := fl.Field().String()
+		if len(val) < 8 {
+			return false
+		}
+		upper := regexp.MustCompile(`[A-Z]`)
+		lower := regexp.MustCompile(`[a-z]`)
+		digit := regexp.MustCompile(`\d`)
+		special := regexp.MustCompile(`[^A-Za-z0-9]`)
+		return upper.MatchString(val) &&
+			lower.MatchString(val) &&
+			digit.MatchString(val) &&
+			special.MatchString(val)
+	})
 
 	return myValidator
 }

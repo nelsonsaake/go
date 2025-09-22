@@ -190,6 +190,8 @@ func interprete(err validator.FieldError) string {
 		"unique":               fmt.Sprintf("%s must be unique.", field),
 		"iscolor":              fmt.Sprintf("%s must be a valid color (hex, rgb, rgba, hsl, or hsla).", field),
 		"country_code":         fmt.Sprintf("%s must be a valid country code (ISO 3166-1 alpha-2, alpha-3, or numeric).", field),
+		"strong":               fmt.Sprintf("%s must contain at least one capital letter, one number, and one special character.", field),
+		"owasp_password":       fmt.Sprintf("%s must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character.", field),
 	}
 
 	msg, exists := tr[err.Tag()]
