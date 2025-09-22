@@ -235,43 +235,7 @@ func (r *Repo) AssignPermissionToRole(roleName string, permNames ...string) erro
 }
 
 func (r *Repo) GiveRoleToUser(userId string, roleNames ...string) error {
-	// Ensure user exists
-	var user models.User
-	err := r.do().FirstOrCreate(&user, models.User{Base: models.Base{ID: userId}}).Error
-	if err != nil {
-		return err
-	}
-
-	for _, roleName := range roleNames {
-		var role models.Role
-		err := r.do().Where("name = ?", roleName).First(&role).Error
-		if err != nil {
-			return err
-		}
-
-		// Check if already assigned
-		var count int64
-		err = r.do().Model(&models.UserRole{}).
-			Where("user_id = ? AND role_id = ?", userId, role.ID).
-			Count(&count).Error
-		if err != nil {
-			return err
-		}
-		if count > 0 {
-			// Already assigned, skip
-			continue
-		}
-
-		ur := models.UserRole{UserID: userId, RoleID: role.ID}
-		ur.ID = strs.UUID()
-
-		err = r.do().Create(&ur).Error
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
+	return GiveRoleToUser(r.do(), userId, roleNames...)
 }
 
 func (r *Repo) GivePermissionToUser(userId string, permNames ...string) error {
