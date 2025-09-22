@@ -1,28 +1,11 @@
 package vld
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/go-playground/validator/v10"
 )
 
 type Validator struct {
 	validator *validator.Validate
-}
-
-type ValidatorErrors struct {
-	Errors map[string][]string
-}
-
-func (v *ValidatorErrors) Error() string {
-
-	jsonBytes, err := json.MarshalIndent(v.Errors, "", "  ")
-	if err == nil {
-		return string(jsonBytes)
-	}
-
-	return fmt.Sprint(v.Errors)
 }
 
 func (v Validator) Validate(data any) *ValidatorErrors {
@@ -68,6 +51,11 @@ func New() *Validator {
 		// User.Age needs to fit our needs, 12-18 years old.
 		return fl.Field().Int() >= 12 && fl.Field().Int() <= 18
 	})
+
+	// Custom struct validation tag format
+	// myValidator.validator.RegisterValidation("same", func(fl validator.FieldLevel) bool {
+	// 	return fl.Field().Interface() == fl.Param()
+	// })
 
 	return myValidator
 }

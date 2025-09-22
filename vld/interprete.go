@@ -2,6 +2,7 @@ package vld
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -30,7 +31,14 @@ func interprete(err validator.FieldError) string {
 		"nefield":       fmt.Sprintf("The %s must not be equal to the field %s.", field, err.Param()),
 
 		// Comparison tags
-		"eq":             fmt.Sprintf("The %s must be equal to %s.", field, err.Param()),
+		"eq": func() string {
+			switch err.Kind() {
+			case reflect.String:
+				return fmt.Sprintf("The %s must be the same as %s.", field, err.Param())
+			default:
+				return fmt.Sprintf("The %s must be equal to %s.", field, err.Param())
+			}
+		}(),
 		"eq_ignore_case": fmt.Sprintf("The %s must be equal to %s (ignoring case).", field, err.Param()),
 		"gt":             fmt.Sprintf("The %s must be greater than %s.", field, err.Param()),
 		"gte":            fmt.Sprintf("The %s must be greater than or equal to %s.", field, err.Param()),
