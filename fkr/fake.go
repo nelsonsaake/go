@@ -57,3 +57,21 @@ func Email() string {
 func Address() string {
 	return gofakeit.Address().Address
 }
+
+func ImageURL() string {
+	return gofakeit.ImageURL(640, 480)
+}
+
+func FilePath() string {
+	exts := []string{".txt", ".pdf", ".docx", ".xlsx", ".jpg", ".png", ".csv"}
+	folders := []string{"documents", "downloads", "images", "music", "videos", "work"}
+	folder := rand.Element(folders)
+	filename := gofakeit.Word() + gofakeit.Word() + rand.Element(exts)
+	return fmt.Sprintf("/home/user/%s/%s", folder, filename)
+}
+
+func ImageFilePath() string {
+	exts := []string{".jpg", ".png", ".gif", ".bmp"}
+	filename := gofakeit.Word() + rand.Element(exts)
+	return fmt.Sprintf("/home/user/images/%s", filename)
+}
