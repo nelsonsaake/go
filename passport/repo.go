@@ -1,6 +1,8 @@
 package passport
 
 import (
+	"fmt"
+
 	"github.com/nelsonsaake/go/passport/models"
 	"github.com/nelsonsaake/go/passport/repo"
 	"github.com/nelsonsaake/go/passport/repo/auths"
@@ -39,4 +41,27 @@ func getUserRepo() *UserRepo {
 
 func Issue(user models.User) (*auths.Issue, error) {
 	return getRepo().Auths.Issue(user)
+}
+
+func Delete(id string) error {
+	return getRepo().Auths.Delete(id)
+}
+
+func DeleteWhereUserID(userID string) error {
+	return getRepo().Auths.DeleteWhereUserID(userID)
+}
+
+func Refresh(user models.User) (*auths.Issue, error) {
+
+	err := getRepo().Auths.DeleteWhereUserID(user.GetID())
+	if err != nil {
+		return nil, fmt.Errorf("error delete existing auths: %w", err)
+	}
+
+	auth, err := getRepo().Auths.Issue(user)
+	if err != nil {
+		return nil, fmt.Errorf("error issuing new auths: %w", err)
+	}
+
+	return auth, nil
 }
