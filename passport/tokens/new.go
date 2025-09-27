@@ -39,7 +39,7 @@ func newTokenString[T string | []byte](
 	return tokenString, err
 }
 
-func New(name, id string, argClaims ...map[string]any) (string, error) {
+func New(name, id string, claims ...map[string]any) (string, error) {
 
 	die := func(f string, a ...any) (string, error) {
 		return "", fmt.Errorf(f, a...)
@@ -60,5 +60,5 @@ func New(name, id string, argClaims ...map[string]any) (string, error) {
 		return die("%v token signing key not set", name)
 	}
 
-	return newTokenString(id, ttl, signingKey, tcfg.SigningMethod, argClaims...)
+	return newTokenString(id, ttl, signingKey, tcfg.SigningMethod, claims...)
 }

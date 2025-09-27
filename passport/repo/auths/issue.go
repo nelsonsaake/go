@@ -25,21 +25,21 @@ func (r *Repo) Issue(user models.User) (*Issue, error) {
 		return die("error getting roles: %w", err)
 	}
 
-	rec, err := r.Create(user.GetID())
+	auth, err := r.Create(user.GetID())
 	if err != nil {
 		return die("error creating auth: %w", err)
 	}
 
-	rolesClaim := map[string]any{
+	claims := map[string]any{
 		"roles": roles,
 	}
 
-	at, err := tokens.New("access", rec.ID, rolesClaim)
+	at, err := tokens.New("access", auth.ID, claims)
 	if err != nil {
 		return die("error creating access token: %w", err)
 	}
 
-	rt, err := tokens.New("refresh", rec.ID, rolesClaim)
+	rt, err := tokens.New("refresh", auth.ID, claims)
 	if err != nil {
 		return die("error creating refresh token: %w", err)
 	}

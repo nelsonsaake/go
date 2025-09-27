@@ -27,7 +27,7 @@ func (b *Builder) onSuccess(c *fiber.Ctx) error {
 	}
 
 	c.Locals("user", user)
-	c.Locals("userID", user.GetID())
+	c.Locals("userID", auth.UserID)
 
 	// mark request as authorized
 

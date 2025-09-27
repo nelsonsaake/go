@@ -11,9 +11,10 @@ var (
 )
 
 type Config struct {
-	DB      *gorm.DB
-	Context context.Context
-	Tokens  []TokenConfig
+	DB       *gorm.DB
+	UserRepo UserRepo
+	Context  context.Context
+	Tokens   []TokenConfig
 }
 
 func Setup(cfg Config) {
