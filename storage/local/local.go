@@ -35,8 +35,6 @@ func (l local) Save(content string) (string, error) {
 		path     = filepath.Join(l.dir, fileName)
 	)
 
-	fmt.Println("Writing file to:", path)
-
 	err = ufs.WriteFile(path, string(src))
 	if err != nil {
 		return die(fmt.Errorf("error writing file: %w", err))
