@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/nelsonsaake/go/b64"
+	"github.com/nelsonsaake/go/strs"
 	"github.com/nelsonsaake/go/ufs"
 )
 
@@ -30,7 +31,7 @@ func (store local) Save(content string) (string, error) {
 	}
 
 	var (
-		fileName = ufs.MakeName("abc" + ext)
+		fileName = strs.UUID() + ext
 		path     = filepath.Join(store.dir, fileName)
 	)
 
