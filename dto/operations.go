@@ -12,7 +12,7 @@ type transformValue struct {
 	name string
 }
 
-func TransformValue(name string) transformValue {
+func Value(name string) transformValue {
 	return transformValue{name}
 }
 
@@ -22,7 +22,7 @@ type transformType struct {
 	dtoname string
 }
 
-func TransformType(name string) transformType {
+func Type(name string) transformType {
 	return transformType{name}
 }
 
@@ -47,9 +47,9 @@ func Exclude() excludeValue {
 type CalcValueFunc func(dto DTO) (any, error)
 
 type calcValue struct {
-	name string
+	data []any
 }
 
-func CalcValue() excludeValue {
-	return excludeValue{}
+func Calc(data ...any) calcValue {
+	return calcValue{data: data}
 }
