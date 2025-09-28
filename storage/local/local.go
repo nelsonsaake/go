@@ -14,7 +14,7 @@ type local struct {
 }
 
 // Save: write the content to a dir, and returns the path or an error if any
-func (store local) Save(content string) (string, error) {
+func (l local) Save(content string) (string, error) {
 
 	die := func(err error) (string, error) {
 		return "", err
@@ -32,8 +32,10 @@ func (store local) Save(content string) (string, error) {
 
 	var (
 		fileName = strs.UUID() + ext
-		path     = filepath.Join(store.dir, fileName)
+		path     = filepath.Join(l.dir, fileName)
 	)
+
+	fmt.Println("Writing file to:", path)
 
 	err = ufs.WriteFile(path, string(src))
 	if err != nil {
@@ -43,7 +45,7 @@ func (store local) Save(content string) (string, error) {
 	return path, nil
 }
 
-func (store local) Delete(path string) (err error) {
+func (l local) Delete(path string) (err error) {
 	return ufs.DelFile(path)
 }
 
