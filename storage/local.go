@@ -1,12 +1,16 @@
 package storage
 
 import (
+	"fmt"
+
 	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/storage/local"
 )
 
 func Local() Storage {
-	return local.New(afs.Path("/storage"))
+	var path = afs.Path("/storage")
+	fmt.Println("Local storage path:", path)
+	return local.New(path)
 }
 
 func Store(file string) (string, error) {
