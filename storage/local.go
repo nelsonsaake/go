@@ -13,3 +13,7 @@ func Local() Storage {
 func Store(file string) (string, error) {
 	return Local().Save(file)
 }
+
+func Delete(file string) error {
+	return Local().Delete(file)
+}
