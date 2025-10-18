@@ -34,7 +34,7 @@ dep: v++
 test:
 	cls
 	cd tests
-	go test -run TestCfgs -v
+	go test -run TestLoadContent -v
 
 ncommit:
 	git add .
