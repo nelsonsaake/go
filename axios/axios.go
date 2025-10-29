@@ -90,3 +90,9 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 
 	return NewResponse(res), err
 }
+
+func NewClient() *Client {
+	return &Client{
+		Headers: make(map[string]string),
+	}
+}
