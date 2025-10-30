@@ -38,6 +38,24 @@ func (b *ClientBuilder) WithHeaders(headers map[string]string) *ClientBuilder {
 	return b
 }
 
+// Add builder: set multiple environments and return client for chaining
+func (b *ClientBuilder) WithEnvironments(envs map[string]map[string]string) *ClientBuilder {
+	b.client.Environments = envs
+	return b
+}
+
+// Add builder: set multiple environments and return client for chaining
+func (b *ClientBuilder) WithEnvironment(name string, envs map[string]string) *ClientBuilder {
+	b.client.Environments[name] = envs
+	return b
+}
+
+// Add builder: set active environment name and return client for chaining
+func (b *ClientBuilder) WithSelectedEnvironment(name string) *ClientBuilder {
+	b.client.SelectedEnvironment = name
+	return b
+}
+
 // Build returns the configured Client instance.
 func (b *ClientBuilder) Build() *Client {
 	return b.client

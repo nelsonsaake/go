@@ -14,72 +14,60 @@ import (
 )
 
 type Client struct {
-	BaseUrl      string
-	Headers      map[string]string
-	Environments map[string]map[string]string
-	Environment  string
+	BaseUrl             string
+	Headers             map[string]string
+	Environments        map[string]map[string]string
+	SelectedEnvironment string
 }
 
-func (client *Client) SetBaseUrl(v string) {
-	client.BaseUrl = v
+func (b *Client) SetBaseUrl(v string) {
+	b.BaseUrl = v
 }
 
-// Add builder: set multiple environments and return client for chaining
-func (client *Client) WithEnvironments(envs map[string]map[string]string) *Client {
-	client.Environments = envs
-	return client
-}
-
-// Add builder: set active environment name and return client for chaining
-func (client *Client) WithEnvironment(name string) *Client {
-	client.Environment = name
-	return client
-}
-
-// IsEnvironmentSet returns true when an active environment name is set and corresponding map exists
-func (client *Client) IsEnvironmentSet() bool {
-	if client == nil {
+// IsEnvironmentSelected returns true when an active environment name is set and corresponding map exists
+func (b *Client) IsEnvironmentSelected() bool {
+	if b == nil {
 		return false
 	}
-	if client.Environment == "" {
+	if b.SelectedEnvironment == "" {
 		return false
 	}
-	if client.Environments == nil {
+	if b.Environments == nil {
 		return false
 	}
-	_, ok := client.Environments[client.Environment]
+	_, ok := b.Environments[b.SelectedEnvironment]
 	return ok
 }
 
 // GetEnvironment returns the map for the active environment (may be nil)
-func (client *Client) GetEnvironment() map[string]string {
-	if client == nil || client.Environments == nil {
+func (b *Client) GetEnvironment() map[string]string {
+	if b == nil || b.Environments == nil {
 		return nil
 	}
-	return client.Environments[client.Environment]
+	return b.Environments[b.SelectedEnvironment]
 }
 
-func (client *Client) Url(path string) (string, error) {
+func (b *Client) Url(path string) (string, error) {
 
-	if arr.IsEmpty(client.BaseUrl) {
+	if arr.IsEmpty(b.BaseUrl) {
 		return path, nil
 	}
 
 	// build base path
-	v, err := url.JoinPath(client.BaseUrl, path)
+	v, err := url.JoinPath(b.BaseUrl, path)
 	if err != nil {
 		return "", err
 	}
 
 	// if environment is set, apply mix substitutions
-	if client.IsEnvironmentSet() {
-		v = mix(v, client.GetEnvironment())
+	if b.IsEnvironmentSelected() {
+		v = mix(v, b.GetEnvironment())
 	}
 
 	return v, nil
 }
 
-func (client *Client) Body(body any) (io.Reader, error) {
+func (b *Client) Body(body any) (io.Reader, error) {
 
 	reader, ok := body.(io.Reader)
 	if ok {
@@ -96,7 +84,7 @@ func (client *Client) Body(body any) (io.Reader, error) {
 	return buf, nil
 }
 
-func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
+func (b *Client) Do(req *http.Request) (*Response, error) {
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -114,7 +102,7 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 		"Content-Type": "application/json",
 	}
 
-	for k, v := range axiosClient.Headers {
+	for k, v := range b.Headers {
 		reqHeaders[k] = v
 	}
 
@@ -131,6 +119,7 @@ func (axiosClient *Client) Do(req *http.Request) (*Response, error) {
 
 func NewClient() *Client {
 	return &Client{
-		Headers: make(map[string]string),
+		Headers:      make(map[string]string),
+		Environments: make(map[string]map[string]string),
 	}
 }

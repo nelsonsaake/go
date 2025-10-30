@@ -5,13 +5,13 @@ import (
 	"net/http"
 )
 
-func (client *Client) Get(url string, config ...any) (*Response, error) {
+func (b *Client) Get(url string, config ...any) (*Response, error) {
 
 	die := func(err error) (*Response, error) {
 		return nil, err
 	}
 
-	url, err := client.Url(url)
+	url, err := b.Url(url)
 	if err != nil {
 		return die(fmt.Errorf("error making request url: %v", err))
 	}
@@ -23,5 +23,5 @@ func (client *Client) Get(url string, config ...any) (*Response, error) {
 
 	req = ResolveConfigArray(req, config...)
 
-	return client.Do(req)
+	return b.Do(req)
 }
