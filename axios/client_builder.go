@@ -6,7 +6,6 @@ type ClientBuilder struct {
 }
 
 // NewClientBuilder creates a new ClientBuilder.
-
 func NewClientBuilder() *ClientBuilder {
 	return &ClientBuilder{
 		client: NewClient(),

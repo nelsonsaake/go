@@ -7,18 +7,18 @@ import (
 
 func (client *Client) Delete(url string, config ...any) (*Response, error) {
 
-	die := func(err error) (*Response, error) {
-		return nil, err
+	die := func(f string, a ...any) (*Response, error) {
+		return nil, fmt.Errorf(f, a...)
 	}
 
 	url, err := client.Url(url)
 	if err != nil {
-		return die(fmt.Errorf("error making request url: %v", err))
+		return die("error making request url: %v", err)
 	}
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
-		return die(fmt.Errorf("error making new request: %v", err))
+		return die("error making new request: %v", err)
 	}
 
 	req = ResolveConfigArray(req, config...)
