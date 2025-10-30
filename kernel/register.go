@@ -20,7 +20,9 @@ func register(c *cobra.Command, name string, h Handler) {
 		Use: name,
 		Run: func(cmd *cobra.Command, args []string) {
 
-			fmt.Println(name, "...")
+			if IsVerbose() {
+				fmt.Println(name, "...")
+			}
 
 			err := h(args)
 			if err != nil {
