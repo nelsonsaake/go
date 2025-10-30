@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-
-	"github.com/nelsonsaake/go/arr"
 )
 
 type Client struct {
@@ -49,7 +47,7 @@ func (b *Client) GetEnvironment() map[string]string {
 
 func (b *Client) Url(path string) (string, error) {
 
-	if arr.IsEmpty(b.BaseUrl) {
+	if len(b.BaseUrl) == 0 {
 		return path, nil
 	}
 
