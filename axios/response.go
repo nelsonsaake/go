@@ -42,16 +42,6 @@ func (r *Response) String() (string, error) {
 	return string(data), err
 }
 
-func (r *Response) IsObjMap() bool {
-
-	s, err := r.String()
-	if err != nil {
-		return false
-	}
-
-	return strings.HasPrefix(s, "{")
-}
-
 func (r *Response) Bind(v any) error {
 
 	data, err := r.Raw()
@@ -62,7 +52,17 @@ func (r *Response) Bind(v any) error {
 	return json.Unmarshal(data, v)
 }
 
-func (r *Response) Json() (map[string]any, error) {
+func (r *Response) IsMap() bool {
+
+	s, err := r.String()
+	if err != nil {
+		return false
+	}
+
+	return strings.HasPrefix(s, "{")
+}
+
+func (r *Response) Map() (map[string]any, error) {
 
 	v := map[string]any{}
 	err := r.Bind(&v)
@@ -70,9 +70,9 @@ func (r *Response) Json() (map[string]any, error) {
 	return v, err
 }
 
-func (r *Response) ObjMap() (*objs.Obj, error) {
+func (r *Response) Obj() (*objs.Obj, error) {
 
-	res, err := r.Json()
+	res, err := r.Map()
 	if err != nil {
 		return nil, err
 	}
