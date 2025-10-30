@@ -18,54 +18,75 @@ type Client struct {
 	SelectedEnvironment string
 }
 
-func (b *Client) SetBaseUrl(v string) {
-	b.BaseUrl = v
+func (c *Client) SetBaseUrl(v string) {
+	c.BaseUrl = v
 }
 
 // IsEnvironmentSelected returns true when an active environment name is set and corresponding map exists
-func (b *Client) IsEnvironmentSelected() bool {
-	if b == nil {
+func (c *Client) IsEnvironmentSelected() bool {
+	if c == nil {
 		return false
 	}
-	if b.SelectedEnvironment == "" {
+	if c.SelectedEnvironment == "" {
 		return false
 	}
-	if b.Environments == nil {
+	if c.Environments == nil {
 		return false
 	}
-	_, ok := b.Environments[b.SelectedEnvironment]
+	_, ok := c.Environments[c.SelectedEnvironment]
 	return ok
 }
 
 // GetEnvironment returns the map for the active environment (may be nil)
-func (b *Client) GetEnvironment() map[string]string {
-	if b == nil || b.Environments == nil {
+func (c *Client) GetEnvironment() map[string]string {
+	if c == nil || c.Environments == nil {
 		return nil
 	}
-	return b.Environments[b.SelectedEnvironment]
+	return c.Environments[c.SelectedEnvironment]
 }
 
-func (b *Client) Url(path string) (string, error) {
+func (c *Client) urlMix(elem ...string) []string {
 
-	if len(b.BaseUrl) == 0 {
-		return path, nil
+	if !c.IsEnvironmentSelected() {
+		return elem
 	}
 
-	// build base path
-	v, err := url.JoinPath(b.BaseUrl, path)
+	res := []string{}
+	for _, v := range elem {
+		v = mix(v, c.GetEnvironment())
+		res = append(res, v)
+	}
+
+	return res
+}
+
+func (c *Client) urlJoin(elem ...string) (string, error) {
+
+	if len(elem[0]) == 0 {
+		return elem[1], nil
+	}
+
+	v, err := url.JoinPath(elem[0], elem[1])
 	if err != nil {
 		return "", err
-	}
-
-	// if environment is set, apply mix substitutions
-	if b.IsEnvironmentSelected() {
-		v = mix(v, b.GetEnvironment())
 	}
 
 	return v, nil
 }
 
-func (b *Client) Body(body any) (io.Reader, error) {
+func (c *Client) Url(path string) (string, error) {
+
+	elems := c.urlMix(c.BaseUrl, path)
+
+	v, err := c.urlJoin(elems...)
+	if err != nil {
+		return "", err
+	}
+
+	return v, nil
+}
+
+func (c *Client) Body(body any) (io.Reader, error) {
 
 	reader, ok := body.(io.Reader)
 	if ok {
@@ -82,7 +103,7 @@ func (b *Client) Body(body any) (io.Reader, error) {
 	return buf, nil
 }
 
-func (b *Client) Do(req *http.Request) (*Response, error) {
+func (c *Client) Do(req *http.Request) (*Response, error) {
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -100,7 +121,7 @@ func (b *Client) Do(req *http.Request) (*Response, error) {
 		"Content-Type": "application/json",
 	}
 
-	for k, v := range b.Headers {
+	for k, v := range c.Headers {
 		reqHeaders[k] = v
 	}
 

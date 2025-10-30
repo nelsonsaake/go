@@ -34,7 +34,8 @@ dep: v++
 test:
 	cls
 	cd tests
-	go test -run TestLoadContent -v
+# 	go test -run TestLoadContent -v
+	go test -run TestAxios -v
 
 ncommit:
 	git add .
