@@ -19,7 +19,7 @@ func NewResponse(resp *http.Response) *Response {
 	return &Response{resp: resp}
 }
 
-func (r *Response) Raw() ([]byte, error) {
+func (r *Response) Bytes() ([]byte, error) {
 
 	die := func(err error) ([]byte, error) {
 		return nil, err
@@ -38,18 +38,36 @@ func (r *Response) Raw() ([]byte, error) {
 
 func (r *Response) String() (string, error) {
 
-	data, err := r.Raw()
+	data, err := r.Bytes()
 	return string(data), err
 }
 
 func (r *Response) Bind(v any) error {
 
-	data, err := r.Raw()
+	data, err := r.Bytes()
 	if err != nil {
 		return err
 	}
 
 	return json.Unmarshal(data, v)
+}
+
+func (r *Response) IsArray() bool {
+
+	s, err := r.String()
+	if err != nil {
+		return false
+	}
+
+	return strings.HasPrefix(s, "[")
+}
+
+func (r *Response) Array() ([]any, error) {
+
+	v := []any{}
+	err := r.Bind(&v)
+
+	return v, err
 }
 
 func (r *Response) IsMap() bool {
@@ -68,6 +86,19 @@ func (r *Response) Map() (map[string]any, error) {
 	err := r.Bind(&v)
 
 	return v, err
+}
+
+func (r *Response) Json() (any, error) {
+
+	if r.IsArray() {
+		return r.Array()
+	}
+
+	if r.IsMap() {
+		return r.Map()
+	}
+
+	return r.String()
 }
 
 func (r *Response) Obj() (*objs.Obj, error) {
