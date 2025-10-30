@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/nelsonsaake/go/objs"
 )
@@ -18,32 +19,42 @@ func NewResponse(resp *http.Response) *Response {
 	return &Response{resp: resp}
 }
 
-func (resp *Response) Raw() ([]byte, error) {
+func (r *Response) Raw() ([]byte, error) {
 
 	die := func(err error) ([]byte, error) {
 		return nil, err
 	}
 
-	data, err := io.ReadAll(resp.resp.Body)
+	data, err := io.ReadAll(r.resp.Body)
 	if err != nil {
 		return die(fmt.Errorf("error reading all response body: %v", err))
 	}
 
 	// replace content in response body
-	resp.resp.Body = io.NopCloser(bytes.NewBuffer(data))
+	r.resp.Body = io.NopCloser(bytes.NewBuffer(data))
 
 	return data, nil
 }
 
-func (resp *Response) String() (string, error) {
+func (r *Response) String() (string, error) {
 
-	data, err := resp.Raw()
+	data, err := r.Raw()
 	return string(data), err
 }
 
-func (resp *Response) Bind(v any) error {
+func (r *Response) IsObjMap() bool {
 
-	data, err := resp.Raw()
+	s, err := r.String()
+	if err != nil {
+		return false
+	}
+
+	return strings.HasPrefix(s, "{")
+}
+
+func (r *Response) Bind(v any) error {
+
+	data, err := r.Raw()
 	if err != nil {
 		return err
 	}
@@ -51,17 +62,17 @@ func (resp *Response) Bind(v any) error {
 	return json.Unmarshal(data, v)
 }
 
-func (resp *Response) Json() (map[string]any, error) {
+func (r *Response) Json() (map[string]any, error) {
 
 	v := map[string]any{}
-	err := resp.Bind(&v)
+	err := r.Bind(&v)
 
 	return v, err
 }
 
-func (resp *Response) ObjMap() (*objs.Obj, error) {
+func (r *Response) ObjMap() (*objs.Obj, error) {
 
-	res, err := resp.Json()
+	res, err := r.Json()
 	if err != nil {
 		return nil, err
 	}
@@ -69,12 +80,12 @@ func (resp *Response) ObjMap() (*objs.Obj, error) {
 	return objs.FromMap(res), nil
 }
 
-func (resp *Response) Request() *http.Request {
-	return resp.resp.Request
+func (r *Response) Request() *http.Request {
+	return r.resp.Request
 }
 
-func (resp *Response) Response() *http.Response {
-	return resp.resp
+func (r *Response) Response() *http.Response {
+	return r.resp
 }
 
 func (resp *Response) IsSuccessful() bool {

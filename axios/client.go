@@ -93,6 +93,10 @@ func (c *Client) Body(body any) (io.Reader, error) {
 		return reader, nil
 	}
 
+	if body == nil {
+		return nil, nil
+	}
+
 	raw, err := json.Marshal(body)
 	if err != nil {
 		return nil, fmt.Errorf("error marshalling request body: %v", raw)
