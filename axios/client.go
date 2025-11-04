@@ -16,6 +16,7 @@ type Client struct {
 	Headers             map[string]string
 	Environments        map[string]map[string]string
 	SelectedEnvironment string
+	Timeout             time.Duration
 }
 
 func (c *Client) SetBaseUrl(v string) {
@@ -115,7 +116,7 @@ func (c *Client) Do(req *http.Request) (*Response, error) {
 
 	client := http.Client{
 		Transport: tr,
-		Timeout:   5 * time.Second,
+		Timeout:   c.Timeout,
 	}
 
 	headers := req.Header

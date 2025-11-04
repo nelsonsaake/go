@@ -1,5 +1,7 @@
 package axios
 
+import "time"
+
 // ClientBuilder is a builder for constructing axios.Client instances.
 type ClientBuilder struct {
 	client *Client
@@ -53,6 +55,11 @@ func (b *ClientBuilder) WithEnvironment(name string, envs map[string]string) *Cl
 // Add builder: set active environment name and return client for chaining
 func (b *ClientBuilder) WithSelectedEnvironment(name string) *ClientBuilder {
 	b.client.SelectedEnvironment = name
+	return b
+}
+
+func (b *ClientBuilder) WithTimeout(duration time.Duration) *ClientBuilder {
+	b.client.Timeout = duration
 	return b
 }
 
