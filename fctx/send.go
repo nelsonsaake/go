@@ -45,6 +45,18 @@ func SendHtml(c *fiber.Ctx, html string) error {
 	return c.Send([]byte(html))
 }
 
+func SendNoContent(c *fiber.Ctx) error {
+
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+func SendFileWithName(c *fiber.Ctx, filepath, name string) error {
+
+	c.Set("Content-Disposition", "attachment; filename="+name)
+
+	return c.SendFile(filepath)
+}
+
 func send(c *fiber.Ctx, fs ...func(*Response)) error {
 
 	res := &Response{}
