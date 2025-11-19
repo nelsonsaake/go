@@ -11,7 +11,7 @@ func init() {
 	registry = fiber.New()
 }
 
-func Register(r func(app *fiber.App)) {
+func Register(r func(*fiber.App)) {
 	r(registry)
 }
 

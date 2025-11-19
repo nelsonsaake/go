@@ -1,4 +1,4 @@
-package afs
+package local
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package afs
+package ufs
 
 import (
 	"fmt"

@@ -16,18 +16,22 @@ type local struct {
 // Save: write the content to a dir, and returns the path or an error if any
 func (l local) Save(content string) (string, error) {
 
-	die := func(err error) (string, error) {
-		return "", err
+	die := func(f string, a ...any) (string, error) {
+		return "", fmt.Errorf(f, a...)
+	}
+
+	if strs.IsEmpty(content) {
+		return die("content is empty")
 	}
 
 	ext, err := b64.Ext(content)
 	if err != nil {
-		return die(fmt.Errorf("error getting ext from base64 string: %w", err))
+		return die("error getting ext from base64 string: %w", err)
 	}
 
 	src, err := b64.Decode(content)
 	if err != nil {
-		return die(fmt.Errorf("error converting breaking down base64 string: %w", err))
+		return die("error converting breaking down base64 string: %w", err)
 	}
 
 	var (
@@ -35,16 +39,41 @@ func (l local) Save(content string) (string, error) {
 		path     = filepath.Join(l.dir, fileName)
 	)
 
-	err = ufs.WriteFile(path, string(src))
+	rel, err := RelativePath(path)
 	if err != nil {
-		return die(fmt.Errorf("error writing file: %w", err))
+		return die("error getting relative path: %w", err)
 	}
 
-	return path, nil
+	err = ufs.WriteFile(path, string(src))
+	if err != nil {
+		return die("error writing file: %w", err)
+	}
+
+	return rel, nil
+}
+
+func (l local) absPath(path string) (string, error) {
+
+	if filepath.IsAbs(path) {
+		return path, nil
+	}
+
+	root, err := Root()
+	if err != nil {
+		return "", fmt.Errorf("error getting root path: %w", err)
+	}
+
+	return filepath.Join(root, path), nil
 }
 
 func (l local) Delete(path string) (err error) {
-	return ufs.DelFile(path)
+
+	abs, err := l.absPath(path)
+	if err != nil {
+		return fmt.Errorf("error getting absolute path: %w", err)
+	}
+
+	return ufs.DelFile(abs)
 }
 
 func New(dir string) Storage {
