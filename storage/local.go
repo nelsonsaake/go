@@ -5,9 +5,10 @@ import (
 	"github.com/nelsonsaake/go/storage/local"
 )
 
+var prefix = "/storage/"
+
 func Local() Storage {
-	var path = afs.Path("/storage")
-	return local.New(path)
+	return local.New(Root())
 }
 
 func Store(file string) (string, error) {
@@ -16,4 +17,12 @@ func Store(file string) (string, error) {
 
 func Delete(file string) error {
 	return Local().Delete(file)
+}
+
+func Path(elem ...string) string {
+	return afs.Path(append([]string{prefix}, elem...)...)
+}
+
+func Root() string {
+	return afs.Path(prefix)
 }
