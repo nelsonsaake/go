@@ -2,19 +2,21 @@ package zip
 
 import (
 	"archive/zip"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 )
 
-// Dir zips the given directory and returns the path to the zip file and error if any
-func Dir(path string) (string, error) {
-	absPath, err := filepath.Abs(path)
-	if err != nil {
-		return "", err
+// Zip zips the given files and directories and returns the path to the zip file and error if any
+func Zip(zipName string, paths ...string) (string, error) {
+	if len(paths) == 0 {
+		return "", fmt.Errorf("no paths provided")
 	}
-
-	zipPath := absPath + ".zip"
+	zipPath := zipName
+	if filepath.Ext(zipPath) != ".zip" {
+		zipPath += ".zip"
+	}
 	zipFile, err := os.Create(zipPath)
 	if err != nil {
 		return "", err
@@ -24,48 +26,78 @@ func Dir(path string) (string, error) {
 	zipWriter := zip.NewWriter(zipFile)
 	defer zipWriter.Close()
 
-	err = filepath.Walk(absPath, func(file string, info os.FileInfo, err error) error {
+	for _, p := range paths {
+		absPath, err := filepath.Abs(p)
 		if err != nil {
-			return err
+			return "", err
 		}
-		relPath, err := filepath.Rel(absPath, file)
+		info, err := os.Stat(absPath)
 		if err != nil {
-			return err
+			return "", err
 		}
 		if info.IsDir() {
-			if relPath == "." {
-				return nil
+			err = filepath.Walk(absPath, func(file string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				relPath, err := filepath.Rel(filepath.Dir(absPath), file)
+				if err != nil {
+					return err
+				}
+				if info.IsDir() {
+					if relPath == "." {
+						return nil
+					}
+					header := &zip.FileHeader{
+						Name:   relPath + "/",
+						Method: zip.Deflate,
+					}
+					_, err := zipWriter.CreateHeader(header)
+					return err
+				}
+				header, err := zip.FileInfoHeader(info)
+				if err != nil {
+					return err
+				}
+				header.Name = relPath
+				header.Method = zip.Deflate
+				writer, err := zipWriter.CreateHeader(header)
+				if err != nil {
+					return err
+				}
+				fileReader, err := os.Open(file)
+				if err != nil {
+					return err
+				}
+				defer fileReader.Close()
+				_, err = io.Copy(writer, fileReader)
+				return err
+			})
+			if err != nil {
+				return "", err
 			}
-			// Add directory entry
-			header := &zip.FileHeader{
-				Name:   relPath + "/",
-				Method: zip.Deflate,
+		} else {
+			relPath := filepath.Base(absPath)
+			header, err := zip.FileInfoHeader(info)
+			if err != nil {
+				return "", err
 			}
-			_, err := zipWriter.CreateHeader(header)
-			return err
+			header.Name = relPath
+			header.Method = zip.Deflate
+			writer, err := zipWriter.CreateHeader(header)
+			if err != nil {
+				return "", err
+			}
+			fileReader, err := os.Open(absPath)
+			if err != nil {
+				return "", err
+			}
+			defer fileReader.Close()
+			_, err = io.Copy(writer, fileReader)
+			if err != nil {
+				return "", err
+			}
 		}
-		// Add file entry
-		header, err := zip.FileInfoHeader(info)
-		if err != nil {
-			return err
-		}
-		header.Name = relPath
-		header.Method = zip.Deflate
-		writer, err := zipWriter.CreateHeader(header)
-		if err != nil {
-			return err
-		}
-		fileReader, err := os.Open(file)
-		if err != nil {
-			return err
-		}
-		defer fileReader.Close()
-		_, err = io.Copy(writer, fileReader)
-		return err
-	})
-
-	if err != nil {
-		return "", err
 	}
 	return zipPath, nil
 }
