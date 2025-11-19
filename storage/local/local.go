@@ -3,6 +3,7 @@ package local
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/nelsonsaake/go/b64"
 	"github.com/nelsonsaake/go/strs"
@@ -37,12 +38,8 @@ func (l local) Save(content string) (string, error) {
 	var (
 		fileName = strs.UUID() + ext
 		path     = filepath.Join(l.dir, fileName)
+		rel      = l.relPath(path)
 	)
-
-	rel, err := RelativePath(path)
-	if err != nil {
-		return die("error getting relative path: %w", err)
-	}
 
 	err = ufs.WriteFile(path, string(src))
 	if err != nil {
@@ -52,26 +49,29 @@ func (l local) Save(content string) (string, error) {
 	return rel, nil
 }
 
-func (l local) absPath(path string) (string, error) {
+func (l local) relPath(path string) string {
+
+	return strings.TrimPrefix(
+		ufs.CleanPath(path),
+		ufs.CleanPath(l.dir),
+	)
+}
+
+func (l local) absPath(path string) string {
 
 	if filepath.IsAbs(path) {
-		return path, nil
+		return path
 	}
 
-	root, err := Root()
-	if err != nil {
-		return "", fmt.Errorf("error getting root path: %w", err)
-	}
-
-	return filepath.Join(root, path), nil
+	return filepath.Join(
+		ufs.CleanPath(l.dir),
+		ufs.CleanPath(path),
+	)
 }
 
 func (l local) Delete(path string) (err error) {
 
-	abs, err := l.absPath(path)
-	if err != nil {
-		return fmt.Errorf("error getting absolute path: %w", err)
-	}
+	abs := l.absPath(path)
 
 	return ufs.DelFile(abs)
 }
