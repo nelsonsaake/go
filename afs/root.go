@@ -50,8 +50,9 @@ func productionModeRoot() (string, error) {
 
 // Root returns the project root in dev mode, or executable dir in production.
 func Root() (string, error) {
-	if os.Getenv("GO_DEV_MODE") == "1" {
-		return devModeRoot()
+	p, err := devModeRoot()
+	if err == nil {
+		return p, nil
 	}
 	return productionModeRoot()
 }
