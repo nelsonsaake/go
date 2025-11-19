@@ -35,7 +35,7 @@ test:
 	cls
 	cd tests
 # 	go test -run TestLoadContent -v
-	go test -run TestAxios -v
+	go test -run TestZip -v
 
 ncommit:
 	git add .
