@@ -3,8 +3,6 @@ package afs
 import (
 	"fmt"
 	"strings"
-
-	"github.com/nelsonsaake/go/ufs"
 )
 
 func RelativePath(fullPath string) (string, error) {
@@ -15,8 +13,8 @@ func RelativePath(fullPath string) (string, error) {
 	}
 
 	uri := strings.TrimPrefix(
-		ufs.CleanPath(fullPath),
-		ufs.CleanPath(base),
+		CleanPath(fullPath),
+		CleanPath(base),
 	)
 
 	return uri, nil
