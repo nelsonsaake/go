@@ -24,6 +24,10 @@ func ResolveConfigArray(req *http.Request, config ...any) *http.Request {
 
 	for _, config := range config {
 
+		if config == nil {
+			continue
+		}
+
 		var configfunc func(*http.Request)
 
 		switch config := config.(type) {
