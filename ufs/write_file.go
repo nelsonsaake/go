@@ -1,7 +1,6 @@
 package ufs
 
 import (
-	"io/fs"
 	"os"
 	"path/filepath"
 )
@@ -17,7 +16,7 @@ func WriteFile(fpath, content string) (err error) {
 		return err
 	}
 
-	err = os.WriteFile(fpath, []byte(content), fs.ModePerm.Perm())
+	err = os.WriteFile(fpath, []byte(content), 0777)
 
 	return err
 }
