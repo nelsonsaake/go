@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type GetRequest struct {
+type Request struct {
 	Search       string   `query:"search" json:"search"`
 	With         []string `query:"with" json:"with"`
 	NoPagination bool     `query:"no_pagination" json:"no_pagination"`
@@ -14,12 +14,12 @@ type GetRequest struct {
 	PageSize     int      `query:"pageSize" json:"pageSize"`
 }
 
-var zeroQuery = GetRequest{
+var zeroQuery = Request{
 	Page:     1,
 	PageSize: 20,
 }
 
-func GetQuery(c *fiber.Ctx) (GetRequest, error) {
+func GetQuery(c *fiber.Ctx) (Request, error) {
 
 	var q = zeroQuery
 
@@ -39,8 +39,8 @@ func GetQuery(c *fiber.Ctx) (GetRequest, error) {
 	return q, nil
 }
 
-type GetResponse[T any] struct {
-	GetRequest
+type Paginated[T any] struct {
+	Request
 	Data       []T `json:"data"`
 	Total      int64
 	TotalPages int64

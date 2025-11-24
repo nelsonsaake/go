@@ -7,9 +7,9 @@ import (
 	"github.com/nelsonsaake/go/strs"
 )
 
-type GetRequest = fctx.GetRequest
+type GetRequest = fctx.Request
 
-type GetResponse[T any] = fctx.GetResponse[T]
+type GetResponse[T any] = fctx.Paginated[T]
 
 // newResponse creates a new GetResponse for the given request,
 // including pagination metadata.
@@ -31,7 +31,7 @@ func (r *Repo[T]) newResponse(arg GetRequest) (*GetResponse[T], error) {
 	}
 
 	res := &GetResponse[T]{
-		GetRequest: arg,
+		Request:    arg,
 		Data:       make([]T, 0),
 		Total:      count,
 		TotalPages: (count + pageSize - 1) / pageSize,
