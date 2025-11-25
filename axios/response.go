@@ -19,32 +19,32 @@ func NewResponse(resp *http.Response) *Response {
 	return &Response{resp: resp}
 }
 
-func (r *Response) Bytes() ([]byte, error) {
+func (res *Response) Bytes() ([]byte, error) {
 
 	die := func(err error) ([]byte, error) {
 		return nil, err
 	}
 
-	data, err := io.ReadAll(r.resp.Body)
+	data, err := io.ReadAll(res.resp.Body)
 	if err != nil {
 		return die(fmt.Errorf("error reading all response body: %v", err))
 	}
 
 	// replace content in response body
-	r.resp.Body = io.NopCloser(bytes.NewBuffer(data))
+	res.resp.Body = io.NopCloser(bytes.NewBuffer(data))
 
 	return data, nil
 }
 
-func (r *Response) String() (string, error) {
+func (res *Response) String() (string, error) {
 
-	data, err := r.Bytes()
+	data, err := res.Bytes()
 	return string(data), err
 }
 
-func (r *Response) Bind(v any) error {
+func (res *Response) Bind(v any) error {
 
-	data, err := r.Bytes()
+	data, err := res.Bytes()
 	if err != nil {
 		return err
 	}
@@ -52,9 +52,9 @@ func (r *Response) Bind(v any) error {
 	return json.Unmarshal(data, v)
 }
 
-func (r *Response) IsArray() bool {
+func (res *Response) IsArray() bool {
 
-	s, err := r.String()
+	s, err := res.String()
 	if err != nil {
 		return false
 	}
@@ -62,17 +62,17 @@ func (r *Response) IsArray() bool {
 	return strings.HasPrefix(s, "[")
 }
 
-func (r *Response) Array() ([]any, error) {
+func (res *Response) Array() ([]any, error) {
 
 	v := []any{}
-	err := r.Bind(&v)
+	err := res.Bind(&v)
 
 	return v, err
 }
 
-func (r *Response) IsMap() bool {
+func (res *Response) IsMap() bool {
 
-	s, err := r.String()
+	s, err := res.String()
 	if err != nil {
 		return false
 	}
@@ -80,25 +80,25 @@ func (r *Response) IsMap() bool {
 	return strings.HasPrefix(s, "{")
 }
 
-func (r *Response) Map() (map[string]any, error) {
+func (res *Response) Map() (map[string]any, error) {
 
 	v := map[string]any{}
-	err := r.Bind(&v)
+	err := res.Bind(&v)
 
 	return v, err
 }
 
-func (r *Response) Json() (any, error) {
+func (res *Response) Json() (any, error) {
 
-	if r.IsArray() {
-		return r.Array()
+	if res.IsArray() {
+		return res.Array()
 	}
 
-	if r.IsMap() {
-		return r.Map()
+	if res.IsMap() {
+		return res.Map()
 	}
 
-	return r.String()
+	return res.String()
 }
 
 func (r *Response) Obj() (*objs.Obj, error) {
@@ -111,15 +111,35 @@ func (r *Response) Obj() (*objs.Obj, error) {
 	return objs.FromMap(res), nil
 }
 
-func (r *Response) Request() *http.Request {
-	return r.resp.Request
+func (res *Response) Request() *http.Request {
+	return res.resp.Request
 }
 
-func (r *Response) Response() *http.Response {
-	return r.resp
+func (res *Response) Response() *http.Response {
+	return res.resp
 }
 
-func (resp *Response) IsSuccessful() bool {
-	r := resp.Response()
+func (res *Response) IsSuccessful() bool {
+	r := res.Response()
 	return r.StatusCode >= 200 && r.StatusCode < 300
+}
+
+func (res *Response) StatusCode() int {
+	return res.Response().StatusCode
+}
+
+func (res *Response) Status() string {
+	return res.Response().Status
+}
+
+func (res *Response) Headers() http.Header {
+	return res.Response().Header
+}
+
+func (res *Response) Header(key string) string {
+	return res.Response().Header.Get(key)
+}
+
+func (res *Response) Cookies() []*http.Cookie {
+	return res.Response().Cookies()
 }

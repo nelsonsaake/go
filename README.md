@@ -16,6 +16,12 @@ Hopefull none of this packages will depened on each other.
 - obj.Data can be map or array, 
 - just like json can be map or array
 
+-- useful code generator 
+-- repo, like env
+-- models, (generate an index for all models, with base model ...)
+-- builder too
+-- dtos too
+-- seeders too
 
 ## next steps
 
