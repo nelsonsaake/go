@@ -6,15 +6,16 @@ import (
 	"github.com/nelsonsaake/go/pty"
 )
 
-func (res *Response) dump(err error) error {
+func (res *Response) Dump() error {
 
-	if err != nil {
-		return err
+	if res == nil {
+		return nil
 	}
 
 	var (
 		req = res.Request()
 	)
+
 	fmt.Println("REQUEST:")
 
 	var (
@@ -42,14 +43,4 @@ func (res *Response) dump(err error) error {
 	}
 
 	return nil
-}
-
-func (res *Response) Dump(err error) (*Response, error) {
-
-	err = res.dump(err)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return res, err
 }
