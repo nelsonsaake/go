@@ -6,7 +6,7 @@ import (
 	"github.com/nelsonsaake/go/pty"
 )
 
-func (res *Response) Dump() error {
+func (res *Response) dump() error {
 
 	if res == nil {
 		return nil
@@ -43,4 +43,14 @@ func (res *Response) Dump() error {
 	}
 
 	return nil
+}
+
+func (res *Response) Dump() error {
+
+	err := res.dump()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return err
 }
