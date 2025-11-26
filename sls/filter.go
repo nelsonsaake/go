@@ -1,4 +1,4 @@
-package ls
+package sls
 
 func Filter[T any](s []T, keep func(T) bool) []T {
 	var result []T

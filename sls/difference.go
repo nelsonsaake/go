@@ -1,4 +1,4 @@
-package ls
+package sls
 
 func Difference[T comparable](a, b []T) []T {
 	m := make(map[T]bool)

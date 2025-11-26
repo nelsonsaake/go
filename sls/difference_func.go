@@ -1,4 +1,4 @@
-package ls
+package sls
 
 // DifferenceFunc returns a new slice containing elements from slice a
 // that are not present in slice b, determined by the provided equality function.
