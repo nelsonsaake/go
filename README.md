@@ -22,6 +22,7 @@ Hopefull none of this packages will depened on each other.
 -- builder too
 -- dtos too
 -- seeders too
+-- postman
 
 ## next steps
 

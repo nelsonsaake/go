@@ -6,8 +6,9 @@ import (
 )
 
 type FiberServer struct {
-	App  *fiber.App
-	Port string
+	App      *fiber.App
+	Port     string
+	UseNgrok string
 }
 
 func (s *FiberServer) Run() error {
@@ -18,8 +19,8 @@ func (s *FiberServer) NewNgrokServer() Server {
 	return &NgrokServer{App: s.App}
 }
 
-func NewFiberServer(port string) *FiberServer {
+func NewFiberServer(port, useNgrok string) *FiberServer {
 	app := fiber.New()
 	app.Use(cors.New())
-	return &FiberServer{App: app, Port: port}
+	return &FiberServer{App: app, Port: port, UseNgrok: useNgrok}
 }
