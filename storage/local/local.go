@@ -59,6 +59,16 @@ func (s Storage) SaveAs(path, b64content string) error {
 		return die("content is empty")
 	}
 
+	ext, err := b64.Ext(b64content)
+	if err != nil {
+		return die("error getting ext from base64 string: %w", err)
+	}
+
+	if !strings.HasSuffix(path, ext) {
+		path = strings.TrimSuffix(path, "/")
+		path += ext
+	}
+
 	src, err := b64.Decode(b64content)
 	if err != nil {
 		return die("error converting breaking down base64 string: %w", err)
