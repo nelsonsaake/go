@@ -1,6 +1,8 @@
 package storage
 
 import (
+	"slices"
+
 	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/storage/local"
 	"github.com/nelsonsaake/go/ufs"
@@ -8,12 +10,16 @@ import (
 
 var prefix = "/storage/"
 
-func Local() Storage {
+func Local() *local.Storage {
 	return local.New(Root())
 }
 
-func Store(file string) (string, error) {
-	return Local().Save(file)
+func Store(b64content string) (string, error) {
+	return Local().Save(b64content)
+}
+
+func SaveAs(path, b64content string) error {
+	return Local().SaveAs(path, b64content)
 }
 
 func Delete(file string) error {
@@ -21,7 +27,7 @@ func Delete(file string) error {
 }
 
 func Path(elem ...string) string {
-	return afs.Path(append([]string{prefix}, elem...)...)
+	return afs.Path(slices.Concat([]string{prefix}, elem)...)
 }
 
 func Root() string {

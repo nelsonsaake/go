@@ -2,7 +2,11 @@ package interfaces
 
 // Saver: takes in a base64 string, store it and return the path
 type Saver interface {
-	Save(file string) (path string, err error)
+	Save(b64content string) (path string, err error)
+}
+
+type SaverAs interface {
+	SaveAs(path, b64content string) (err error)
 }
 
 // Deleter: takes in location of a file, deletes it returns an error if something goes wrong
