@@ -22,6 +22,14 @@ func CopyDir(from, to string) error {
 		}
 	}
 
+	dstEntries, err := os.ReadDir(to)
+	if err != nil {
+		return die("error checking destination dir: %v", err)
+	}
+	if len(dstEntries) > 0 {
+		return die("to(destination) dir is not empty")
+	}
+
 	entries, err := os.ReadDir(from)
 	if err != nil {
 		return die("error reading directory: %v", err)
