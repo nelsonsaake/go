@@ -14,6 +14,13 @@ type Request struct {
 	PageSize     int      `query:"pageSize" json:"pageSize"`
 }
 
+type Paginated[T any] struct {
+	Request
+	Data       []T `json:"data"`
+	Total      int64
+	TotalPages int64
+}
+
 var zeroQuery = Request{
 	Page:     1,
 	PageSize: 20,
@@ -39,9 +46,12 @@ func GetQuery(c *fiber.Ctx) (Request, error) {
 	return q, nil
 }
 
-type Paginated[T any] struct {
-	Request
-	Data       []T `json:"data"`
-	Total      int64
-	TotalPages int64
+func (r *Request) JMap() map[string]any {
+	return map[string]any{
+		"search":        r.Search,
+		"with":          r.With,
+		"no_pagination": r.NoPagination,
+		"page":          r.Page,
+		"pageSize":      r.PageSize,
+	}
 }
