@@ -16,7 +16,7 @@ type Builder interface {
 }
 
 type BaseBuilder struct {
-	EnvPath             string
+	EnvPath             []string
 	EnvContent          string
 	ConfigEnabled       bool
 	ConfigPath          string
@@ -43,7 +43,7 @@ type BaseBuilder struct {
 
 func NewBaseBuilder(builder Builder) *BaseBuilder {
 	return &BaseBuilder{
-		EnvPath:             DefaultEnvPath,
+		EnvPath:             []string{DefaultEnvPath},
 		ConfigEnabled:       DefaultConfigEnabled,
 		ConfigPath:          DefaultConfigPath,
 		KernelEnabled:       DefaultKernelEnabled,
@@ -63,7 +63,7 @@ func NewBaseBuilder(builder Builder) *BaseBuilder {
 	}
 }
 
-func (b *BaseBuilder) WithEnvPath(path string) *BaseBuilder {
+func (b *BaseBuilder) WithEnvPath(path ...string) *BaseBuilder {
 	b.EnvPath = path
 	return b
 }
@@ -215,7 +215,7 @@ func (b *BaseBuilder) Run() {
 		envs.LoadContent(b.EnvContent)
 	} else {
 		envs.Setup(envs.Config{
-			Paths: []string{b.EnvPath},
+			Paths: b.EnvPath,
 		})
 	}
 
