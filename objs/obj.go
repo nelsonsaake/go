@@ -132,6 +132,10 @@ func (m Obj) IsSet(key string) bool {
 	return ok
 }
 
+func (m Obj) SaveToFile(path string) error {
+	return SaveToFile(m.Data, path)
+}
+
 // ----
 
 func ObjGetStrict[T any](m *Obj, key string) T {
