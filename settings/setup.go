@@ -2,7 +2,6 @@ package settings
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/nelsonsaake/go/afs"
 	"github.com/nelsonsaake/go/objs"
@@ -33,14 +32,9 @@ func createfileIfNotExists(path string) error {
 		return nil
 	}
 
-	file, err := os.Create(path)
+	err = ufs.WriteFile(path, "{}")
 	if err != nil {
-		return die("error creating file: %v", err)
-	}
-
-	err = file.Close()
-	if err != nil {
-		return die("error closing file: %v", err)
+		return die("error writing file: %v", err)
 	}
 
 	return nil
