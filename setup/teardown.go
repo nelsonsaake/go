@@ -2,7 +2,7 @@ package setup
 
 import (
 	"github.com/nelsonsaake/go/kvs"
-	"github.com/nelsonsaake/go/kvs/meta"
+	"github.com/nelsonsaake/go/meta"
 	"github.com/nelsonsaake/go/settings"
 )
 
