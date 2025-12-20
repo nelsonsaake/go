@@ -9,11 +9,11 @@ const (
 	DefaultCryptEnabled        = true
 	DefaultCryptSecret         = "7d05e86f-eaf9-45dc-93a5-9d7d6716acbf"
 	DefaultSettingsEnabled     = true
-	DefaultSettingsPath        = "storage/settings.json"
+	DefaultSettingsPath        = "storage/db/settings.json"
 	DefaultMetaEnabled         = true
-	DefaultMetaPath            = "storage/meta.json"
+	DefaultMetaPath            = "storage/db/meta.json"
 	DefaultKvsEnabled          = true
-	DefaultKvsPath             = "storage/kvs.json"
+	DefaultKvsPath             = "storage/db/kvs.json"
 	DefaultStaticRoutesEnabled = true
 	DefaultAPIRoutesEnabled    = true
 	DefaultWebRoutesEnabled    = true
