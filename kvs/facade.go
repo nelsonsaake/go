@@ -1,4 +1,4 @@
-package settings
+package kvs
 
 import "github.com/nelsonsaake/go/objs"
 
@@ -41,6 +41,7 @@ func GetStringSlice(key string) []string {
 func GetObj(key string) *objs.Obj {
 	return obj.GetObj(key)
 }
+
 func Set(key string, value any) {
 	obj.Set(key, value)
 }
