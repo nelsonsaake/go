@@ -17,7 +17,7 @@ func (m Obj) Keys() iter.Seq[string] {
 	return maps.Keys(m.Data)
 }
 
-func (m Obj) Set(key string, value any) {
+func (m *Obj) Set(key string, value any) {
 	Set(m.Data, key, value)
 }
 
