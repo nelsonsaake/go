@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/nelsonsaake/go/afs"
+	"github.com/nelsonsaake/go/ufs"
 )
 
 var (
@@ -42,7 +43,12 @@ func Load(paths ...string) error {
 	}
 
 	for _, path := range paths {
+
 		fullPath := afs.Path(path)
+		if !ufs.IsFile(fullPath) {
+			continue // skip non-existing files
+		}
+
 		if err := loadFile(fullPath); err != nil {
 			return err
 		}
