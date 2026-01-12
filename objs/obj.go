@@ -6,7 +6,7 @@ import (
 )
 
 type Obj struct {
-	Data map[string]any
+	Data map[string]any `json:"data"`
 }
 
 func New() *Obj {
