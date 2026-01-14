@@ -2,9 +2,13 @@ package sys
 
 import (
 	"os"
+	"os/exec"
 )
 
 type builder struct {
+	Path string
+	Arg  []any
+
 	// wd: working directory
 	wd  string
 	env string
@@ -15,14 +19,40 @@ func (b *builder) WithWorkingDirectory(v string) *builder {
 	return b
 }
 
-func (b *builder) WithEnv(v string) *builder {
-	b.env = v
+func (b *builder) WithEnv(k, v string) *builder {
+	b.env = k + "=" + v
 	return b
 }
 
-func (b *builder) Run(s string, arg ...any) (string, error) {
+func (b *builder) Env(k, v string) *builder {
+	return b.WithEnv(k, v)
+}
 
-	cmd := NewCmd(s, arg...)
+func (b *builder) WithArgs(arg ...any) *builder {
+	b.Arg = arg
+	return b
+}
+
+func (b *builder) Command(path string, arg ...any) *builder {
+	b.Path, b.Arg = path, arg
+	return b
+}
+
+func (b *builder) WD(v string) *builder {
+	return b.WithWorkingDirectory(v)
+}
+
+func (b *builder) NI() *builder {
+	return b.WithEnv("DEBIAN_FRONTEND", "noninteractive")
+}
+
+func (b *builder) Build() *exec.Cmd {
+
+	cmd := exec.Command(
+		b.Path,
+		resolveArgs(b.Arg...)...,
+	)
+
 	if b.env != "" {
 		cmd.Env = append(os.Environ(), b.env)
 	}
@@ -30,23 +60,24 @@ func (b *builder) Run(s string, arg ...any) (string, error) {
 		cmd.Dir = b.wd
 	}
 
-	return RunCmd(cmd)
+	return cmd
+}
+
+func (b *builder) Run() (string, error) {
+	return runCmd(b.Build())
+}
+
+func (b *builder) Ok() bool {
+	return b.Build().Run() == nil
 }
 
 func New() *builder {
 	return &builder{}
 }
 
-// BUILDER HELPERS
-
-func WD(v string) *builder {
-	return New().WithWorkingDirectory(v)
-}
-
-func UsingEnv(env string) *builder {
-	return New().WithEnv(env)
-}
-
-func NI() *builder {
-	return UsingEnv("DEBIAN_FRONTEND=noninteractive")
+func Cmd(s string, arg ...any) *builder {
+	return &builder{
+		Path: s,
+		Arg:  arg,
+	}
 }

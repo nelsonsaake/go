@@ -7,19 +7,18 @@ import (
 func AptInstall(pkg ...string) error {
 
 	apt := "apt-get"
-	run := NI().Run
 	die := fmt.Errorf
 
 	if !IsInstalled(apt) {
 		return die("%s not found", apt)
 	}
 
-	out, err := run(apt, "update")
+	out, err := Cmd(apt, "update").NI().Run()
 	if err != nil {
 		return die("%s update failed: %v: %s", apt, err, out)
 	}
 
-	out, err = run(apt, "install", "-y", pkg)
+	out, err = Cmd(apt, "install", "-y", pkg).NI().Run()
 	if err != nil {
 		return die("%s install %v failed: %v: %s", apt, pkg, err, out)
 	}
