@@ -14,12 +14,14 @@ func IsExecLookupPath(path string) bool {
 
 func IsDpkgPackageInstalled(pkg string) (bool, error) {
 
-	out, err := Run("dpkg-query", "-W", "-f=${Status}", pkg)
+	var dump string
+
+	err := Command("dpkg-query", "-W", "-f=${Status}", pkg).WithDump(&dump).Run()
 	if err != nil {
 		return false, err
 	}
 
-	if strings.Contains(out, "install ok installed") {
+	if strings.Contains(dump, "install ok installed") {
 		return true, nil
 	}
 

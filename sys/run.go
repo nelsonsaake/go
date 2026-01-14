@@ -12,7 +12,7 @@ func NewCmd(s string, arg ...any) *exec.Cmd {
 	return Command(s, arg...).Build()
 }
 
-func Run(s string, arg ...any) (string, error) {
+func Run(s string, arg ...any) error {
 	return Command(s, arg...).Run()
 }
 

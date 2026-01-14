@@ -5,17 +5,17 @@ import (
 )
 
 func UfwAllow(port string) error {
-	out, err := Run("ufw", "allow", port)
+	err := Run("ufw", "allow", port)
 	if err != nil {
-		return fmt.Errorf("ufw allow %s failed: %v: %s", port, err, out)
+		return fmt.Errorf("ufw allow %s failed: %v", port, err)
 	}
 	return nil
 }
 
 func UfwAllowTCP(port string) error {
-	out, err := Run("ufw", "allow", port+"/tcp")
+	err := Run("ufw", "allow", port+"/tcp")
 	if err != nil {
-		return fmt.Errorf("ufw allow %s/tcp failed: %v: %s", port, err, out)
+		return fmt.Errorf("ufw allow %s/tcp failed: %v", port, err)
 	}
 	return nil
 }
