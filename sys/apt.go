@@ -13,12 +13,12 @@ func AptInstall(pkg ...string) error {
 		return die("%s not found", apt)
 	}
 
-	out, err := Cmd(apt, "update").NI().Run()
+	out, err := Command(apt, "update").NI().Run()
 	if err != nil {
 		return die("%s update failed: %v: %s", apt, err, out)
 	}
 
-	out, err = Cmd(apt, "install", "-y", pkg).NI().Run()
+	out, err = Command(apt, "install", "-y", pkg).NI().Run()
 	if err != nil {
 		return die("%s install %v failed: %v: %s", apt, pkg, err, out)
 	}

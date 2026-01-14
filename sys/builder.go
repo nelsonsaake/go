@@ -1,26 +1,20 @@
 package sys
 
 import (
-	"os"
 	"os/exec"
 )
 
 type builder struct {
-	Path string
-	Arg  []any
-
-	// wd: working directory
-	wd  string
-	env string
+	exec.Cmd
 }
 
 func (b *builder) WithWorkingDirectory(v string) *builder {
-	b.wd = v
+	b.Dir = v
 	return b
 }
 
 func (b *builder) WithEnv(k, v string) *builder {
-	b.env = k + "=" + v
+	b.Cmd.Env = append(b.Cmd.Env, k+"="+v)
 	return b
 }
 
@@ -29,12 +23,12 @@ func (b *builder) Env(k, v string) *builder {
 }
 
 func (b *builder) WithArgs(arg ...any) *builder {
-	b.Arg = arg
+	b.Args = resolveArgs(arg...)
 	return b
 }
 
 func (b *builder) Command(path string, arg ...any) *builder {
-	b.Path, b.Arg = path, arg
+	b.Path, b.Args = path, resolveArgs(arg...)
 	return b
 }
 
@@ -47,20 +41,7 @@ func (b *builder) NI() *builder {
 }
 
 func (b *builder) Build() *exec.Cmd {
-
-	cmd := exec.Command(
-		b.Path,
-		resolveArgs(b.Arg...)...,
-	)
-
-	if b.env != "" {
-		cmd.Env = append(os.Environ(), b.env)
-	}
-	if b.wd != "" {
-		cmd.Dir = b.wd
-	}
-
-	return cmd
+	return &b.Cmd
 }
 
 func (b *builder) Run() (string, error) {
@@ -75,9 +56,11 @@ func New() *builder {
 	return &builder{}
 }
 
-func Cmd(s string, arg ...any) *builder {
+func Command(s string, arg ...any) *builder {
 	return &builder{
-		Path: s,
-		Arg:  arg,
+		Cmd: exec.Cmd{
+			Path: s,
+			Args: resolveArgs(arg...),
+		},
 	}
 }
