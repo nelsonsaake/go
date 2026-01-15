@@ -96,10 +96,14 @@ func New() *builder {
 func Command(s string, arg ...any) *builder {
 	p, err := resolvePath(s)
 
+	// Prepend 's' to args so it becomes Args[0]
+	// This ensures the command execution matches OS conventions
+	args := append([]string{s}, resolveArgs(arg...)...)
+
 	b := &builder{
 		Cmd: exec.Cmd{
 			Path: p,
-			Args: resolveArgs(arg...),
+			Args: args,
 		},
 	}
 
