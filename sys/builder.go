@@ -76,9 +76,9 @@ func (b *builder) Run() error {
 	cmd.Stderr = io.MultiWriter(b.errWriters...)
 
 	err := cmd.Run()
-	out := strings.TrimSpace(outBuf.String())
 
 	if b.dump != nil {
+		out := strings.TrimSpace(outBuf.String())
 		*b.dump = out
 	}
 
