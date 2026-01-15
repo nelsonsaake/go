@@ -94,10 +94,18 @@ func New() *builder {
 }
 
 func Command(s string, arg ...any) *builder {
-	return &builder{
+	p, err := resolvePath(s)
+
+	b := &builder{
 		Cmd: exec.Cmd{
-			Path: s,
+			Path: p,
 			Args: resolveArgs(arg...),
 		},
 	}
+
+	if err != nil {
+		b.Cmd.Err = err
+	}
+
+	return b
 }

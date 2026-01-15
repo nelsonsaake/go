@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -18,6 +19,16 @@ func runCmd(cmd *exec.Cmd) (string, error) {
 	out := strings.TrimSpace(outBuf.String())
 
 	return out, err
+}
+func resolvePath(s string) (string, error) {
+	if filepath.Base(s) == s {
+		if lp, err := exec.LookPath(s); err != nil {
+			return s, err
+		} else {
+			return lp, nil
+		}
+	}
+	return s, nil
 }
 
 func resolveArgs(arg ...any) []string {
