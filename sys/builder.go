@@ -85,6 +85,13 @@ func (b *builder) Run() error {
 	return err
 }
 
+func (b *builder) Runo() (string, error) {
+	var dump string
+	var err error = b.WithDump(&dump).Run()
+
+	return dump, err
+}
+
 func (b *builder) Ok() bool {
 	return b.Build().Run() == nil
 }

@@ -16,6 +16,11 @@ func Run(s string, arg ...any) error {
 	return Command(s, arg...).Run()
 }
 
+func Runo(s string, arg ...any) (string, error) {
+	var dump string
+	return dump, Command(s, arg...).WithDump(&dump).Run()
+}
+
 // Ok COMMAND
 
 func Ok(s string, arg ...any) bool {
