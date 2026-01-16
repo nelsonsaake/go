@@ -17,8 +17,7 @@ func Run(s string, arg ...any) error {
 }
 
 func Runo(s string, arg ...any) (string, error) {
-	var dump string
-	return dump, Command(s, arg...).WithDump(&dump).Run()
+	return Command(s, arg...).Runo()
 }
 
 // Ok COMMAND
