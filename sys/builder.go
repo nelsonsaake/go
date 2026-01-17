@@ -11,7 +11,7 @@ import (
 	"github.com/nelsonsaake/go/afs"
 )
 
-type builder struct {
+type Builder struct {
 	exec.Cmd
 	file                   *string
 	outWriters             []io.Writer
@@ -20,31 +20,31 @@ type builder struct {
 	disableDefaultWritters bool
 }
 
-func (b *builder) WithWorkingDirectory(v string) *builder {
+func (b *Builder) WithWorkingDirectory(v string) *Builder {
 	b.Dir = v
 	return b
 }
 
-func (b *builder) WithEnv(k, v string) *builder {
+func (b *Builder) WithEnv(k, v string) *Builder {
 	b.Cmd.Env = append(b.Cmd.Env, k+"="+v)
 	return b
 }
 
-func (b *builder) Env(k, v string) *builder {
+func (b *Builder) Env(k, v string) *Builder {
 	return b.WithEnv(k, v)
 }
 
-func (b *builder) WithArgs(arg ...any) *builder {
+func (b *Builder) WithArgs(arg ...any) *Builder {
 	b.Args = resolveArgs(arg...)
 	return b
 }
 
-func (b *builder) WithDump(v *string) *builder {
+func (b *Builder) WithDump(v *string) *Builder {
 	b.dump = v
 	return b
 }
 
-func (b *builder) WithFile(v string) *builder {
+func (b *Builder) WithFile(v string) *Builder {
 
 	if !filepath.IsAbs(v) {
 		v = afs.Path(v)
@@ -55,20 +55,20 @@ func (b *builder) WithFile(v string) *builder {
 	return b
 }
 
-func (b *builder) Command(path string, arg ...any) *builder {
+func (b *Builder) Command(path string, arg ...any) *Builder {
 	b.Path, b.Args = path, resolveArgs(arg...)
 	return b
 }
 
-func (b *builder) WD(v string) *builder {
+func (b *Builder) WD(v string) *Builder {
 	return b.WithWorkingDirectory(v)
 }
 
-func (b *builder) NI() *builder {
+func (b *Builder) NI() *Builder {
 	return b.WithEnv("DEBIAN_FRONTEND", "noninteractive")
 }
 
-func (b *builder) Build() (*exec.Cmd, error) {
+func (b *Builder) Build() (*exec.Cmd, error) {
 
 	die := func(f string, a ...any) (*exec.Cmd, error) {
 		return nil, fmt.Errorf(f, a...)
@@ -90,7 +90,7 @@ func (b *builder) Build() (*exec.Cmd, error) {
 	return &b.Cmd, nil
 }
 
-func (b *builder) Run() error {
+func (b *Builder) Run() error {
 
 	cmd, err := b.Build()
 	if err != nil {
@@ -123,29 +123,29 @@ func (b *builder) Run() error {
 	return err
 }
 
-func (b *builder) Runo() (string, error) {
+func (b *Builder) Runo() (string, error) {
 	var dump string
 	var err error = b.WithDump(&dump).Run()
 
 	return dump, err
 }
 
-func (b *builder) Ok() bool {
+func (b *Builder) Ok() bool {
 	return b.Run() == nil
 }
 
-func New() *builder {
-	return &builder{}
+func New() *Builder {
+	return &Builder{}
 }
 
-func Command(s string, arg ...any) *builder {
+func Command(s string, arg ...any) *Builder {
 	p, err := resolvePath(s)
 
 	// Prepend 's' to args so it becomes Args[0]
 	// This ensures the command execution matches OS conventions
 	args := append([]string{s}, resolveArgs(arg...)...)
 
-	b := &builder{
+	b := &Builder{
 		Cmd: exec.Cmd{
 			Path: p,
 			Args: args,
