@@ -16,7 +16,7 @@ type Cmd struct {
 	file       *string
 	outWriters []io.Writer
 	errWriters []io.Writer
-	IsDump     bool
+	IsNoDump   bool
 	error      error
 }
 
@@ -42,8 +42,12 @@ func (c *Cmd) WithFile(v string) *Cmd {
 }
 
 func (c *Cmd) NoDump() *Cmd {
-	c.IsDump = false
+	c.IsNoDump = true
 	return c
+}
+
+func (c *Cmd) IsDump() bool {
+	return c.IsNoDump == false
 }
 
 func (c *Cmd) NI() *Cmd {
@@ -83,7 +87,7 @@ func (c *Cmd) Run() *Results {
 
 	var outBuf = &strings.Builder{}
 
-	if c.IsDump {
+	if c.IsDump() {
 		c.outWriters = append(c.outWriters, os.Stdout, outBuf)
 		c.errWriters = append(c.errWriters, os.Stderr, outBuf)
 	}
