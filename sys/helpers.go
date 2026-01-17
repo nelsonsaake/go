@@ -40,6 +40,8 @@ func ResolveArgs(arg ...any) []string {
 			ls = append(ls, v)
 		case []string:
 			ls = append(ls, v...)
+		case []any:
+			ls = append(ls, ResolveArgs(v...)...)
 		}
 	}
 
