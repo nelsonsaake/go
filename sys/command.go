@@ -17,6 +17,7 @@ type Cmd struct {
 	outWriters []io.Writer
 	errWriters []io.Writer
 	IsNoDump   bool
+	IsNoStdout bool
 	error      error
 }
 
@@ -50,6 +51,15 @@ func (c *Cmd) IsDump() bool {
 	return c.IsNoDump == false
 }
 
+func (c *Cmd) NoStdout() *Cmd {
+	c.IsNoStdout = true
+	return c
+}
+
+func (c *Cmd) IsStdout() bool {
+	return c.IsNoStdout == false
+}
+
 func (c *Cmd) NI() *Cmd {
 	return c.Env("DEBIAN_FRONTEND", "noninteractive")
 }
@@ -81,8 +91,13 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 	var outBuf = &strings.Builder{}
 
 	if c.IsDump() {
-		c.outWriters = append(c.outWriters, os.Stdout, outBuf)
-		c.errWriters = append(c.errWriters, os.Stderr, outBuf)
+		c.outWriters = append(c.outWriters, outBuf)
+		c.errWriters = append(c.errWriters, outBuf)
+	}
+
+	if c.IsStdout() {
+		c.outWriters = append(c.outWriters, os.Stdout)
+		c.errWriters = append(c.errWriters, os.Stderr)
 	}
 
 	cmd.Stdout = io.MultiWriter(c.outWriters...)
