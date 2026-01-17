@@ -51,7 +51,7 @@ func (c *Cmd) IsDump() bool {
 	return c.IsNoDump == false
 }
 
-func (c *Cmd) Quiet() *Cmd {
+func (c *Cmd) Q() *Cmd {
 	c.IsQuiet = true
 	return c
 }
