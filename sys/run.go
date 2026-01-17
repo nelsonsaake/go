@@ -4,8 +4,8 @@ import (
 	"os/exec"
 )
 
-func RunCmd(cmd *exec.Cmd) (string, error) {
-	return runCmd(cmd)
+func RunCmd(cmd *exec.Cmd) *Results {
+	return New().RunCmd(cmd)
 }
 
 func NewCmd(s string, arg ...any) *exec.Cmd {
