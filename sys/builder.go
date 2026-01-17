@@ -35,7 +35,7 @@ func (b *Builder) Env(k, v string) *Builder {
 }
 
 func (b *Builder) WithArgs(arg ...any) *Builder {
-	b.Args = resolveArgs(arg...)
+	b.Args = ResolveArgs(arg...)
 	return b
 }
 
@@ -56,7 +56,7 @@ func (b *Builder) WithFile(v string) *Builder {
 }
 
 func (b *Builder) Command(path string, arg ...any) *Builder {
-	b.Path, b.Args = path, resolveArgs(arg...)
+	b.Path, b.Args = path, ResolveArgs(arg...)
 	return b
 }
 
@@ -143,7 +143,7 @@ func Command(s string, arg ...any) *Builder {
 
 	// Prepend 's' to args so it becomes Args[0]
 	// This ensures the command execution matches OS conventions
-	args := append([]string{s}, resolveArgs(arg...)...)
+	args := append([]string{s}, ResolveArgs(arg...)...)
 
 	b := &Builder{
 		Cmd: exec.Cmd{

@@ -14,9 +14,7 @@ func IsExecLookupPath(path string) bool {
 
 func IsDpkgPackageInstalled(pkg string) (bool, error) {
 
-	var dump string
-
-	err := Command("dpkg-query", "-W", "-f=${Status}", pkg).WithDump(&dump).Run()
+	dump, err := Command("dpkg-query", "-W", "-f=${Status}", pkg).Runo()
 	if err != nil {
 		return false, err
 	}
@@ -30,17 +28,13 @@ func IsDpkgPackageInstalled(pkg string) (bool, error) {
 
 func IsInstalled(path string) bool {
 
-	_, err := exec.LookPath(path)
 	if IsExecLookupPath(path) {
 		return true
 	}
 
-	_, err = IsDpkgPackageInstalled(path)
-	if err == nil {
-		return true
-	}
+	installed, _ := IsDpkgPackageInstalled(path)
 
-	return false
+	return installed
 }
 
 func IsAnyInstalled(paths ...string) bool {

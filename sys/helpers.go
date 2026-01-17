@@ -31,7 +31,7 @@ func resolvePath(s string) (string, error) {
 	return s, nil
 }
 
-func resolveArgs(arg ...any) []string {
+func ResolveArgs(arg ...any) []string {
 
 	ls := make([]string, 0)
 	for _, a := range arg {
