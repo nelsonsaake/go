@@ -9,7 +9,8 @@ func RunCmd(cmd *exec.Cmd) (string, error) {
 }
 
 func NewCmd(s string, arg ...any) *exec.Cmd {
-	return Command(s, arg...).Build()
+	c, _ := Command(s, arg...).Build()
+	return c
 }
 
 func Run(s string, arg ...any) error {

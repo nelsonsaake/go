@@ -1,14 +1,19 @@
 package sys
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
+
+	"github.com/nelsonsaake/go/afs"
 )
 
 type builder struct {
 	exec.Cmd
+	file                   *string
 	outWriters             []io.Writer
 	errWriters             []io.Writer
 	dump                   *string
@@ -39,6 +44,17 @@ func (b *builder) WithDump(v *string) *builder {
 	return b
 }
 
+func (b *builder) WithFile(v string) *builder {
+
+	if !filepath.IsAbs(v) {
+		v = afs.Path(v)
+	}
+
+	b.file = &v
+
+	return b
+}
+
 func (b *builder) Command(path string, arg ...any) *builder {
 	b.Path, b.Args = path, resolveArgs(arg...)
 	return b
@@ -52,13 +68,35 @@ func (b *builder) NI() *builder {
 	return b.WithEnv("DEBIAN_FRONTEND", "noninteractive")
 }
 
-func (b *builder) Build() *exec.Cmd {
-	return &b.Cmd
+func (b *builder) Build() (*exec.Cmd, error) {
+
+	die := func(f string, a ...any) (*exec.Cmd, error) {
+		return nil, fmt.Errorf(f, a...)
+	}
+
+	if b.file == nil {
+		return &b.Cmd, nil
+	}
+
+	// TODO IMPLEMENT FILE SECTION
+
+	f, err := os.Open(*b.file)
+	if err != nil {
+		return die("failed to open file %q: %w", *b.file, err)
+	}
+
+	b.Stdin = f
+
+	return &b.Cmd, nil
 }
 
 func (b *builder) Run() error {
 
-	cmd := b.Build()
+	cmd, err := b.Build()
+	if err != nil {
+		return err
+	}
+
 	var outBuf *strings.Builder
 
 	if !b.disableDefaultWritters {
@@ -75,7 +113,7 @@ func (b *builder) Run() error {
 	cmd.Stdout = io.MultiWriter(b.outWriters...)
 	cmd.Stderr = io.MultiWriter(b.errWriters...)
 
-	err := cmd.Run()
+	err = cmd.Run()
 
 	if b.dump != nil {
 		out := strings.TrimSpace(outBuf.String())
@@ -93,7 +131,7 @@ func (b *builder) Runo() (string, error) {
 }
 
 func (b *builder) Ok() bool {
-	return b.Build().Run() == nil
+	return b.Run() == nil
 }
 
 func New() *builder {
