@@ -8,7 +8,7 @@ import (
 	"github.com/nelsonsaake/go/tfm"
 )
 
-func Mix(text string, data any) (string, error) {
+func String(text string, data any) (string, error) {
 
 	die := func(f string, a ...any) (string, error) {
 		return "", fmt.Errorf(f, a...)
