@@ -107,24 +107,7 @@ func (c *Cmd) Run() *Results {
 		}
 	}
 
-	var outBuf = &strings.Builder{}
-
-	if c.IsDump() {
-		c.outWriters = append(c.outWriters, os.Stdout, outBuf)
-		c.errWriters = append(c.errWriters, os.Stderr, outBuf)
-	}
-
-	cmd.Stdout = io.MultiWriter(c.outWriters...)
-	cmd.Stderr = io.MultiWriter(c.errWriters...)
-
-	err = cmd.Run()
-
-	out := strings.TrimSpace(outBuf.String())
-
-	return &Results{
-		Dump:  out,
-		Error: err,
-	}
+	return c.RunCmd(cmd)
 }
 
 func New() *Cmd {
