@@ -13,35 +13,20 @@ import (
 
 type Cmd struct {
 	exec.Cmd
-	file                   *string
-	outWriters             []io.Writer
-	errWriters             []io.Writer
-	dump                   *string
-	disableDefaultWritters bool
-	error                  error
+	file       *string
+	outWriters []io.Writer
+	errWriters []io.Writer
+	IsDump     bool
+	error      error
 }
 
-func (c *Cmd) WithWorkingDirectory(v string) *Cmd {
+func (c *Cmd) WD(v string) *Cmd {
 	c.Dir = v
 	return c
 }
 
-func (c *Cmd) WithEnv(k, v string) *Cmd {
-	c.Cmd.Env = append(c.Cmd.Env, k+"="+v)
-	return c
-}
-
 func (c *Cmd) Env(k, v string) *Cmd {
-	return c.WithEnv(k, v)
-}
-
-func (c *Cmd) WithArgs(arg ...any) *Cmd {
-	c.Args = ResolveArgs(arg...)
-	return c
-}
-
-func (c *Cmd) WithDump(v *string) *Cmd {
-	c.dump = v
+	c.Cmd.Env = append(c.Cmd.Env, k+"="+v)
 	return c
 }
 
@@ -56,12 +41,13 @@ func (c *Cmd) WithFile(v string) *Cmd {
 	return c
 }
 
-func (c *Cmd) WD(v string) *Cmd {
-	return c.WithWorkingDirectory(v)
+func (c *Cmd) NoDump() *Cmd {
+	c.IsDump = false
+	return c
 }
 
 func (c *Cmd) NI() *Cmd {
-	return c.WithEnv("DEBIAN_FRONTEND", "noninteractive")
+	return c.Env("DEBIAN_FRONTEND", "noninteractive")
 }
 
 func (c *Cmd) Build() (*exec.Cmd, error) {
@@ -91,22 +77,15 @@ func (c *Cmd) Run() *Results {
 	cmd, err := c.Build()
 	if err != nil {
 		return &Results{
-			Dump:  *c.dump,
 			Error: fmt.Errorf("error building command: %v", err),
 		}
 	}
 
-	var outBuf *strings.Builder
+	var outBuf = &strings.Builder{}
 
-	if !c.disableDefaultWritters {
-		c.outWriters = append(c.outWriters, os.Stdout)
-		c.errWriters = append(c.errWriters, os.Stderr)
-	}
-
-	if c.dump != nil {
-		outBuf = &strings.Builder{}
-		c.outWriters = append(c.outWriters, outBuf)
-		c.errWriters = append(c.errWriters, outBuf)
+	if c.IsDump {
+		c.outWriters = append(c.outWriters, os.Stdout, outBuf)
+		c.errWriters = append(c.errWriters, os.Stderr, outBuf)
 	}
 
 	cmd.Stdout = io.MultiWriter(c.outWriters...)
@@ -114,17 +93,10 @@ func (c *Cmd) Run() *Results {
 
 	err = cmd.Run()
 
-	if c.dump != nil {
-		out := strings.TrimSpace(outBuf.String())
-		*c.dump = out
-	} else {
-		// Ensure dump is at least an empty string
-		empty := ""
-		c.dump = &empty
-	}
+	out := strings.TrimSpace(outBuf.String())
 
 	return &Results{
-		Dump:  *c.dump,
+		Dump:  out,
 		Error: err,
 	}
 }
