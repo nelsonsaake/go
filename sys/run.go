@@ -4,7 +4,7 @@ import (
 	"os/exec"
 )
 
-func RunCmd(cmd *exec.Cmd) *Results {
+func RunCmd(cmd *exec.Cmd) *CmdResults {
 	return New().RunCmd(cmd)
 }
 
@@ -13,7 +13,7 @@ func NewCmd(s string, arg ...any) *exec.Cmd {
 	return c
 }
 
-func Run(s string, arg ...any) *Results {
+func Run(s string, arg ...any) *CmdResults {
 	return Command(s, arg...).Run()
 }
 

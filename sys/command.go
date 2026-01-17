@@ -76,7 +76,7 @@ func (c *Cmd) Build() (*exec.Cmd, error) {
 	return &c.Cmd, nil
 }
 
-func (c *Cmd) RunCmd(cmd *exec.Cmd) *Results {
+func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 
 	var outBuf = &strings.Builder{}
 
@@ -92,17 +92,17 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *Results {
 
 	out := strings.TrimSpace(outBuf.String())
 
-	return &Results{
+	return &CmdResults{
 		Dump:  out,
 		Error: err,
 	}
 }
 
-func (c *Cmd) Run() *Results {
+func (c *Cmd) Run() *CmdResults {
 
 	cmd, err := c.Build()
 	if err != nil {
-		return &Results{
+		return &CmdResults{
 			Error: fmt.Errorf("error building command: %v", err),
 		}
 	}
