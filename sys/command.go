@@ -17,7 +17,7 @@ type Cmd struct {
 	outWriters []io.Writer
 	errWriters []io.Writer
 	IsNoDump   bool
-	IsNotQuiet bool
+	IsQuiet    bool
 	error      error
 }
 
@@ -52,12 +52,12 @@ func (c *Cmd) IsDump() bool {
 }
 
 func (c *Cmd) Quiet() *Cmd {
-	c.IsNotQuiet = true
+	c.IsQuiet = true
 	return c
 }
 
-func (c *Cmd) IsQuiet() bool {
-	return c.IsNotQuiet == false
+func (c *Cmd) IsVerbose() bool {
+	return c.IsQuiet == false
 }
 
 func (c *Cmd) NI() *Cmd {
@@ -95,7 +95,7 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 		c.errWriters = append(c.errWriters, outBuf)
 	}
 
-	if c.IsQuiet() {
+	if c.IsVerbose() {
 		c.outWriters = append(c.outWriters, os.Stdout)
 		c.errWriters = append(c.errWriters, os.Stderr)
 	}
