@@ -18,6 +18,7 @@ type Cmd struct {
 	errWriters             []io.Writer
 	dump                   *string
 	disableDefaultWritters bool
+	error                  error
 }
 
 func (c *Cmd) WithWorkingDirectory(v string) *Cmd {
@@ -125,7 +126,17 @@ func (c *Cmd) Runo() (string, error) {
 	return dump, err
 }
 
-func (c *Cmd) Ok() bool {
+func (c *Cmd) Dump(v string) *Dump {
+
+	o, err := c.Runo()
+
+	return &Dump{
+		Output: o,
+		Error:  err,
+	}
+}
+
+func (c *Cmd) OK() bool {
 	return c.Run() == nil
 }
 

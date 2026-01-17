@@ -24,5 +24,5 @@ func Runo(s string, arg ...any) (string, error) {
 // Ok COMMAND
 
 func Ok(s string, arg ...any) bool {
-	return Command(s, arg...).Ok()
+	return Command(s, arg...).OK()
 }
