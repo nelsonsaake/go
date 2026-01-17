@@ -11,7 +11,7 @@ import (
 	"github.com/nelsonsaake/go/afs"
 )
 
-type Builder struct {
+type Cmd struct {
 	exec.Cmd
 	file                   *string
 	outWriters             []io.Writer
@@ -20,132 +20,127 @@ type Builder struct {
 	disableDefaultWritters bool
 }
 
-func (b *Builder) WithWorkingDirectory(v string) *Builder {
-	b.Dir = v
-	return b
+func (c *Cmd) WithWorkingDirectory(v string) *Cmd {
+	c.Dir = v
+	return c
 }
 
-func (b *Builder) WithEnv(k, v string) *Builder {
-	b.Cmd.Env = append(b.Cmd.Env, k+"="+v)
-	return b
+func (c *Cmd) WithEnv(k, v string) *Cmd {
+	c.Cmd.Env = append(c.Cmd.Env, k+"="+v)
+	return c
 }
 
-func (b *Builder) Env(k, v string) *Builder {
-	return b.WithEnv(k, v)
+func (c *Cmd) Env(k, v string) *Cmd {
+	return c.WithEnv(k, v)
 }
 
-func (b *Builder) WithArgs(arg ...any) *Builder {
-	b.Args = ResolveArgs(arg...)
-	return b
+func (c *Cmd) WithArgs(arg ...any) *Cmd {
+	c.Args = ResolveArgs(arg...)
+	return c
 }
 
-func (b *Builder) WithDump(v *string) *Builder {
-	b.dump = v
-	return b
+func (c *Cmd) WithDump(v *string) *Cmd {
+	c.dump = v
+	return c
 }
 
-func (b *Builder) WithFile(v string) *Builder {
+func (c *Cmd) WithFile(v string) *Cmd {
 
 	if !filepath.IsAbs(v) {
 		v = afs.Path(v)
 	}
 
-	b.file = &v
+	c.file = &v
 
-	return b
+	return c
 }
 
-func (b *Builder) Command(path string, arg ...any) *Builder {
-	b.Path, b.Args = path, ResolveArgs(arg...)
-	return b
+func (c *Cmd) WD(v string) *Cmd {
+	return c.WithWorkingDirectory(v)
 }
 
-func (b *Builder) WD(v string) *Builder {
-	return b.WithWorkingDirectory(v)
+func (c *Cmd) NI() *Cmd {
+	return c.WithEnv("DEBIAN_FRONTEND", "noninteractive")
 }
 
-func (b *Builder) NI() *Builder {
-	return b.WithEnv("DEBIAN_FRONTEND", "noninteractive")
-}
-
-func (b *Builder) Build() (*exec.Cmd, error) {
+func (c *Cmd) Build() (*exec.Cmd, error) {
 
 	die := func(f string, a ...any) (*exec.Cmd, error) {
 		return nil, fmt.Errorf(f, a...)
 	}
 
-	if b.file == nil {
-		return &b.Cmd, nil
+	if c.file == nil {
+		return &c.Cmd, nil
 	}
 
 	// TODO IMPLEMENT FILE SECTION
 
-	f, err := os.Open(*b.file)
+	f, err := os.Open(*c.file)
 	if err != nil {
-		return die("failed to open file %q: %w", *b.file, err)
+		return die("failed to open file %q: %w", *c.file, err)
 	}
 
-	b.Stdin = f
+	c.Stdin = f
 
-	return &b.Cmd, nil
+	return &c.Cmd, nil
 }
 
-func (b *Builder) Run() error {
+func (c *Cmd) Run() error {
 
-	cmd, err := b.Build()
+	cmd, err := c.Build()
 	if err != nil {
 		return err
 	}
 
 	var outBuf *strings.Builder
 
-	if !b.disableDefaultWritters {
-		b.outWriters = append(b.outWriters, os.Stdout)
-		b.errWriters = append(b.errWriters, os.Stderr)
+	if !c.disableDefaultWritters {
+		c.outWriters = append(c.outWriters, os.Stdout)
+		c.errWriters = append(c.errWriters, os.Stderr)
 	}
 
-	if b.dump != nil {
+	if c.dump != nil {
 		outBuf = &strings.Builder{}
-		b.outWriters = append(b.outWriters, outBuf)
-		b.errWriters = append(b.errWriters, outBuf)
+		c.outWriters = append(c.outWriters, outBuf)
+		c.errWriters = append(c.errWriters, outBuf)
 	}
 
-	cmd.Stdout = io.MultiWriter(b.outWriters...)
-	cmd.Stderr = io.MultiWriter(b.errWriters...)
+	cmd.Stdout = io.MultiWriter(c.outWriters...)
+	cmd.Stderr = io.MultiWriter(c.errWriters...)
 
 	err = cmd.Run()
 
-	if b.dump != nil {
+	if c.dump != nil {
 		out := strings.TrimSpace(outBuf.String())
-		*b.dump = out
+		*c.dump = out
 	}
 
 	return err
 }
 
-func (b *Builder) Runo() (string, error) {
+func (c *Cmd) Runo() (string, error) {
 	var dump string
-	var err error = b.WithDump(&dump).Run()
+	var err error = c.WithDump(&dump).Run()
 
 	return dump, err
 }
 
-func (b *Builder) Ok() bool {
-	return b.Run() == nil
+func (c *Cmd) Ok() bool {
+	return c.Run() == nil
 }
 
-func New() *Builder {
-	return &Builder{}
+func New() *Cmd {
+	return &Cmd{}
 }
 
-func Command(s string, arg ...any) *Builder {
+func Command(s string, arg ...any) *Cmd {
 	p, err := resolvePath(s)
 
 	// Prepend 's' to args so it becomes Args[0]
 	// This ensures the command execution matches OS conventions
 	args := append([]string{s}, ResolveArgs(arg...)...)
 
-	b := &Builder{
+	b := &Cmd{
 		Cmd: exec.Cmd{
 			Path: p,
 			Args: args,
