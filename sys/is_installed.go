@@ -3,7 +3,6 @@ package sys
 import (
 	"os/exec"
 	"slices"
-	"strings"
 )
 
 func IsExecLookupPath(path string) bool {
@@ -12,29 +11,12 @@ func IsExecLookupPath(path string) bool {
 	return err == nil
 }
 
-func IsDpkgPackageInstalled(pkg string) (bool, error) {
-
-	dump, err := Command("dpkg-query", "-W", "-f=${Status}", pkg).Runo()
-	if err != nil {
-		return false, err
-	}
-
-	if strings.Contains(dump, "install ok installed") {
-		return true, nil
-	}
-
-	return false, nil
+func IsDpkgPackageInstalled(pkg string) bool {
+	return Command("dpkg-query", "-W", "-f=${Status}", pkg).Run().Contains("install ok installed")
 }
 
 func IsInstalled(path string) bool {
-
-	if IsExecLookupPath(path) {
-		return true
-	}
-
-	installed, _ := IsDpkgPackageInstalled(path)
-
-	return installed
+	return IsExecLookupPath(path) || IsDpkgPackageInstalled(path)
 }
 
 func IsAnyInstalled(paths ...string) bool {

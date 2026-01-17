@@ -13,16 +13,12 @@ func NewCmd(s string, arg ...any) *exec.Cmd {
 	return c
 }
 
-func Run(s string, arg ...any) error {
+func Run(s string, arg ...any) *Results {
 	return Command(s, arg...).Run()
-}
-
-func Runo(s string, arg ...any) (string, error) {
-	return Command(s, arg...).Runo()
 }
 
 // Ok COMMAND
 
 func Ok(s string, arg ...any) bool {
-	return Command(s, arg...).OK()
+	return Command(s, arg...).Run().OK()
 }

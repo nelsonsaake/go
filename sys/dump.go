@@ -2,15 +2,15 @@ package sys
 
 import "strings"
 
-type Dump struct {
-	Output string
-	Error  error
+type Results struct {
+	Dump  string
+	Error error
 }
 
-func (d *Dump) OK() bool {
-	return d.Error == nil
+func (r *Results) OK() bool {
+	return r.Error == nil
 }
 
-func (d *Dump) Contains(substring string) bool {
-	return strings.Contains(d.Output, substring)
+func (r *Results) Contains(substring string) bool {
+	return strings.Contains(r.Dump, substring)
 }

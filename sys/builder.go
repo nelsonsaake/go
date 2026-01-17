@@ -86,11 +86,14 @@ func (c *Cmd) Build() (*exec.Cmd, error) {
 	return &c.Cmd, nil
 }
 
-func (c *Cmd) Run() error {
+func (c *Cmd) Run() *Results {
 
 	cmd, err := c.Build()
 	if err != nil {
-		return err
+		return &Results{
+			Dump:  *c.dump,
+			Error: fmt.Errorf("error building command: %v", err),
+		}
 	}
 
 	var outBuf *strings.Builder
@@ -114,30 +117,16 @@ func (c *Cmd) Run() error {
 	if c.dump != nil {
 		out := strings.TrimSpace(outBuf.String())
 		*c.dump = out
+	} else {
+		// Ensure dump is at least an empty string
+		empty := ""
+		c.dump = &empty
 	}
 
-	return err
-}
-
-func (c *Cmd) Runo() (string, error) {
-	var dump string
-	var err error = c.WithDump(&dump).Run()
-
-	return dump, err
-}
-
-func (c *Cmd) Dump(v string) *Dump {
-
-	o, err := c.Runo()
-
-	return &Dump{
-		Output: o,
-		Error:  err,
+	return &Results{
+		Dump:  *c.dump,
+		Error: err,
 	}
-}
-
-func (c *Cmd) OK() bool {
-	return c.Run() == nil
 }
 
 func New() *Cmd {
