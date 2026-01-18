@@ -44,4 +44,7 @@ func GetObj(key string) *objs.Obj {
 
 func Set(key string, value any) {
 	obj.Set(key, value)
+	if autoSave {
+		Save()
+	}
 }

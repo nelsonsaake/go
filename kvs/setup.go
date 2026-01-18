@@ -11,10 +11,12 @@ import (
 var (
 	filePath string
 	obj      *objs.Obj
+	autoSave bool
 )
 
 type Config struct {
 	FilePath string
+	AutoSave bool
 }
 
 func createfileIfNotExists(path string) error {
@@ -41,6 +43,8 @@ func createfileIfNotExists(path string) error {
 }
 
 func Setup(c Config) {
+
+	autoSave = c.AutoSave
 
 	die := func(f string, a ...any) {
 		panic(fmt.Sprintf("error setting up settings: %v", fmt.Sprintf(f, a...)))
