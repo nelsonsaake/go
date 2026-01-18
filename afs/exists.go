@@ -11,7 +11,7 @@ func Exists(ls ...string) bool {
 
 	// join path fragments
 	path := filepath.Join(ls...)
-	pathFromRoot := ""
+	pathFromRoot := path
 
 	// find the root of the app
 	cwd, err := Root()
