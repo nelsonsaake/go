@@ -9,24 +9,21 @@ import (
 // or as is
 func Exists(ls ...string) bool {
 
-	// join path fragments
-	path := filepath.Join(ls...)
-	pathFromRoot := path
-
-	// find the root of the app
-	cwd, err := Root()
-	if err == nil {
-
-		// path from the root of the app
-		pathFromRoot = filepath.Join(cwd, path)
-	}
-
-	// check if file exists
-	_, err = os.Stat(pathFromRoot)
-	if err == nil {
+	var relPath = filepath.Join(ls...)
+	if exists(relPath) {
 		return true
 	}
 
-	_, err = os.Stat(path)
+	var absPath = filepath.Join(root, relPath)
+	if exists(absPath) {
+		return true
+	}
+
+	return false
+}
+
+// Exists returns whether the given file or directory Exists
+func exists(path string) bool {
+	_, err := os.Stat(path)
 	return err == nil
 }

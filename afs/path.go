@@ -12,12 +12,5 @@ func Path(ls ...string) string {
 	path := filepath.Join(ls...)
 
 	// find the root of the app
-	cwd, err := Root()
-	if err == nil {
-
-		// path from the root of the app
-		path = filepath.Join(cwd, path)
-	}
-
-	return path
+	return filepath.Join(root, path)
 }

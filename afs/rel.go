@@ -1,21 +1,15 @@
 package afs
 
 import (
-	"fmt"
 	"strings"
 )
 
-func Rel(fullPath string) (string, error) {
-
-	base, err := Root()
-	if err != nil {
-		return "", fmt.Errorf("error getting root path: %w", err)
-	}
+func Rel(fullPath string) string {
 
 	uri := strings.TrimPrefix(
 		Clean(fullPath),
-		Clean(base),
+		Clean(root),
 	)
 
-	return uri, nil
+	return uri
 }

@@ -8,6 +8,18 @@ import (
 	"golang.org/x/tools/go/packages"
 )
 
+var root string
+
+func init() {
+
+	var err error
+
+	root, err = Root()
+	if err != nil {
+		panic("failed to determine root path: " + err.Error())
+	}
+}
+
 // devModeRoot returns the root of the project in development mode.
 func devModeRoot() (string, error) {
 
