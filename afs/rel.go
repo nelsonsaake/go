@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func RelativePath(fullPath string) (string, error) {
+func Rel(fullPath string) (string, error) {
 
 	base, err := Root()
 	if err != nil {
@@ -13,8 +13,8 @@ func RelativePath(fullPath string) (string, error) {
 	}
 
 	uri := strings.TrimPrefix(
-		CleanPath(fullPath),
-		CleanPath(base),
+		Clean(fullPath),
+		Clean(base),
 	)
 
 	return uri, nil

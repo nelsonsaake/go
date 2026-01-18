@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func (p *pfs) RelativePath(fullPath string) string {
+func (p *pfs) Rel(fullPath string) string {
 
 	uri := strings.TrimPrefix(
 		Clean(fullPath),
