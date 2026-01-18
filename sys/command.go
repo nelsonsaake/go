@@ -13,6 +13,7 @@ import (
 
 type Cmd struct {
 	exec.Cmd
+	env        []string
 	file       *string
 	outWriters []io.Writer
 	errWriters []io.Writer
@@ -27,7 +28,8 @@ func (c *Cmd) WD(v string) *Cmd {
 }
 
 func (c *Cmd) Env(k, v string) *Cmd {
-	c.Cmd.Env = append(c.Cmd.Env, k+"="+v)
+	c.env = append(c.env, k+"="+v)
+	c.Cmd.Env = append(os.Environ(), c.env...)
 	return c
 }
 
