@@ -11,12 +11,12 @@ import (
 func SvcReloadDaemon() error {
 
 	if _, err := exec.LookPath("systemctl"); err != nil {
-		return fmt.Errorf("error reloading daemon: systemctl doesnot exists: %v", err)
+		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
 	err := Run("systemctl", "daemon-reload").Error
 	if err != nil {
-		return fmt.Errorf("failed to reload daemon: %v", err)
+		return fmt.Errorf("error reloading daemon: %v", err)
 	}
 
 	return nil
@@ -27,12 +27,12 @@ func SvcReloadDaemon() error {
 func SvcEnable(svc string) error {
 
 	if _, err := exec.LookPath("systemctl"); err != nil {
-		return fmt.Errorf("error enabling service: systemctl doesnot exists: %v", err)
+		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
 	err := Run("systemctl", "enable", "--now", svc).Error
 	if err != nil {
-		return fmt.Errorf("failed to enable/start %s: %v", svc, err)
+		return fmt.Errorf("error enabling %s: %v", svc, err)
 	}
 
 	return nil
