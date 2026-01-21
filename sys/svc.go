@@ -14,7 +14,7 @@ func SvcReloadDaemon() error {
 		return fmt.Errorf("error reloading daemon: systemctl doesnot exists: %v", err)
 	}
 
-	err := Run("systemctl", "daemon-reload")
+	err := Run("systemctl", "daemon-reload").Error
 	if err != nil {
 		return fmt.Errorf("failed to reload daemon: %v", err)
 	}
@@ -30,7 +30,7 @@ func SvcEnable(svc string) error {
 		return fmt.Errorf("error enabling service: systemctl doesnot exists: %v", err)
 	}
 
-	err := Run("systemctl", "enable", "--now", svc)
+	err := Run("systemctl", "enable", "--now", svc).Error
 	if err != nil {
 		return fmt.Errorf("failed to enable/start %s: %v", svc, err)
 	}
