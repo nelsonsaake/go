@@ -12,7 +12,7 @@ func IsExecLookupPath(path string) bool {
 }
 
 func IsDpkgPackageInstalled(pkg string) bool {
-	return Command("dpkg-query", "-W", "-f=${Status}", pkg).Run().Contains("install ok installed")
+	return Command("dpkg-query", "-W", "-f=${Status}", pkg).Q().Run().Contains("install ok installed")
 }
 
 func IsInstalled(path string) bool {

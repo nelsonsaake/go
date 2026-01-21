@@ -6,15 +6,24 @@ import (
 	"slices"
 )
 
+func LookPath(cmd string) *CmdResults {
+	dump, err := exec.LookPath(cmd)
+	return &CmdResults{
+		Dump:  dump,
+		Error: err,
+	}
+}
+
 // RELOAD DAEMON COMMAND
 
 func SvcReloadDaemon() error {
 
-	if _, err := exec.LookPath("systemctl"); err != nil {
+	err := LookPath("systemctl").Error
+	if err != nil {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	err := Run("systemctl", "daemon-reload").Error
+	err = Command("systemctl", "daemon-reload").Q().Run().Error
 	if err != nil {
 		return fmt.Errorf("error reloading daemon: %v", err)
 	}
@@ -26,11 +35,12 @@ func SvcReloadDaemon() error {
 
 func SvcEnable(svc string) error {
 
-	if _, err := exec.LookPath("systemctl"); err != nil {
+	err := LookPath("systemctl").Error
+	if err != nil {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	err := Run("systemctl", "enable", "--now", svc).Error
+	err = Command("systemctl", "enable", "--now", svc).Q().Run().Error
 	if err != nil {
 		return fmt.Errorf("error enabling %s: %v", svc, err)
 	}
