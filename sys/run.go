@@ -17,8 +17,6 @@ func Run(s string, arg ...any) *CmdResults {
 	return Command(s, arg...).Run()
 }
 
-// Ok COMMAND
-
-func Ok(s string, arg ...any) bool {
+func OK(s string, arg ...any) bool {
 	return Command(s, arg...).Run().OK()
 }

@@ -73,7 +73,7 @@ func SvcEnableAny(svcs ...string) error {
 // IS ACTIVE COMMAND
 
 func SvcIsActive(svc string) bool {
-	return Ok("systemctl", "is-active", "--quiet", svc)
+	return OK("systemctl", "is-active", "--quiet", svc)
 }
 
 func SvcIsAnyActive(svcs ...string) bool {

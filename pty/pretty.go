@@ -27,3 +27,11 @@ func Println(data any) {
 func Print(data any) {
 	fmt.Print(JSON(data))
 }
+
+func Sprintf(format string, data any) string {
+	return fmt.Sprintf(format, JSON(data))
+}
+
+func PrintSectionBreak() {
+	fmt.Print("---\n\n\n")
+}
