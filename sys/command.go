@@ -17,8 +17,8 @@ type Cmd struct {
 	file       *string
 	outWriters []io.Writer
 	errWriters []io.Writer
-	IsNoDump   bool
-	IsQuiet    bool
+	isNoDump   bool
+	isVerbose  bool
 	error      error
 }
 
@@ -45,21 +45,26 @@ func (c *Cmd) WithFile(v string) *Cmd {
 }
 
 func (c *Cmd) NoDump() *Cmd {
-	c.IsNoDump = true
+	c.isNoDump = true
 	return c
 }
 
 func (c *Cmd) IsDump() bool {
-	return c.IsNoDump == false
+	return c.isNoDump == false
 }
 
-func (c *Cmd) Q() *Cmd {
-	c.IsQuiet = true
+func (c *Cmd) Quiet() *Cmd {
+	c.isVerbose = false
+	return c
+}
+
+func (c *Cmd) Verbose() *Cmd {
+	c.isVerbose = true
 	return c
 }
 
 func (c *Cmd) IsVerbose() bool {
-	return c.IsQuiet == false
+	return c.isVerbose == true
 }
 
 func (c *Cmd) NI() *Cmd {

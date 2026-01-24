@@ -23,7 +23,7 @@ func SvcReloadDaemon() error {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	err = Command("systemctl", "daemon-reload").Q().Run().Error
+	err = Command("systemctl", "daemon-reload").Run().Error
 	if err != nil {
 		return fmt.Errorf("error reloading daemon: %v", err)
 	}
@@ -40,7 +40,7 @@ func SvcEnable(svc string) error {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	err = Command("systemctl", "enable", "--now", svc).Q().Run().Error
+	err = Command("systemctl", "enable", "--now", svc).Run().Error
 	if err != nil {
 		return fmt.Errorf("error enabling %s: %v", svc, err)
 	}
