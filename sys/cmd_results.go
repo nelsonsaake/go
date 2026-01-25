@@ -14,3 +14,7 @@ func (r *CmdResults) OK() bool {
 func (r *CmdResults) Contains(substring string) bool {
 	return strings.Contains(r.Dump, substring)
 }
+
+func (r *CmdResults) Result() (string, error) {
+	return r.Dump, r.Error
+}
