@@ -11,8 +11,13 @@ func (r *CmdResults) OK() bool {
 	return r.Error == nil
 }
 
-func (r *CmdResults) Contains(substring string) bool {
-	return strings.Contains(r.Dump, substring)
+func (r *CmdResults) Contains(ls ...string) bool {
+	for _, s := range ls {
+		if !strings.Contains(r.Dump, s) {
+			return false
+		}
+	}
+	return true
 }
 
 func (r *CmdResults) Result() (string, error) {
