@@ -58,8 +58,12 @@ func (c *Cmd) Quiet() *Cmd {
 	return c
 }
 
-func (c *Cmd) Verbose() *Cmd {
-	c.isVerbose = true
+func (c *Cmd) Verbose(v ...bool) *Cmd {
+	if len(v) > 0 {
+		c.isVerbose = v[0]
+	} else {
+		c.isVerbose = true
+	}
 	return c
 }
 
