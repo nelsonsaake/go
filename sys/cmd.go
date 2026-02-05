@@ -114,6 +114,10 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 	cmd.Stdout = io.MultiWriter(c.outWriters...)
 	cmd.Stderr = io.MultiWriter(c.errWriters...)
 
+	if c.IsVerbose() {
+		fmt.Printf("Running command: %s, %s\n", cmd.Path, strings.Join(cmd.Args, " "))
+	}
+
 	err := cmd.Run()
 
 	out := strings.TrimSpace(outBuf.String())
