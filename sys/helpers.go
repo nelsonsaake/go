@@ -16,7 +16,7 @@ func resolvePath(s string) (string, error) {
 	return s, nil
 }
 
-func ResolveArgs(arg ...any) []string {
+func Flattern(arg ...any) []string {
 
 	ls := make([]string, 0)
 	for _, a := range arg {
@@ -26,7 +26,7 @@ func ResolveArgs(arg ...any) []string {
 		case []string:
 			ls = append(ls, v...)
 		case []any:
-			ls = append(ls, ResolveArgs(v...)...)
+			ls = append(ls, Flattern(v...)...)
 		}
 	}
 

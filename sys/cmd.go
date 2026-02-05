@@ -145,7 +145,7 @@ func Command(s string, arg ...any) *Cmd {
 
 	// Prepend 's' to args so it becomes Args[0]
 	// This ensures the command execution matches OS conventions
-	args := append([]string{s}, ResolveArgs(arg...)...)
+	args := append([]string{s}, Flattern(arg...)...)
 
 	b := &Cmd{
 		Cmd: exec.Cmd{
