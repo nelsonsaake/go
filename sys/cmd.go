@@ -115,7 +115,7 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 	cmd.Stderr = io.MultiWriter(c.errWriters...)
 
 	if c.IsVerbose() {
-		fmt.Printf("Running command: %s, %s\n", cmd.Path, strings.Join(cmd.Args, " "))
+		fmt.Printf("Running command: %s, %s\n", cmd.Path, Script(cmd.Args))
 	}
 
 	err := cmd.Run()
@@ -145,6 +145,7 @@ func New() *Cmd {
 }
 
 func Command(s string, arg ...any) *Cmd {
+
 	p, err := resolvePath(s)
 
 	// Prepend 's' to args so it becomes Args[0]

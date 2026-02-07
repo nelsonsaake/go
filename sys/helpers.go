@@ -3,6 +3,7 @@ package sys
 import (
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func resolvePath(s string) (string, error) {
@@ -31,4 +32,12 @@ func Flattern(arg ...any) []string {
 	}
 
 	return ls
+}
+
+func Script(s ...any) string {
+
+	ls := Flattern(s...)
+	script := strings.Join(ls, " ")
+
+	return strings.ReplaceAll(script, "\r\n", "\n")
 }
