@@ -2,6 +2,12 @@ package ufs
 
 import "strings"
 
+type ReadLineFlag uint32
+
+const (
+	WithoutEmptyLines ReadLineFlag = 1 << iota
+)
+
 // splitIntoLines: split string into lines
 func splitIntoLines(v string) []string {
 
@@ -24,17 +30,28 @@ func removeEmptyLines(ls []string) []string {
 }
 
 // Lines: split string into lines, and remove all whitespaces around strings, and remove empty lines
-func lines(v string) []string {
+func lines(v string, options ...ReadLineFlag) []string {
 
-	return removeEmptyLines(splitIntoLines(v))
+	var filter ReadLineFlag = 0
+	for _, v := range options {
+		filter |= v
+	}
+
+	lines := splitIntoLines(v)
+
+	if filter&WithoutEmptyLines != 0 {
+		lines = removeEmptyLines(lines)
+	}
+
+	return lines
 }
 
-func ReadLines(filepath string) ([]string, error) {
+func ReadLines(filepath string, options ...ReadLineFlag) ([]string, error) {
 
 	content, err := ReadFile(filepath)
 	if err != nil {
 		return nil, err
 	}
 
-	return lines(content), nil
+	return lines(content, options...), nil
 }
