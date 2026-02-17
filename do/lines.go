@@ -2,6 +2,12 @@ package do
 
 import "strings"
 
+type LineFlag uint32
+
+const (
+	WithoutEmptyLines LineFlag = 1 << iota
+)
+
 // splitIntoLines: split string into lines
 func splitIntoLines(v string) []string {
 
@@ -24,7 +30,18 @@ func removeEmptyLines(ls []string) []string {
 }
 
 // Lines: split string into lines, and remove all whitespaces around strings, and remove empty lines
-func Lines(v string) []string {
+func Lines(v string, options ...LineFlag) []string {
 
-	return removeEmptyLines(splitIntoLines(v))
+	var filter LineFlag = 0
+	for _, v := range options {
+		filter |= v
+	}
+
+	lines := splitIntoLines(v)
+
+	if filter&WithoutEmptyLines != 0 {
+		lines = removeEmptyLines(lines)
+	}
+
+	return lines
 }
