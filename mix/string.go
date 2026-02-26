@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"text/template"
-
-	"github.com/nelsonsaake/go/tfm"
 )
 
 func String(text string, data any) (string, error) {
@@ -14,10 +12,7 @@ func String(text string, data any) (string, error) {
 		return "", fmt.Errorf(f, a...)
 	}
 
-	t := template.New("main")
-	t = t.Funcs(template.FuncMap{
-		"Join": tfm.FuncJoin,
-	})
+	t := template.New("main").Funcs(funcs())
 
 	t, err := t.Parse(text)
 	if err != nil {
