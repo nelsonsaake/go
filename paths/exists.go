@@ -7,7 +7,7 @@ import (
 
 // Exists: checks if file exists from root, if root is found
 // or as is
-func (p *pfs) Exists(ls ...string) bool {
+func (p *FS) Exists(ls ...string) bool {
 
 	var relPath = filepath.Join(ls...)
 	if Exists(relPath) {

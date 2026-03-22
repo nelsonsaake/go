@@ -23,7 +23,7 @@ func Join(paths ...any) string {
 	return filepath.Join(toStringSlice(paths...)...)
 }
 
-func (p *pfs) Join(paths ...any) string {
+func (p *FS) Join(paths ...any) string {
 
 	joinedPath := Join(paths...)
 

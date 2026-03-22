@@ -1,18 +1,18 @@
 package paths
 
-type pfs struct {
+type FS struct {
 	root string
 	unix bool
 }
 
-func (p *pfs) Root() string {
+func (p *FS) Root() string {
 	return p.root
 }
 
-func New(fsRoot string) *pfs {
-	return &pfs{root: fsRoot}
+func New(fsRoot string) *FS {
+	return &FS{root: fsRoot}
 }
 
-func NewUnix(fsRoot string) *pfs {
-	return &pfs{root: fsRoot, unix: true}
+func NewUnix(fsRoot string) *FS {
+	return &FS{root: fsRoot, unix: true}
 }
