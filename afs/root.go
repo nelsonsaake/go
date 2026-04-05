@@ -10,11 +10,19 @@ import (
 
 var root string
 
+func SetRoot(path string) {
+	root = path
+}
+
+func Root() string {
+	return root
+}
+
 func init() {
 
 	var err error
 
-	root, err = Root()
+	root, err = findRoot()
 	if err != nil {
 		panic("failed to determine root path: " + err.Error())
 	}
@@ -60,8 +68,8 @@ func productionModeRoot() (string, error) {
 	return filepath.Dir(exePath), nil
 }
 
-// Root returns the project root in dev mode, or executable dir in production.
-func Root() (string, error) {
+// findRoot returns the project root in dev mode, or executable dir in production.
+func findRoot() (string, error) {
 	p, err := devModeRoot()
 	if err == nil {
 		return p, nil
