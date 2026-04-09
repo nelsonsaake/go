@@ -23,6 +23,11 @@ func createfileIfNotExists(path string) error {
 		return fmt.Errorf(f, a...)
 	}
 
+	err := ufs.EnsureDirExists(path)
+	if err != nil {
+		return die("error ensuring file path exists: %v", err)
+	}
+
 	exists, err := ufs.Exists(path)
 	if err != nil {
 		return die("error checking if file exists: %v", err)
