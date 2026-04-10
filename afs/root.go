@@ -68,11 +68,15 @@ func productionModeRoot() (string, error) {
 	return filepath.Dir(exePath), nil
 }
 
+func cwd() (string, error) {
+	return os.Getwd()
+}
+
 // findRoot returns the project root in dev mode, or executable dir in production.
 func findRoot() (string, error) {
 	p, err := devModeRoot()
 	if err == nil {
 		return p, nil
 	}
-	return productionModeRoot()
+	return cwd()
 }
