@@ -20,3 +20,7 @@ func Run(s string, arg ...any) *CmdResults {
 func OK(s string, arg ...any) bool {
 	return Command(s, arg...).Run().OK()
 }
+
+func Bash(script ...any) *Cmd {
+	return Command("bash", "-c", Script(script...))
+}
