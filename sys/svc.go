@@ -14,16 +14,21 @@ func LookPath(cmd string) *CmdResults {
 	}
 }
 
-// RELOAD DAEMON COMMAND
-
-func SvcReloadDaemon() error {
+func systemctl(args ...any) error {
 
 	err := LookPath("systemctl").Error
 	if err != nil {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	err = Command("systemctl", "daemon-reload").Run().Error
+	return Command("systemctl", args...).Run().Error
+}
+
+// RELOAD DAEMON COMMAND
+
+func SvcReloadDaemon() error {
+
+	err := systemctl("daemon-reload")
 	if err != nil {
 		return fmt.Errorf("error reloading daemon: %v", err)
 	}
@@ -35,14 +40,19 @@ func SvcReloadDaemon() error {
 
 func SvcEnable(svc string) error {
 
-	err := LookPath("systemctl").Error
-	if err != nil {
-		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
-	}
-
-	err = Command("systemctl", "enable", "--now", svc).Run().Error
+	err := systemctl("enable", "--now", svc)
 	if err != nil {
 		return fmt.Errorf("error enabling %s: %v", svc, err)
+	}
+
+	return nil
+}
+
+func SvcDisable(svc string) error {
+
+	err := systemctl("disable", "--now", svc)
+	if err != nil {
+		return fmt.Errorf("error disabling %s: %v", svc, err)
 	}
 
 	return nil
