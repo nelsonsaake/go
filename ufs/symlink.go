@@ -1,6 +1,9 @@
 package ufs
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
 func SymlinkExists(path string) (bool, error) {
 	_, err := os.Lstat(path)
@@ -19,27 +22,39 @@ func Symlink(oldname string, newname string) error {
 
 func IsSymlink(oldname string, newname string) (bool, error) {
 
-	target, err := os.Readlink(oldname)
+	die := fmt.Errorf
+
+	isSymlink, err := SymlinkExists(newname)
 	if err != nil {
-		return false, err
+		return false, die("error checking if symlink exists: %v", err)
 	}
 
-	_, err = os.Stat(target)
+	if !isSymlink {
+		return false, nil
+	}
+
+	target, err := os.Readlink(oldname)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return false, nil
-		}
-		return false, err
+		return false, die("error reading symlink: %v", err)
+	}
+
+	isExists, err := Exists(target)
+	if err != nil {
+		return false, die("error checking if target exists: %v", err)
+	}
+
+	if !isExists {
+		return false, nil
 	}
 
 	targetAbs, err := Abs(target)
 	if err != nil {
-		return false, err
+		return false, die("error getting absolute path of target: %v", err)
 	}
 
 	newnameAbs, err := Abs(newname)
 	if err != nil {
-		return false, err
+		return false, die("error getting absolute path of newname: %v", err)
 	}
 
 	if targetAbs != newnameAbs {
