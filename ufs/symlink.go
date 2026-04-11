@@ -48,3 +48,11 @@ func IsSymlink(oldname string, newname string) (bool, error) {
 
 	return true, nil
 }
+
+func RemoveSymlink(path string) error {
+	err := os.Remove(path)
+	if err != nil {
+		return err
+	}
+	return nil
+}
