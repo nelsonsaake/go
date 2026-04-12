@@ -33,7 +33,7 @@ func IsSymlink(oldname string, newname string) (bool, error) {
 		return false, nil
 	}
 
-	target, err := os.Readlink(oldname)
+	target, err := os.Readlink(newname)
 	if err != nil {
 		return false, die("error reading symlink: %v", err)
 	}
