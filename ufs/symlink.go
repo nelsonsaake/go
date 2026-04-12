@@ -71,3 +71,39 @@ func RemoveSymlink(path string) error {
 	}
 	return nil
 }
+
+func EnsureSymlink(oldname string, newname string) error {
+
+	die := fmt.Errorf
+
+	// check if symlink exists
+	isSymlinkPointingToTarget, err := IsSymlink(oldname, newname)
+	if err != nil {
+		return die("error checking if link if %s -> %s: %w", newname, oldname, err)
+	}
+
+	isSysmlinkFileExists, err := SymlinkExists(newname)
+	if err != nil {
+		return die("error checking if symlink exists %s: %w", newname, err)
+	}
+
+	// if symlink exsits but is not pointing to the target, remove it
+	if isSysmlinkFileExists && !isSymlinkPointingToTarget {
+		err := RemoveSymlink(newname)
+		if err != nil {
+			return die("error removing existing file at %s: %w", newname, err)
+		}
+	}
+
+	// if symlink does not exist, create it
+	if !isSysmlinkFileExists || !isSymlinkPointingToTarget {
+
+		// create service enable symlink if missing
+		err := Symlink(oldname, newname)
+		if err != nil {
+			return die("error creating symlink %s -> %s: %w", newname, oldname, err)
+		}
+	}
+
+	return nil
+}
