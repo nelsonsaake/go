@@ -5,26 +5,26 @@ import (
 	"os"
 )
 
-func SymlinkExists(path string) (bool, error) {
-	_, err := os.Lstat(path)
-	if err == nil {
-		return true, nil
+func IsSymlinkPath(path string) (bool, error) {
+	info, err := os.Lstat(path)
+	if err != nil && !os.IsNotExist(err) {
+		return false, err
 	}
-	if os.IsNotExist(err) {
+	if err != nil {
 		return false, nil
 	}
-	return false, err
+	return info.Mode()&os.ModeSymlink != 0, nil
 }
 
-func Symlink(oldname string, newname string) error {
+func CreateSymlink(oldname string, newname string) error {
 	return os.Symlink(oldname, newname)
 }
 
-func IsSymlink(oldname string, newname string) (bool, error) {
+func IsSymlinkMatch(oldname string, newname string) (bool, error) {
 
 	die := fmt.Errorf
 
-	isSymlink, err := SymlinkExists(newname)
+	isSymlink, err := IsSymlinkPath(newname)
 	if err != nil {
 		return false, die("error checking if symlink exists: %v", err)
 	}
@@ -77,12 +77,12 @@ func EnsureSymlink(oldname string, newname string) error {
 	die := fmt.Errorf
 
 	// check if symlink exists
-	isSymlinkPointingToTarget, err := IsSymlink(oldname, newname)
+	isSymlinkPointingToTarget, err := IsSymlinkMatch(oldname, newname)
 	if err != nil {
 		return die("error checking if link if %s -> %s: %w", newname, oldname, err)
 	}
 
-	isSysmlinkFileExists, err := SymlinkExists(newname)
+	isSysmlinkFileExists, err := IsSymlinkPath(newname)
 	if err != nil {
 		return die("error checking if symlink exists %s: %w", newname, err)
 	}
@@ -99,7 +99,7 @@ func EnsureSymlink(oldname string, newname string) error {
 	if !isSysmlinkFileExists || !isSymlinkPointingToTarget {
 
 		// create service enable symlink if missing
-		err := Symlink(oldname, newname)
+		err := CreateSymlink(oldname, newname)
 		if err != nil {
 			return die("error creating symlink %s -> %s: %w", newname, oldname, err)
 		}
