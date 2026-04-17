@@ -6,6 +6,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+const (
+	Any = "*"
+)
+
 // Router is your custom router wrapper
 type Router struct {
 	group      fiber.Router
@@ -32,7 +36,7 @@ func (r *Router) Add(method, path string, handlers ...fiber.Handler) *Router {
 	ls := slices.Concat(r.middleware, handlers)
 
 	addRoute := func() fiber.Router {
-		if method == "*" {
+		if method == Any {
 			return r.group.All(path, ls...)
 		} else {
 			return r.group.Add(method, path, ls...)
@@ -82,7 +86,7 @@ func (r *Router) Head(path string, handlers ...fiber.Handler) *Router {
 }
 
 func (r *Router) All(path string, handlers ...fiber.Handler) *Router {
-	return r.Add("*", path, handlers...)
+	return r.Add(Any, path, handlers...)
 }
 
 // Name sets the name on the last added route
