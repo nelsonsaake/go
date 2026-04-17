@@ -1,6 +1,8 @@
 package router
 
 import (
+	"slices"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -18,24 +20,29 @@ func New(group fiber.Router) *Router {
 
 // Use creates a new Router with extra middleware
 func (r *Router) Use(handlers ...fiber.Handler) *Router {
-	newMiddleware := append([]fiber.Handler{}, r.middleware...) // copy existing
-	newMiddleware = append(newMiddleware, handlers...)          // add new ones
 	return &Router{
 		group:      r.group,
-		middleware: newMiddleware,
+		middleware: slices.Concat(r.middleware, handlers),
 	}
 }
 
 // Add general method to add any HTTP method
 func (r *Router) Add(method, path string, handlers ...fiber.Handler) *Router {
-	allHandlers := append([]fiber.Handler{}, r.middleware...)
-	allHandlers = append(allHandlers, handlers...)
 
-	route := r.group.Add(method, path, allHandlers...)
+	ls := slices.Concat(r.middleware, handlers)
+
+	addRoute := func() fiber.Router {
+		if method == "*" {
+			return r.group.All(path, ls...)
+		} else {
+			return r.group.Add(method, path, ls...)
+		}
+	}
+
 	return &Router{
 		group:      r.group,
 		middleware: r.middleware,
-		lastRoute:  route,
+		lastRoute:  addRoute(),
 	}
 }
 
@@ -72,6 +79,10 @@ func (r *Router) Options(path string, handlers ...fiber.Handler) *Router {
 // Head shortcut
 func (r *Router) Head(path string, handlers ...fiber.Handler) *Router {
 	return r.Add(fiber.MethodHead, path, handlers...)
+}
+
+func (r *Router) All(path string, handlers ...fiber.Handler) *Router {
+	return r.Add("*", path, handlers...)
 }
 
 // Name sets the name on the last added route
