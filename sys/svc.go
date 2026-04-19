@@ -21,7 +21,7 @@ func systemctl(args ...any) error {
 		return fmt.Errorf("error doing lookpath for systemctl: %v", err)
 	}
 
-	return Command("systemctl", args...).Run().Error
+	return Command("systemctl", args...).Verbose().Run().Error
 }
 
 // RELOAD DAEMON COMMAND
