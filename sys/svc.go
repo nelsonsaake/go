@@ -60,7 +60,7 @@ func SvcStart(svc string) error {
 
 func SvcRestart(svc string) error {
 
-	err := systemctl("restart", "--now", svc)
+	err := systemctl("restart", svc)
 	if err != nil {
 		return fmt.Errorf("error restarting %s: %v", svc, err)
 	}
