@@ -1,0 +1,110 @@
+package fctx
+
+import (
+	"fmt"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/nelsonsaake/go/objs"
+)
+
+type Request struct {
+	objs.Obj `json:"data"`
+}
+
+func (r *Request) GetSearch() string {
+	return r.GetString("search")
+}
+
+func (r *Request) GetWith() []string {
+	return r.GetStringSlice("with")
+}
+
+func (r *Request) GetNoPagination() bool {
+	return r.GetBool("no_pagination")
+}
+
+func (r *Request) GetPage() int {
+	return r.GetInt("page")
+}
+
+func (r *Request) GetPageSize() int {
+	return r.GetInt("page_size")
+}
+
+func (r *Request) JMap() map[string]any {
+	return r.Data
+}
+
+func (r *Request) Get(key string) any {
+	return r.JMap()[key]
+}
+
+type Paginated[T any] struct {
+	Request
+	Data       []T `json:"data"`
+	Total      int64
+	TotalPages int64
+}
+
+var zeroQuery = Request{
+	Obj: objs.Obj{
+		Data: map[string]any{},
+	},
+}
+
+func GetQuery(c *fiber.Ctx) (Request, error) {
+
+	d := map[string]any{}
+
+	err := c.QueryParser(&d)
+	if err != nil {
+		return zeroQuery, fmt.Errorf("failed to parse query params: %w", err)
+	}
+
+	err = c.BodyParser(&d)
+	if err != nil {
+		return zeroQuery, fmt.Errorf("failed to parse body: %w", err)
+	}
+
+	if d["page"] == nil {
+		d["page"] = 1
+	}
+
+	if d["page_size"] == nil {
+		d["page_size"] = 20
+	}
+
+	if d["no_pagination"] == nil {
+		d["no_pagination"] = false
+	}
+
+	if d["with"] == nil {
+		d["with"] = []string{}
+	}
+
+	if _, ok := d["with"].(string); ok {
+		d["with"] = []string{d["with"].(string)}
+	}
+
+	if _, ok := d["with"].([]string); !ok {
+		return zeroQuery, fmt.Errorf("invalid type for 'with' parameter: expected string or []string")
+	}
+
+	res := Request{
+		Obj: objs.Obj{
+			Data: d,
+		},
+	}
+
+	return res, nil
+}
+
+func New() (*Request, error) {
+
+	q, err := GetQuery(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return &q, nil
+}
