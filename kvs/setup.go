@@ -55,6 +55,9 @@ func Setup(c Config) {
 		panic(fmt.Sprintf("error setting up settings: %v", fmt.Sprintf(f, a...)))
 	}
 
+	// TODO:
+	// check first
+	// if it's absolute path, use as is, else do this
 	filePath = afs.Path(c.FilePath)
 	var err error
 

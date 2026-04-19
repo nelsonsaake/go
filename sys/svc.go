@@ -48,6 +48,36 @@ func SvcEnable(svc string) error {
 	return nil
 }
 
+func SvcStart(svc string) error {
+
+	err := systemctl("start", "--now", svc)
+	if err != nil {
+		return fmt.Errorf("error starting %s: %v", svc, err)
+	}
+
+	return nil
+}
+
+func SvcRestart(svc string) error {
+
+	err := systemctl("restart", "--now", svc)
+	if err != nil {
+		return fmt.Errorf("error restarting %s: %v", svc, err)
+	}
+
+	return nil
+}
+
+func SvcStop(svc string) error {
+
+	err := systemctl("stop", "--now", svc)
+	if err != nil {
+		return fmt.Errorf("error stopping %s: %v", svc, err)
+	}
+
+	return nil
+}
+
 func SvcDisable(svc string) error {
 
 	err := systemctl("disable", "--now", svc)
