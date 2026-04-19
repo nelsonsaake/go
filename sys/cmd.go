@@ -3,6 +3,7 @@ package sys
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -115,7 +116,8 @@ func (c *Cmd) RunCmd(cmd *exec.Cmd) *CmdResults {
 	cmd.Stderr = io.MultiWriter(c.errWriters...)
 
 	if c.IsVerbose() {
-		fmt.Printf("Running command: %s, %s\n", cmd.Path, Script(cmd.Args))
+		log.Println("Running command")
+		log.Println(cmd.Path, Script(cmd.Args))
 	}
 
 	err := cmd.Run()
