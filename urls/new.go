@@ -13,8 +13,8 @@ func New(uri string, queries map[string]any) (string, error) {
 	}
 
 	q := u.Query()
-	for _, v := range queries {
-		q.Set("token", fmt.Sprint(v))
+	for k, v := range queries {
+		q.Set(k, fmt.Sprint(v))
 	}
 
 	u.RawQuery = q.Encode()
