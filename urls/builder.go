@@ -47,10 +47,10 @@ func (b *Builder) WithPort(port int) *Builder {
 	return b
 }
 
-func (b *Builder) Build() (string, error) {
+func (b *Builder) Build() (*url.URL, error) {
 
-	die := func(f string, a ...any) (string, error) {
-		return "", fmt.Errorf(f, a...)
+	die := func(f string, a ...any) (*url.URL, error) {
+		return nil, fmt.Errorf(f, a...)
 	}
 
 	// QUERIES
@@ -83,7 +83,7 @@ func (b *Builder) Build() (string, error) {
 
 	// BUILD
 
-	return b.URL.String(), nil
+	return &b.URL, nil
 }
 
 func NewBuilder() *Builder {

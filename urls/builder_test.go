@@ -15,13 +15,15 @@ func TestBuilder(t *testing.T) {
 		WithPort(8080).
 		Build()
 
+	urlstr := url.String()
+
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
 	expected := "https://example.com:8080/api/v1/resource?key1=value1&key2=value2"
-	if url != expected {
-		t.Errorf("expected %q, got %q", expected, url)
+	if urlstr != expected {
+		t.Errorf("expected %q, got %q", expected, urlstr)
 	}
 }
 
@@ -35,12 +37,14 @@ func TestBuildWithoutPort(t *testing.T) {
 		WithQuery("key2", "value2").
 		Build()
 
+	urlstr := url.String()
+
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
 	expected := "https://example.com/api/v1/resource?key1=value1&key2=value2"
-	if url != expected {
-		t.Errorf("expected %q, got %q", expected, url)
+	if urlstr != expected {
+		t.Errorf("expected %q, got %q", expected, urlstr)
 	}
 }
