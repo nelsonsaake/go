@@ -1,6 +1,7 @@
 package servers
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -30,6 +31,10 @@ func (s *FiberServer) exposeViaNgrok(errs chan error) {
 }
 
 func (s *FiberServer) Start() error {
+
+	log.Println("Starting Fiber server...")
+	fmt.Println("Starting Fiber server...")
+	fmt.Printf("Server will listen on port: %s\n", s.Port)
 
 	s.App.Use(logger.New())
 
