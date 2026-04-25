@@ -23,6 +23,8 @@ func (s *FiberServer) Start() error {
 	// start ngrok tunnel
 	m.Add(s.exposeViaNgrok(errs))
 
+	m.Run()
+
 	// Wait for errors from both servers
 	for err := range m.errs {
 		if err != nil {
