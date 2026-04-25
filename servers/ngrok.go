@@ -3,6 +3,7 @@ package servers
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.ngrok.com/ngrok"
@@ -14,10 +15,22 @@ type NgrokServer struct {
 }
 
 func (s *NgrokServer) Run() error {
-	tun, err := ngrok.Listen(context.Background(), config.HTTPEndpoint(), ngrok.WithAuthtokenFromEnv())
+
+	var (
+		ctx               = context.Background()
+		ngrokConfig       = config.HTTPEndpoint()
+		ngrokTokenFromEnv = ngrok.WithAuthtokenFromEnv()
+	)
+
+	tun, err := ngrok.Listen(ctx, ngrokConfig, ngrokTokenFromEnv)
 	if err != nil {
 		return fmt.Errorf("error opening an ngrok tunnel %v", err)
 	}
+
+	log.Println("Exposing server via ngrok...")
+	log.Println(ngrokConfig)
+	log.Println(ngrokTokenFromEnv)
+
 	return s.App.Listener(tun)
 }
 

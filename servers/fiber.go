@@ -15,7 +15,7 @@ func (s *FiberServer) Run() error {
 	return s.App.Listen(cleanPort(s.Port))
 }
 
-func (s *FiberServer) NewNgrokServer() Server {
+func (s *FiberServer) NewNgrokServer() *NgrokServer {
 	return &NgrokServer{App: s.App}
 }
 
