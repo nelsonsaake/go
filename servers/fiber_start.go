@@ -1,6 +1,8 @@
 package servers
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/nelsonsaake/go/routes"
 )
@@ -15,9 +17,11 @@ func (s *FiberServer) startFiberServer(errs chan error) {
 func (s *FiberServer) exposeViaNgrok(errs chan error) {
 
 	if s.UseNgrok != "true" {
+		log.Println("Ngrok tunnel not enabled. Skipping ngrok setup.")
 		return
 	}
 
+	log.Println("Ngrok tunnel enabled. Setting up ngrok...")
 	ngrok := s.NewNgrokServer()
 
 	go func() {

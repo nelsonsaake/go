@@ -16,6 +16,8 @@ type NgrokServer struct {
 
 func (s *NgrokServer) Run() error {
 
+	log.Println("Starting ngrok tunnel...")
+
 	var (
 		ctx               = context.Background()
 		ngrokConfig       = config.HTTPEndpoint()
