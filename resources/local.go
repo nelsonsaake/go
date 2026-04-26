@@ -10,6 +10,14 @@ import (
 
 var prefix = "/resources/"
 
+func SetPrefix(p string) {
+	prefix = p
+}
+
+func GetPrefix() string {
+	return prefix
+}
+
 func ls() *local.Storage {
 	return local.New(Root())
 }
